@@ -1,0 +1,26 @@
+{
+  "name": "7-pointed-star",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Fourier decompositions of Euler circuits on a 7 pointed star, every pair of points connected.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "count-circuits": "node scripts/count-circuits.ts"
+  },
+  "dependencies": {
+    "canvas-recorder-lib": "^0.5.0",
+    "phil-lib": "^1.8.1"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "vite": "^8.3.4"
+  },
+  "allowScripts": {
+    "onnxruntime-node": false,
+    "protobufjs": false,
+    "fsevents": true
+  }
+}

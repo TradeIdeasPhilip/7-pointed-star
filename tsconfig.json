@@ -1,0 +1,22 @@
+{
+  // The same settings as affine-transforms and simple-video-editor.
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "noImplicitOverride": true,
+    "allowImportingTsExtensions": true,
+    // scripts/ runs directly in Node, which only strips types.
+    "erasableSyntaxOnly": true,
+    "types": ["vite/client"]
+  },
+  "include": ["src/**/*", "scripts/**/*"]
+}
