@@ -34,14 +34,20 @@ No test runner, no linter.  TypeScript errors surface in the IDE and on `npm run
 
 ## Layout
 
-- `src/main.ts`:  the root component, a black background, the Fourier star and the colorful star.  Starts the editor with `name: "7-pointed-star"`.
+- `src/main.ts`:  the root, an InSeriesComponent of scenes.  Each scene is a fixed child with its own black background.  Starts the editor with `name: "7-pointed-star"`.
+  1. "7 Pointed Star":  the Fourier star and the colorful star.
+  2. "Vertex Pairings":  closeups of the top vertex.
+  The editor matches saved state by description, starting at the root.  Renaming or wrapping the root drops the saved state.
 - `src/euler-circuits.ts`:  graph math only, no imports, so Node can run it.  Hand picked circuits (`GROUPED_7`, `INTERLEAVED_7`), the search, the duplicate filter.
   Node only strips types, so this file (and `scripts/`) can't use enums or constructor parameter properties.  `erasableSyntaxOnly` in tsconfig enforces that.
 - `src/star-path.ts`:  circuit → `PathShape`, plus a record of which commands came from which edge.  Those records say where each color starts and stops.
 - `src/star-sources.ts`:  registers the circuits as `FourierComponent.sources`.  Import it before constructing any FourierComponent.
 - `src/colorful-star.ts`:  the finished picture in three colors, not animated.  A fixed child, not in the component registry.
+- `src/vertex-pairings.ts`:  all 15 ways to pair off the 6 edges at the top vertex, in a 5 × 3 grid.  Rounded corners show which edge continues into which.
+  "Rounding" and "Rounding Step" are schedules.  For reference images only, never mixed with a Fourier animation.
 - `scripts/count-circuits.ts`:  the counts above.
 - `properties/`:  the editor's saved state, written there so it's in git.  See `properties/README.md`.
+- `library-issues.md`:  problems found in canvas-recorder-lib.  Add to it; don't stop to fix the library unless it's urgent.
 
 ## Next:  a multi-color Fourier
 

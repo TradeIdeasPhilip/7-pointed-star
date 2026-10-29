@@ -2,9 +2,11 @@
  * Fourier decompositions of Euler circuits on a 7 pointed star, every pair
  * of points connected:  the circle, the fat star {7/2} and the thin star {7/3}.
  *
- * So far:
- * * Star Fourier:  the library's Fourier component, drawing one hand picked circuit.
- * * Colorful Star:  the finished picture, in three colors, not animated.
+ * So far, one scene after another:
+ * 1. 7 Pointed Star
+ *    * Star Fourier:  the library's Fourier component, drawing one hand picked circuit.
+ *    * Colorful Star:  the finished picture, in three colors, not animated.
+ * 2. Vertex Pairings:  closeups of the top vertex, every way a circuit can pass through it.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  */
@@ -12,16 +14,25 @@
 import {
   canvasRecorder,
   DurationAgnosticComponent,
+  ease,
+  InSeriesComponent,
   RectangleComponent,
 } from "canvas-recorder-lib";
 import { FourierComponent } from "canvas-recorder-lib/src/slide-components/fourier";
 // Must come before any FourierComponent is constructed.
 import { GROUPED_SOURCE } from "./star-sources.ts";
 import { ColorfulStar } from "./colorful-star.ts";
+import { VertexPairings } from "./vertex-pairings.ts";
 
-const root = new DurationAgnosticComponent("7 Pointed Star");
+// The scenes are fixed children, so the Visual Editor saves their contents by description.
+// Each scene has its own background, so each one can stand alone.
+const root = new InSeriesComponent({ description: "7 Pointed Star Video" });
 
-root.replaceableComponents!.push(
+// MARK: 7 Pointed Star
+
+const starScene = new DurationAgnosticComponent("7 Pointed Star");
+
+starScene.replaceableComponents!.push(
   new RectangleComponent({
     description: "Background",
     color: "black",
@@ -41,12 +52,44 @@ root.replaceableComponents!.push(
 );
 
 // A fixed child:  the Visual Editor can edit it, but not delete it.
-root.add(
+starScene.add(
   new ColorfulStar({
     description: "Colorful Star",
     destRect: { x: 8.5, y: 1, width: 7, height: 7 },
   }),
 );
+
+root.add(starScene);
+
+// MARK: Vertex Pairings
+
+const pairingsScene = new DurationAgnosticComponent("Vertex Pairings");
+pairingsScene.minDurationScalar.value = 8_000;
+
+pairingsScene.replaceableComponents!.push(
+  new RectangleComponent({
+    description: "Background",
+    color: "black",
+    rect: { x: 0, y: 0, width: 16, height: 9 },
+  }),
+);
+
+// Starts with sharp corners, where every pairing looks the same, then rounds them.
+pairingsScene.add(
+  new VertexPairings({
+    description: "Pairings",
+    rounding: [
+      { time: 1_000, value: 0, easeAfter: ease },
+      { time: 4_000, value: 0.3 },
+    ],
+    roundingStep: [
+      { time: 1_000, value: 0, easeAfter: ease },
+      { time: 4_000, value: 0.25 },
+    ],
+  }),
+);
+
+root.add(pairingsScene);
 
 // Don't await this.  See canvasRecorder.start().
 canvasRecorder.start(root, { name: "7-pointed-star" });
