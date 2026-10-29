@@ -7,6 +7,7 @@
  *    * Star Fourier:  the library's Fourier component, drawing one hand picked circuit.
  *    * Colorful Star:  the finished picture, in three colors, not animated.
  * 2. Vertex Pairings:  closeups of the top vertex, every way a circuit can pass through it.
+ * 3. Every Kind of Vertex:  two whole circuits, corners rounded, that between them show every kind of vertex.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  */
@@ -23,6 +24,7 @@ import { FourierComponent } from "canvas-recorder-lib/src/slide-components/fouri
 import { GROUPED_SOURCE } from "./star-sources.ts";
 import { ColorfulStar } from "./colorful-star.ts";
 import { VertexPairings } from "./vertex-pairings.ts";
+import { RoundedStar } from "./rounded-star.ts";
 
 // The scenes are fixed children, so the Visual Editor saves their contents by description.
 // Each scene has its own background, so each one can stand alone.
@@ -80,7 +82,7 @@ pairingsScene.add(
     description: "Pairings",
     rounding: [
       { time: 1_000, value: 0, easeAfter: ease },
-      { time: 4_000, value: 0.3 },
+      { time: 4_000, value: 0.6 },
     ],
     roundingStep: [
       { time: 1_000, value: 0, easeAfter: ease },
@@ -90,6 +92,37 @@ pairingsScene.add(
 );
 
 root.add(pairingsScene);
+
+// MARK: Every Kind of Vertex
+
+const everyKindScene = new DurationAgnosticComponent("Every Kind of Vertex");
+everyKindScene.minDurationScalar.value = 5_000;
+
+everyKindScene.replaceableComponents!.push(
+  new RectangleComponent({
+    description: "Background",
+    color: "black",
+    rect: { x: 0, y: 0, width: 16, height: 9 },
+  }),
+);
+
+// The same places as Star Fourier and Colorful Star on the first slide.
+everyKindScene.add(
+  new RoundedStar({
+    description: "Left Star",
+    circuit: "Every kind A",
+    destRect: { x: 0.5, y: 1, width: 7, height: 7 },
+  }),
+);
+everyKindScene.add(
+  new RoundedStar({
+    description: "Right Star",
+    circuit: "Every kind B",
+    destRect: { x: 8.5, y: 1, width: 7, height: 7 },
+  }),
+);
+
+root.add(everyKindScene);
 
 // Don't await this.  See canvasRecorder.start().
 canvasRecorder.start(root, { name: "7-pointed-star" });

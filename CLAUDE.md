@@ -28,24 +28,43 @@ That code did the pentagram (132 circuits, 28 unique) and the hexagram (372, 66)
 npm run dev             # Vite dev server on http://localhost:5178 (fixed port; the editor's saved state is per origin)
 npm run build           # tsc + vite build → dist/ (gitignored)
 npm run count-circuits  # Count the Euler circuits for 5, 6 and 7 points.  Plain Node, no browser.
+npm run find-vertex-types  # How common each vertex pairing is, and pairs of circuits that show every kind.  About 25 seconds.
 ```
 
 No test runner, no linter.  TypeScript errors surface in the IDE and on `npm run build`.
+
+## Publishing
+
+Every push to `master` builds the site and publishes it to GitHub Pages:  https://tradeideasphilip.github.io/7-pointed-star/
+The workflow is `.github/workflows/deploy.yml`, copied from riemann-surfaces-3d.
+`dist/` is never committed.  To redeploy without a new commit:  Actions → Deploy to GitHub Pages → Run workflow.
+
+One-time setup, in the GitHub repo:  Settings → Pages → Build and deployment → Source:  GitHub Actions.
+
+`npm run build` runs `tsc` first, so a type error fails the deploy, and the live site keeps the last good version.
+`npm ci` on GitHub uses the published library, so don't deploy code that needs an unpublished library change.
 
 ## Layout
 
 - `src/main.ts`:  the root, an InSeriesComponent of scenes.  Each scene is a fixed child with its own black background.  Starts the editor with `name: "7-pointed-star"`.
   1. "7 Pointed Star":  the Fourier star and the colorful star.
   2. "Vertex Pairings":  closeups of the top vertex.
+  3. "Every Kind of Vertex":  two whole circuits with rounded corners, that between them show every kind of vertex.
   The editor matches saved state by description, starting at the root.  Renaming or wrapping the root drops the saved state.
 - `src/euler-circuits.ts`:  graph math only, no imports, so Node can run it.  Hand picked circuits (`GROUPED_7`, `INTERLEAVED_7`), the search, the duplicate filter.
   Node only strips types, so this file (and `scripts/`) can't use enums or constructor parameter properties.  `erasableSyntaxOnly` in tsconfig enforces that.
 - `src/star-path.ts`:  circuit → `PathShape`, plus a record of which commands came from which edge.  Those records say where each color starts and stops.
 - `src/star-sources.ts`:  registers the circuits as `FourierComponent.sources`.  Import it before constructing any FourierComponent.
 - `src/colorful-star.ts`:  the finished picture in three colors, not animated.  A fixed child, not in the component registry.
-- `src/vertex-pairings.ts`:  all 15 ways to pair off the 6 edges at the top vertex, in a 5 × 3 grid.  Rounded corners show which edge continues into which.
-  "Rounding" and "Rounding Step" are schedules.  For reference images only, never mixed with a Fourier animation.
+- `src/vertex-corners.ts`:  the rounded corners at one vertex.  Shared by the next two.
+  Each pair of edges gets a level:  how many pairs in its way (surrounding it, or crossing it and wider) stay closer to the vertex.
+  The cut back along each edge is Corner Size × (Rounding + level × Rounding Step).  For reference images only, never mixed with a Fourier animation.
+- `src/vertex-pairings.ts`:  all 15 ways to pair off the 6 edges at the top vertex, in a 5 × 3 grid, numbered 1 to 15 by rows.
+  The numbers are `VERTEX_PAIRINGS_7` in `euler-circuits.ts`.  Mirror images:  2 and 6, 3 and 11, 4 and 12, 9 and 13.  So 11 kinds.
+- `src/rounded-star.ts`:  one whole circuit with every corner rounded, and each vertex's pairing number.  The Circuit field picks from a short list.
 - `scripts/count-circuits.ts`:  the counts above.
+- `scripts/find-vertex-types.ts`:  every pairing is equally common (K7 minus a vertex is K6, so the graph can't tell the pairings apart).
+  At most 7 kinds fit in one circuit.  `EVERY_KIND_A_7` and `EVERY_KIND_B_7` are the first pair it found that shows all 11.
 - `properties/`:  the editor's saved state, written there so it's in git.  See `properties/README.md`.
 - `library-issues.md`:  problems found in canvas-recorder-lib.  Add to it; don't stop to fix the library unless it's urgent.
 

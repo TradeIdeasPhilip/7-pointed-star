@@ -141,8 +141,28 @@ export const INTERLEAVED_7: Circuit = circuitFromSteps(
   Array.from({ length: 7 }, () => [1, 2, 3]).flat(),
 );
 
+/**
+ * With {@link EVERY_KIND_B_7}, shows every kind of vertex, if mirror images count as the same kind.
+ * Pairing numbers at vertices 0 through 6:  12, 5, 1, 3, 7, 6, 8.  Seven different kinds.
+ * The first such pair `npm run find-vertex-types` found.
+ */
+export const EVERY_KIND_A_7: Circuit = [
+  0, 1, 2, 0, 3, 1, 4, 3, 5, 4, 0, 6, 3, 2, 4, 6, 1, 5, 6, 2, 5, 0,
+];
+
+/**
+ * With {@link EVERY_KIND_A_7}, shows every kind of vertex.
+ * Pairing numbers at vertices 0 through 6:  11, 10, 6, 5, 15, 14, 13.
+ * The 3 kinds both circuits show:  3 and its mirror image 11, 5, 6.
+ */
+export const EVERY_KIND_B_7: Circuit = [
+  0, 1, 2, 0, 3, 1, 5, 2, 3, 4, 5, 0, 6, 4, 2, 6, 5, 3, 6, 1, 4, 0,
+];
+
 assertEulerCircuit(7, STEPS_7, GROUPED_7);
 assertEulerCircuit(7, STEPS_7, INTERLEAVED_7);
+assertEulerCircuit(7, STEPS_7, EVERY_KIND_A_7);
+assertEulerCircuit(7, STEPS_7, EVERY_KIND_B_7);
 
 // MARK: Search
 
@@ -271,4 +291,119 @@ export function makeCanonicalTest(
     }
     return true;
   };
+}
+
+// MARK: Vertex pairings
+
+/**
+ * Two of the 6 edges at a vertex of the 7 pointed star, smaller first.
+ *
+ * Picture the vertex at the top of the circle.  Its edges are numbered 0
+ * through 5, left to right:  0 is the arc going left, 1 through 4 are the
+ * chords, 5 is the arc going right.  Edge `i` goes to the vertex `6 - i`
+ * places clockwise.
+ */
+export type SpokePair = readonly [number, number];
+
+/**
+ * At vertex `from`, which edge number leads to vertex `to`?
+ * See {@link SpokePair} for the numbering.
+ */
+export function spokeIndex(from: number, to: number) {
+  return 6 - mod(to - from, 7);
+}
+
+/**
+ * Which edges a circuit joins together at one vertex.
+ * A circuit passes through each vertex 3 times, coming in on one edge and leaving on another.
+ */
+export type VertexPairing = readonly [SpokePair, SpokePair, SpokePair];
+
+/**
+ * All 15 ways to pair off the 6 edges at a vertex.
+ * Pairing number `k` is `VERTEX_PAIRINGS_7[k - 1]`, laid out like the Vertex Pairings slide:
+ * ```
+ *  1   2   3   4   5
+ *  6   7   8   9  10
+ * 11  12  13  14  15
+ * ```
+ * Edge 0 has 5 possible partners, one per column.
+ * The other 4 edges have 3 ways to pair off, one per row:  side by side, crossed, nested.
+ */
+export const VERTEX_PAIRINGS_7: readonly VertexPairing[] = (() => {
+  const columns = [1, 2, 3, 4, 5].map((partner): VertexPairing[] => {
+    const [a, b, c, d] = [1, 2, 3, 4, 5].filter((index) => index != partner);
+    const first: SpokePair = [0, partner];
+    return [
+      [first, [a, b], [c, d]],
+      [first, [a, c], [b, d]],
+      [first, [a, d], [b, c]],
+    ];
+  });
+  return [0, 1, 2].flatMap((row) => columns.map((column) => column[row]));
+})();
+
+/** `PAIR_BITS[a * 6 + b]` is a different bit for each of the 15 possible pairs. */
+const PAIR_BITS = new Int32Array(36);
+{
+  let bit = 1;
+  for (let a = 0; a < 6; a++) {
+    for (let b = a + 1; b < 6; b++) {
+      PAIR_BITS[a * 6 + b] = bit;
+      PAIR_BITS[b * 6 + a] = bit;
+      bit <<= 1;
+    }
+  }
+}
+
+/** Pairing numbers, 1 to 15, indexed by the 3 pairs' bits OR'ed together. */
+const PAIRING_NUMBERS = new Int8Array(1 << 15);
+VERTEX_PAIRINGS_7.forEach((pairing, index) => {
+  const key = pairing.reduce((bits, [a, b]) => bits | PAIR_BITS[a * 6 + b], 0);
+  PAIRING_NUMBERS[key] = index + 1;
+});
+
+/** Which pairing number, 1 to 15, is this? */
+export function pairingNumber(pairing: VertexPairing): number {
+  return PAIRING_NUMBERS[
+    pairing.reduce((bits, [a, b]) => bits | PAIR_BITS[a * 6 + b], 0)
+  ];
+}
+
+/**
+ * The pairing number of the mirror image, flipped left to right.
+ * 1, 5, 7, 8, 10, 14 and 15 are their own mirror images.
+ * The others swap:  2 and 6, 3 and 11, 4 and 12, 9 and 13.
+ * So there are 11 different shapes, if mirror images count as the same.
+ */
+export function mirrorPairingNumber(number: number): number {
+  const mirrored = VERTEX_PAIRINGS_7[number - 1].map(
+    ([a, b]): SpokePair => [5 - b, 5 - a],
+  ) as unknown as VertexPairing;
+  return pairingNumber(mirrored);
+}
+
+/**
+ * How a circuit passes through each vertex.
+ * @param circuit A closed circuit on the 7 pointed star, like the ones from {@link forEachEulerCircuit}.
+ * @param result Reused, to avoid creating a new array for each of millions of circuits.
+ * @returns `result[v]` is vertex v's pairing number, 1 to 15.
+ */
+export function vertexPairingNumbers(
+  circuit: Circuit,
+  result: number[] = new Array<number>(7),
+): number[] {
+  const bits = [0, 0, 0, 0, 0, 0, 0];
+  const last = circuit.length - 1;
+  for (let position = 0; position < last; position++) {
+    const vertex = circuit[position];
+    const before = circuit[position == 0 ? last - 1 : position - 1];
+    const after = circuit[position + 1];
+    bits[vertex] |=
+      PAIR_BITS[spokeIndex(vertex, before) * 6 + spokeIndex(vertex, after)];
+  }
+  for (let vertex = 0; vertex < 7; vertex++) {
+    result[vertex] = PAIRING_NUMBERS[bits[vertex]];
+  }
+  return result;
 }

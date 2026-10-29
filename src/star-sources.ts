@@ -1,5 +1,10 @@
 import { FourierComponent } from "canvas-recorder-lib/src/slide-components/fourier";
-import { GROUPED_7, INTERLEAVED_7 } from "./euler-circuits.ts";
+import {
+  EVERY_KIND_A_7,
+  EVERY_KIND_B_7,
+  GROUPED_7,
+  INTERLEAVED_7,
+} from "./euler-circuits.ts";
 import { circuitToPath } from "./star-path.ts";
 
 /**
@@ -21,4 +26,11 @@ FourierComponent.sources.set(GROUPED_SOURCE, {
 });
 FourierComponent.sources.set(INTERLEAVED_SOURCE, {
   path: circuitToPath(7, INTERLEAVED_7).pathShape,
+});
+// Between them, these two show every kind of vertex.
+FourierComponent.sources.set("7-Star: every kind A", {
+  path: circuitToPath(7, EVERY_KIND_A_7).pathShape,
+});
+FourierComponent.sources.set("7-Star: every kind B", {
+  path: circuitToPath(7, EVERY_KIND_B_7).pathShape,
 });
