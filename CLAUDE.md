@@ -29,6 +29,7 @@ npm run dev             # Vite dev server on http://localhost:5178 (fixed port; 
 npm run build           # tsc + vite build → dist/ (gitignored)
 npm run count-circuits  # Count the Euler circuits for 5, 6 and 7 points.  Plain Node, no browser.
 npm run find-vertex-types  # How common each vertex pairing is, and pairs of circuits that show every kind.  About 25 seconds.
+npm run pick-circuits   # Some circuits picked at random, the same ones each time.  About 25 seconds.
 ```
 
 No test runner, no linter.  TypeScript errors surface in the IDE and on `npm run build`.
@@ -50,6 +51,7 @@ One-time setup, in the GitHub repo:  Settings → Pages → Build and deployment
   1. "7 Pointed Star":  the Fourier star and the colorful star.
   2. "Vertex Pairings":  closeups of the top vertex.
   3. "Every Kind of Vertex":  two whole circuits with rounded corners, that between them show every kind of vertex.
+  4. "Circuit Grid":  four circuits, each a Fourier animation next to its reference image.  A layout test.
   The editor matches saved state by description, starting at the root.  Renaming or wrapping the root drops the saved state.
 - `src/euler-circuits.ts`:  graph math only, no imports, so Node can run it.  Hand picked circuits (`GROUPED_7`, `INTERLEAVED_7`), the search, the duplicate filter.
   Node only strips types, so this file (and `scripts/`) can't use enums or constructor parameter properties.  `erasableSyntaxOnly` in tsconfig enforces that.
@@ -62,9 +64,13 @@ One-time setup, in the GitHub repo:  Settings → Pages → Build and deployment
 - `src/vertex-pairings.ts`:  all 15 ways to pair off the 6 edges at the top vertex, in a 5 × 3 grid, numbered 1 to 15 by rows.
   The numbers are `VERTEX_PAIRINGS_7` in `euler-circuits.ts`.  Mirror images:  2 and 6, 3 and 11, 4 and 12, 9 and 13.  So 11 kinds.
 - `src/rounded-star.ts`:  one whole circuit with every corner rounded, and each vertex's pairing number.  The Circuit field picks from a short list.
+  `drawRoundedCircuit()` draws a reference image into any rectangle.
+- `src/circuit-grid.ts`:  a Lattice of circles:  Fourier, reference, Fourier, reference, in reading order.
+  It draws the Fourier itself, from the library's `samplesFromPath()`, `orderTerms()` and `getAnimationRules()`, because FourierComponent only draws into its own Dest Rect.
 - `scripts/count-circuits.ts`:  the counts above.
 - `scripts/find-vertex-types.ts`:  every pairing is equally common (K7 minus a vertex is K6, so the graph can't tell the pairings apart).
   At most 7 kinds fit in one circuit.  `EVERY_KIND_A_7` and `EVERY_KIND_B_7` are the first pair it found that shows all 11.
+- `scripts/pick-circuits.ts`:  random circuits, with a fixed seed.  `RANDOM_7` came from here.
 - `properties/`:  the editor's saved state, written there so it's in git.  See `properties/README.md`.
 - `library-issues.md`:  problems found in canvas-recorder-lib.  Add to it; don't stop to fix the library unless it's urgent.
 

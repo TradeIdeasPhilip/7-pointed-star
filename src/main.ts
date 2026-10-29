@@ -8,6 +8,7 @@
  *    * Colorful Star:  the finished picture, in three colors, not animated.
  * 2. Vertex Pairings:  closeups of the top vertex, every way a circuit can pass through it.
  * 3. Every Kind of Vertex:  two whole circuits, corners rounded, that between them show every kind of vertex.
+ * 4. Circuit Grid:  four circuits at once, each a Fourier animation next to its reference image.  A layout test.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  */
@@ -25,6 +26,7 @@ import { GROUPED_SOURCE } from "./star-sources.ts";
 import { ColorfulStar } from "./colorful-star.ts";
 import { VertexPairings } from "./vertex-pairings.ts";
 import { RoundedStar } from "./rounded-star.ts";
+import { CircuitGrid } from "./circuit-grid.ts";
 
 // The scenes are fixed children, so the Visual Editor saves their contents by description.
 // Each scene has its own background, so each one can stand alone.
@@ -123,6 +125,24 @@ everyKindScene.add(
 );
 
 root.add(everyKindScene);
+
+// MARK: Circuit Grid
+
+const gridScene = new DurationAgnosticComponent("Circuit Grid");
+gridScene.minDurationScalar.value = 24_000;
+
+gridScene.replaceableComponents!.push(
+  new RectangleComponent({
+    description: "Background",
+    color: "black",
+    rect: { x: 0, y: 0, width: 16, height: 9 },
+  }),
+);
+
+// 4 columns and 2 rows:  4 circuits.  Change the Lattice's cell size to try other layouts.
+gridScene.add(new CircuitGrid({ description: "Grid" }));
+
+root.add(gridScene);
 
 // Don't await this.  See canvasRecorder.start().
 canvasRecorder.start(root, { name: "7-pointed-star" });

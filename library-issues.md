@@ -42,15 +42,22 @@ None of them block this project.  We'll go through them together when the video 
    Decided:  no code change.  It's a rare case, and saved state that matters should be saved to `properties/`, where the JSON can be fixed by hand.
    Maybe a sentence in the README.
 
+8. **FourierComponent can only draw into its own Dest Rect.**
+   The Circuit Grid draws 4 Fourier animations into the cells of a Lattice, so it repeats about 30 lines of FourierComponent:
+   `samplesFromPath()`, `samplesToFourier()`, `parseTermGroups()`, `orderTerms()`, `getAnimationRules()`, and the Step arithmetic.
+   A function that takes a source, Term Groups, Step and a rectangle, and returns the path, would let any component do this.
+9. **`LatticeValue` isn't exported from the package root,** although `LatticeScheduleInfo` is.
+   A component that takes a lattice in its constructor needs `canvas-recorder-lib/src/lattice` for the type.
+
 ## Bugs
 
-8. **`samplesFromParametric()` repeats the first point on closed curves.**
+10. **`samplesFromParametric()` repeats the first point on closed curves.**
    It uses `t = i / (N - 1)`, so sample N-1 is at t = 1, the same point as sample 0.
    For a closed curve, `i / N` would space the samples evenly.
    This project doesn't use it.
 
 ## Build
 
-9. **A warning in every production build:**  `"use restrict"` in `node_modules/bit-twiddle`, a MODULE_LEVEL_DIRECTIVE warning.
+11. **A warning in every production build:**  `"use restrict"` in `node_modules/bit-twiddle`, a MODULE_LEVEL_DIRECTIVE warning.
    It comes from `fft-js`, which the library uses for the Fourier transforms.
    Harmless, but it shows up in every project's `npm run build`.

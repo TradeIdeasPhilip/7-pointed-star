@@ -159,10 +159,24 @@ export const EVERY_KIND_B_7: Circuit = [
   0, 1, 2, 0, 3, 1, 5, 2, 3, 4, 5, 0, 6, 4, 2, 6, 5, 3, 6, 1, 4, 0,
 ];
 
+/**
+ * Six circuits picked at random from the 4,642,014, by `npm run pick-circuits` (6 of them, seed 7).
+ * Nothing special about them.
+ */
+export const RANDOM_7: readonly Circuit[] = [
+  [0, 1, 2, 4, 3, 1, 4, 5, 3, 0, 2, 6, 1, 5, 2, 3, 6, 0, 4, 6, 5, 0],
+  [0, 1, 2, 4, 3, 5, 2, 0, 6, 3, 1, 6, 2, 3, 0, 4, 1, 5, 6, 4, 5, 0],
+  [0, 1, 2, 5, 4, 0, 5, 6, 3, 4, 2, 6, 4, 1, 3, 2, 0, 6, 1, 5, 3, 0],
+  [0, 1, 2, 5, 0, 2, 4, 6, 3, 0, 6, 5, 1, 4, 5, 3, 2, 6, 1, 3, 4, 0],
+  [0, 1, 3, 0, 2, 1, 6, 5, 0, 6, 3, 4, 6, 2, 3, 5, 4, 1, 5, 2, 4, 0],
+  [0, 1, 3, 4, 0, 5, 6, 1, 4, 5, 1, 2, 5, 3, 6, 2, 4, 6, 0, 2, 3, 0],
+];
+
 assertEulerCircuit(7, STEPS_7, GROUPED_7);
 assertEulerCircuit(7, STEPS_7, INTERLEAVED_7);
 assertEulerCircuit(7, STEPS_7, EVERY_KIND_A_7);
 assertEulerCircuit(7, STEPS_7, EVERY_KIND_B_7);
+RANDOM_7.forEach((circuit) => assertEulerCircuit(7, STEPS_7, circuit));
 
 // MARK: Search
 
