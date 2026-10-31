@@ -8,7 +8,7 @@
  *    * Colorful Star:  the finished picture, in three colors, not animated.
  * 2. Vertex Pairings:  closeups of the top vertex, every way a circuit can pass through it.
  * 3. Every Kind of Vertex:  two whole circuits, corners rounded, that between them show every kind of vertex.
- * 4. Circuit Grid:  four circuits at once, each a Fourier animation next to its reference image.  A layout test.
+ * 4. Circuit Grid:  four circuits at once, each a Fourier animation in three colors next to its reference image.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  */

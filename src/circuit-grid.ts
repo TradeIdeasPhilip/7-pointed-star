@@ -9,14 +9,7 @@ import {
 } from "canvas-recorder-lib";
 import { LatticeValue } from "canvas-recorder-lib/src/lattice";
 import { myRainbow } from "canvas-recorder-lib/src/glib/my-rainbow";
-import { PathShape } from "canvas-recorder-lib/src/glib/path-shape";
 import { panAndZoom } from "canvas-recorder-lib/src/glib/transforms";
-import {
-  FourierTerm,
-  getAnimationRules,
-  samplesFromPath,
-  samplesToFourier,
-} from "canvas-recorder-lib/src/peano-fourier/fourier-shared";
 import {
   orderTerms,
   parseTermGroups,
@@ -27,26 +20,19 @@ import {
   EVERY_KIND_B_7,
   RANDOM_7,
 } from "./euler-circuits.ts";
+import {
+  coloredSource,
+  drawColoredFrame,
+  Frame,
+  getFrameRules,
+} from "./colored-fourier.ts";
 import { drawRoundedCircuit, STAR_BOUNDS } from "./rounded-star.ts";
-import { circuitToPath } from "./star-path.ts";
 
 /**
  * The circuits, in order:  the two from the Every Kind of Vertex slide, then the random ones.
  * A grid with more than 16 cells starts over at the beginning.
  */
 const CIRCUITS: readonly Circuit[] = [EVERY_KIND_A_7, EVERY_KIND_B_7, ...RANDOM_7];
-
-/** The Fourier terms for each circuit, computed the first time it's drawn. */
-const termsCache = new Map<Circuit, readonly FourierTerm[]>();
-
-function termsFor(circuit: Circuit) {
-  let terms = termsCache.get(circuit);
-  if (!terms) {
-    terms = samplesToFourier(samplesFromPath(circuitToPath(7, circuit).pathShape));
-    termsCache.set(circuit, terms);
-  }
-  return terms;
-}
 
 /**
  * Several circuits at once, each as a Fourier animation next to its reference image.
@@ -58,6 +44,8 @@ function termsFor(circuit: Circuit) {
  *
  * Each circle fills its cell, keeping its shape.  The space between cells is the Lattice's slack.
  * All the Fourier animations share one Term Groups and one Step, so they move together.
+ * Each part of a Fourier animation is the color of the edges it becomes,
+ * the same colors as the reference images.
  *
  * Not in the component registry.  Add it to a parent with `add()`, as a fixed child.
  */
@@ -82,10 +70,6 @@ export class CircuitGrid implements Showable {
     { time: 0, value: 0 },
     { time: 22_000, value: 11 },
   ]);
-  readonly fourierColorSchedule = new ColorScheduleInfo(
-    "Fourier Color",
-    myRainbow.myBlue,
-  );
   /** The same as on the Every Kind of Vertex slide. */
   readonly cornerSizeSchedule = new NumberScheduleInfo("Corner Size", 0.4);
   readonly roundingSchedule = new NumberScheduleInfo("Rounding", 0.6);
@@ -109,7 +93,6 @@ export class CircuitGrid implements Showable {
     this.latticeSchedule,
     this.termGroupsSchedule,
     this.stepSchedule,
-    this.fourierColorSchedule,
     this.cornerSizeSchedule,
     this.roundingSchedule,
     this.roundingStepSchedule,
@@ -132,7 +115,7 @@ export class CircuitGrid implements Showable {
       this.stepSchedule.set(initialValues.step);
   }
   /** The animation for each circuit, for the Term Groups in `#rulesTermGroups`.  Thrown away when Term Groups changes. */
-  readonly #rules = new Map<Circuit, ((progress: number) => PathShape)[]>();
+  readonly #rules = new Map<Circuit, ((progress: number) => Frame)[]>();
   #rulesTermGroups = "";
   #rulesFor(circuit: Circuit, termGroups: string) {
     if (termGroups != this.#rulesTermGroups) {
@@ -141,11 +124,14 @@ export class CircuitGrid implements Showable {
     }
     let rules = this.#rules.get(circuit);
     if (!rules) {
-      const ordered = orderTerms(termsFor(circuit), parseTermGroups(termGroups).groups);
+      const ordered = orderTerms(
+        coloredSource(circuit).terms,
+        parseTermGroups(termGroups).groups,
+      );
       rules =
         ordered.keyframes.length < 2
           ? []
-          : getAnimationRules(ordered.terms, ordered.keyframes);
+          : getFrameRules(ordered.terms, ordered.keyframes);
       this.#rules.set(circuit, rules);
     }
     return rules;
@@ -154,7 +140,6 @@ export class CircuitGrid implements Showable {
     const lattice = this.latticeSchedule.latticeAt(timeInMs);
     const termGroups = this.termGroupsSchedule.at(timeInMs);
     const step = this.stepSchedule.at(timeInMs);
-    const fourierColor = this.fourierColorSchedule.at(timeInMs);
     const settings = {
       cornerSize: this.cornerSizeSchedule.at(timeInMs),
       rounding: this.roundingSchedule.at(timeInMs),
@@ -178,11 +163,13 @@ export class CircuitGrid implements Showable {
         if (rules.length > 0) {
           const ruleIndex = Math.min(Math.floor(step), rules.length - 1);
           const progress = Math.min(1, step - ruleIndex);
-          const path = rules[ruleIndex](progress).transform(fit);
-          context.lineCap = "round";
-          context.lineJoin = "round";
-          context.strokeStyle = fourierColor;
-          context.stroke(path.canvasPath);
+          drawColoredFrame(
+            context,
+            rules[ruleIndex](progress),
+            coloredSource(circuit).runs,
+            fit,
+            colors,
+          );
         }
       }
     });

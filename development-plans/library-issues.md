@@ -44,11 +44,17 @@ None of them block this project.  We'll go through them together when the video 
 
 8. **FourierComponent can only draw into its own Dest Rect.**
    The Circuit Grid draws 4 Fourier animations into the cells of a Lattice, so it repeats about 30 lines of FourierComponent:
-   `samplesFromPath()`, `samplesToFourier()`, `parseTermGroups()`, `orderTerms()`, `getAnimationRules()`, and the Step arithmetic.
+   `samplesToFourier()`, `parseTermGroups()`, `orderTerms()`, and the Step arithmetic.
    A function that takes a source, Term Groups, Step and a rectangle, and returns the path, would let any component do this.
 9. **`LatticeValue` isn't exported from the package root,** although `LatticeScheduleInfo` is.
    A component that takes a lattice in its constructor needs `canvas-recorder-lib/src/lattice` for the type.
-
+13. **A multi-color Fourier needs copies of two library functions.**
+   `src/colored-fourier.ts` draws each frame in pieces by `t`, each piece in its own color.  That needs two things the library computes but doesn't return:
+   * Where each command's samples start.  `samplesFromPath()` knows, but only returns the samples.  The copy is `samplesWithStarts()`.
+   * Each frame as a function of `t`, not a finished PathShape.  `getAnimationRules()` builds that function and turns it into a path right away.  The copy is `getFrameRules()`.
+   Both copies are faithful, so the curves, timing and segment counts match the library's.
+   `makeEasing()` is private in fourier-shared.ts, so it's copied too.
+   If the library returned these, `FourierComponent.drawPath()` could offer a hook for coloring by `t`.
 ## Bugs
 
 10. **`samplesFromParametric()` repeats the first point on closed curves.**
@@ -61,3 +67,13 @@ None of them block this project.  We'll go through them together when the video 
 11. **A warning in every production build:**  `"use restrict"` in `node_modules/bit-twiddle`, a MODULE_LEVEL_DIRECTIVE warning.
    It comes from `fft-js`, which the library uses for the Fourier transforms.
    Harmless, but it shows up in every project's `npm run build`.
+
+## Comments
+
+12. **`cacheHealth` needs a comment.**
+   `const cacheHealth = { miss: 0, hit: 0 }` in `src/peano-fourier/fourier-shared.ts`, shown as `philDebug.cacheHealth`, comes up in every search for how the Fourier code caches.
+   It only counts hits and misses in the small cache inside `termsToParametricFunction()`:  one `Map` from `t` to a point, for each function it returns.
+   That cache helps because `addParametricPath()` estimates each sample's direction from `f(t ± ε)`, and the same `t` values come back every frame.
+   The comment should say so, and that it's probably not what you're looking for.  The real caches are `#termsCache` and `#animationCache` in `FourierComponent`.
+   Related:  that `Map` never removes anything.  While the dot grows into the first curve, `t` is scaled by `safePartEnds`, which changes every frame, so each frame adds a few hundred new entries.
+   They're freed when the animation cache is replaced.  Not a problem yet.

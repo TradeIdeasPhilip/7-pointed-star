@@ -51,7 +51,7 @@ One-time setup, in the GitHub repo:  Settings → Pages → Build and deployment
   1. "7 Pointed Star":  the Fourier star and the colorful star.
   2. "Vertex Pairings":  closeups of the top vertex.
   3. "Every Kind of Vertex":  two whole circuits with rounded corners, that between them show every kind of vertex.
-  4. "Circuit Grid":  four circuits, each a Fourier animation next to its reference image.  A layout test.
+  4. "Circuit Grid":  four circuits, each a multi-color Fourier animation next to its reference image.
   The editor matches saved state by description, starting at the root.  Renaming or wrapping the root drops the saved state.
 - `src/euler-circuits.ts`:  graph math only, no imports, so Node can run it.  Hand picked circuits (`GROUPED_7`, `INTERLEAVED_7`), the search, the duplicate filter.
   Node only strips types, so this file (and `scripts/`) can't use enums or constructor parameter properties.  `erasableSyntaxOnly` in tsconfig enforces that.
@@ -65,8 +65,12 @@ One-time setup, in the GitHub repo:  Settings → Pages → Build and deployment
   The numbers are `VERTEX_PAIRINGS_7` in `euler-circuits.ts`.  Mirror images:  2 and 6, 3 and 11, 4 and 12, 9 and 13.  So 11 kinds.
 - `src/rounded-star.ts`:  one whole circuit with every corner rounded, and each vertex's pairing number.  The Circuit field picks from a short list.
   `drawRoundedCircuit()` draws a reference image into any rectangle.
+- `src/colored-fourier.ts`:  the multi-color Fourier.  Each frame is drawn in pieces, by `t`, each piece the color of the edges it becomes.
+  Sample i is at t = i / N, and each edge starts with a sample at its first vertex, so each run of same colored edges covers a known range of `t`.
+  `samplesWithStarts()` and `getFrameRules()` are copies of the library's `samplesFromPath()` and `getAnimationRules()`, changed to expose that.
+  Circle, then fat star, then thin star, with round caps, like the reference images.  Round caps leave no notch at the sharp corners of the last steps.
 - `src/circuit-grid.ts`:  a Lattice of circles:  Fourier, reference, Fourier, reference, in reading order.
-  It draws the Fourier itself, from the library's `samplesFromPath()`, `orderTerms()` and `getAnimationRules()`, because FourierComponent only draws into its own Dest Rect.
+  It draws the Fourier itself, with `colored-fourier.ts`, because FourierComponent only draws into its own Dest Rect.
 - `scripts/count-circuits.ts`:  the counts above.
 - `scripts/find-vertex-types.ts`:  every pairing is equally common (K7 minus a vertex is K6, so the graph can't tell the pairings apart).
   At most 7 kinds fit in one circuit.  `EVERY_KIND_A_7` and `EVERY_KIND_B_7` are the first pair it found that shows all 11.
@@ -74,18 +78,14 @@ One-time setup, in the GitHub repo:  Settings → Pages → Build and deployment
 - `properties/`:  the editor's saved state, written there so it's in git.  See `properties/README.md`.
 - `library-issues.md`:  problems found in canvas-recorder-lib.  Add to it; don't stop to fix the library unless it's urgent.
 
-## Next:  a multi-color Fourier
+## The multi-color Fourier
 
-Each frame of the Fourier animation drawn in pieces, by parameter range, each piece the color of the edges it becomes.
-The plan:
+Working in the Circuit Grid (`src/colored-fourier.ts`).  Slide 1's Star Fourier is still the library's one color FourierComponent.
 
-1. A copy of the library's `samplesFromPath()` that also returns each command's first sample index.
-   Sample i is at t = i / N, so each edge starts at a known t.  Merge neighboring edges of the same color into runs.
-2. A copy of `getAnimationRules()` that returns the parametric function for each frame, instead of a finished PathShape.
-   Draw each run [t₀, t₁] with `PathShape.glitchFreeParametric()`, butt line caps.
-3. Watch for:  in the last steps the corners are nearly sharp, so a color change at a corner with butt caps may leave a notch.
-
-The same idea would let a Fourier of several open pieces skip, or fade, the connecting lines that close it.
+- Where the curve crosses itself, the layer drawn last wins.  In the first steps the biggest circle is traced several times over, so it looks mostly white.
+- The same idea would let a Fourier of several open pieces skip, or fade, the connecting lines that close it.
+  The author wants this eventually, e.g. Peano vs Fourier's long diagonal:  thinner or less opaque, starting normal and fading as the animation goes on.
+  So keep `colored-fourier.ts` general enough to reuse.
 
 ## The library
 
