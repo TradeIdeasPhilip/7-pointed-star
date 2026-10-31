@@ -29,6 +29,10 @@ import {
   termsToParametricFunction,
 } from "canvas-recorder-lib/src/peano-fourier/fourier-shared";
 import {
+  orderTerms,
+  parseTermGroups,
+} from "canvas-recorder-lib/src/slide-components/fourier";
+import {
   assertNonNullable,
   initializedArray,
   lerp,
@@ -161,15 +165,16 @@ export type ColoredSource = {
   readonly runs: readonly ColorRun[];
 };
 
-/** Kept forever.  There are only a few circuits. */
-const sourceCache = new Map<Circuit, ColoredSource>();
+/** Kept forever, by `circuit.join(",")`.  Only the circuits someone looks at. */
+const sourceCache = new Map<string, ColoredSource>();
 
 /**
  * The Fourier terms of a 7 pointed star circuit, and where each color goes.
  * Computed the first time it's needed.
  */
 export function coloredSource(circuit: Circuit): ColoredSource {
-  let source = sourceCache.get(circuit);
+  const key = circuit.join(",");
+  let source = sourceCache.get(key);
   if (!source) {
     const starPath = circuitToPath(7, circuit);
     const { samples, starts } = samplesWithStarts(starPath.pathShape);
@@ -177,7 +182,7 @@ export function coloredSource(circuit: Circuit): ColoredSource {
       terms: samplesToFourier(samples),
       runs: colorRuns(starPath, starts),
     };
-    sourceCache.set(circuit, source);
+    sourceCache.set(key, source);
   }
   return source;
 }
@@ -327,6 +332,50 @@ export function getFrameRules(
       }
     }
   });
+}
+
+/**
+ * The animations of some circuits, all with the same Term Groups.
+ * Each component keeps one.  Changing Term Groups throws them all away.
+ */
+export class ColoredAnimations {
+  #termGroups = "";
+  /** By `circuit.join(",")`. */
+  readonly #rules = new Map<string, ((progress: number) => Frame)[]>();
+  /**
+   * One frame of one circuit's animation.
+   * @param termGroups The same as the Fourier component's Term Groups.
+   * @param step The same as the Fourier component's Step:  0 is a dot, the number of groups is the finished curve.
+   * Fractions are the transition to the next step.
+   * @returns undefined when there's nothing to draw:  Step is negative, or there are no groups.
+   */
+  frameAt(circuit: Circuit, termGroups: string, step: number): Frame | undefined {
+    if (!(step >= 0)) {
+      return undefined;
+    }
+    if (termGroups != this.#termGroups) {
+      this.#rules.clear();
+      this.#termGroups = termGroups;
+    }
+    const key = circuit.join(",");
+    let rules = this.#rules.get(key);
+    if (!rules) {
+      const ordered = orderTerms(
+        coloredSource(circuit).terms,
+        parseTermGroups(termGroups).groups,
+      );
+      rules =
+        ordered.keyframes.length < 2
+          ? []
+          : getFrameRules(ordered.terms, ordered.keyframes);
+      this.#rules.set(key, rules);
+    }
+    if (rules.length == 0) {
+      return undefined;
+    }
+    const index = Math.min(Math.floor(step), rules.length - 1);
+    return rules[index](Math.min(1, step - index));
+  }
 }
 
 // MARK: Drawing

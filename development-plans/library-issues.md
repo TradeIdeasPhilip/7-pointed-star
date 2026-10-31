@@ -55,6 +55,12 @@ None of them block this project.  We'll go through them together when the video 
    Both copies are faithful, so the curves, timing and segment counts match the library's.
    `makeEasing()` is private in fourier-shared.ts, so it's copied too.
    If the library returned these, `FourierComponent.drawPath()` could offer a hook for coloring by `t`.
+14. **A replaceable child's `description` doesn't survive a reload.**
+   When the editor loads saved state, it rebuilds replaceable children from the registry (`buildComponents()` in serialize.ts), so whatever `description` the TypeScript gave the constructor is replaced by the registry's default.
+   Slide 1's "Star Fourier" probably shows as "Fourier" after a reload.
+   `userEditableDescription` is saved, so this project sets that instead (`named()` in main.ts).
+   Maybe a sentence in the README, next to "Register your own components".
+
 ## Bugs
 
 10. **`samplesFromParametric()` repeats the first point on closed curves.**

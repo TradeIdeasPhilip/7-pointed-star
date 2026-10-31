@@ -178,6 +178,60 @@ assertEulerCircuit(7, STEPS_7, EVERY_KIND_A_7);
 assertEulerCircuit(7, STEPS_7, EVERY_KIND_B_7);
 RANDOM_7.forEach((circuit) => assertEulerCircuit(7, STEPS_7, circuit));
 
+/** Every hand picked circuit, by the name a person can type to ask for it. */
+export const NAMED_CIRCUITS_7: ReadonlyMap<string, Circuit> = new Map([
+  ["Every kind A", EVERY_KIND_A_7],
+  ["Every kind B", EVERY_KIND_B_7],
+  ["Grouped", GROUPED_7],
+  ["Interleaved", INTERLEAVED_7],
+  ...RANDOM_7.map((circuit, index) => [`Random ${index + 1}`, circuit] as const),
+]);
+
+/**
+ * Read a circuit a person typed:  a name from {@link NAMED_CIRCUITS_7}, or the vertices in order.
+ *
+ * Vertices can be separated by spaces, commas or nothing:  "0 1 2 0 3 …" or "0120314…".
+ * A circuit visits 22 vertices and ends where it started.
+ * Any Euler circuit works, not only the canonical form:  it can start anywhere and go either way.
+ * @returns The circuit, or a message saying what's wrong with it.
+ */
+export function parseCircuit7(text: string): Circuit | string {
+  const trimmed = text.trim();
+  for (const [name, circuit] of NAMED_CIRCUITS_7) {
+    if (name.toLowerCase() == trimmed.toLowerCase()) {
+      return circuit;
+    }
+  }
+  const digits = trimmed.replace(/[\s,;()[\]]/g, "");
+  if (!/^\d+$/.test(digits)) {
+    return `Circuit:  "${trimmed}" isn't a name or a list of vertices.`;
+  }
+  const circuit = [...digits].map(Number);
+  const bad = circuit.find((vertex) => vertex > 6);
+  if (bad !== undefined) {
+    return `Circuit:  there's no vertex ${bad}.  They're 0 to 6.`;
+  }
+  if (circuit.length != 22) {
+    return `Circuit:  ${circuit.length} vertices.  It needs 22, ending where it started.`;
+  }
+  if (circuit[0] != circuit[21]) {
+    return `Circuit:  it starts at ${circuit[0]} but ends at ${circuit[21]}.`;
+  }
+  const used = new Set<number>();
+  for (let i = 1; i < circuit.length; i++) {
+    const a = Math.min(circuit[i - 1], circuit[i]);
+    const b = Math.max(circuit[i - 1], circuit[i]);
+    if (a == b) {
+      return `Circuit:  ${a} to ${b} isn't an edge.`;
+    }
+    if (used.has(a * 7 + b)) {
+      return `Circuit:  it uses the edge from ${a} to ${b} twice.`;
+    }
+    used.add(a * 7 + b);
+  }
+  return circuit;
+}
+
 // MARK: Search
 
 /**

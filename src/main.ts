@@ -8,7 +8,10 @@
  *    * Colorful Star:  the finished picture, in three colors, not animated.
  * 2. Vertex Pairings:  closeups of the top vertex, every way a circuit can pass through it.
  * 3. Every Kind of Vertex:  two whole circuits, corners rounded, that between them show every kind of vertex.
- * 4. Circuit Grid:  four circuits at once, each a Fourier animation in three colors next to its reference image.
+ * 4. Circuit Grid:  a Circuit Grid component, for trying layouts.
+ * 5. Three Circuits:  three Star Circuit components, each in its own colors, with labels.
+ *    Laid out like Peano vs Fourier:  the Fourier animations as big as possible, the reference images a little smaller.
+ * 6. Scratch 1, 2 and 3:  just a background, to add anything to.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  */
@@ -18,7 +21,11 @@ import {
   DurationAgnosticComponent,
   ease,
   InSeriesComponent,
+  MultiTextComponent,
   RectangleComponent,
+  Showable,
+  TextFormatComponent,
+  TextSpanComponent,
 } from "canvas-recorder-lib";
 import { FourierComponent } from "canvas-recorder-lib/src/slide-components/fourier";
 // Must come before any FourierComponent is constructed.
@@ -27,21 +34,45 @@ import { ColorfulStar } from "./colorful-star.ts";
 import { VertexPairings } from "./vertex-pairings.ts";
 import { RoundedStar } from "./rounded-star.ts";
 import { CircuitGrid } from "./circuit-grid.ts";
+import { StarCircuit } from "./star-circuit.ts";
 
 // The scenes are fixed children, so the Visual Editor saves their contents by description.
 // Each scene has its own background, so each one can stand alone.
 const root = new InSeriesComponent({ description: "7 Pointed Star Video" });
 
+/**
+ * A new scene with a black background, added to the end of the video.
+ * @param minDuration How long the scene lasts, unless something in it asks for longer.
+ */
+function addScene(description: string, minDuration = 0) {
+  const scene = new DurationAgnosticComponent(description);
+  scene.minDurationScalar.value = minDuration;
+  scene.replaceableComponents!.push(
+    new RectangleComponent({
+      description: "Background",
+      color: "black",
+      rect: { x: 0, y: 0, width: 16, height: 9 },
+    }),
+  );
+  root.add(scene);
+  return scene;
+}
+
+/**
+ * Give a replaceable child a name that lasts.
+ * The editor rebuilds replaceable children from the registry when it loads saved state,
+ * so a `description` given to the constructor is lost.  This name is saved with the rest.
+ */
+function named<T extends Showable>(name: string, component: T): T {
+  component.userEditableDescription = name;
+  return component;
+}
+
 // MARK: 7 Pointed Star
 
-const starScene = new DurationAgnosticComponent("7 Pointed Star");
+const starScene = addScene("7 Pointed Star");
 
 starScene.replaceableComponents!.push(
-  new RectangleComponent({
-    description: "Background",
-    color: "black",
-    rect: { x: 0, y: 0, width: 16, height: 9 },
-  }),
   new FourierComponent({
     description: "Star Fourier",
     source: GROUPED_SOURCE,
@@ -63,20 +94,9 @@ starScene.add(
   }),
 );
 
-root.add(starScene);
-
 // MARK: Vertex Pairings
 
-const pairingsScene = new DurationAgnosticComponent("Vertex Pairings");
-pairingsScene.minDurationScalar.value = 8_000;
-
-pairingsScene.replaceableComponents!.push(
-  new RectangleComponent({
-    description: "Background",
-    color: "black",
-    rect: { x: 0, y: 0, width: 16, height: 9 },
-  }),
-);
+const pairingsScene = addScene("Vertex Pairings", 8_000);
 
 // Starts with sharp corners, where every pairing looks the same, then rounds them.
 pairingsScene.add(
@@ -93,20 +113,9 @@ pairingsScene.add(
   }),
 );
 
-root.add(pairingsScene);
-
 // MARK: Every Kind of Vertex
 
-const everyKindScene = new DurationAgnosticComponent("Every Kind of Vertex");
-everyKindScene.minDurationScalar.value = 5_000;
-
-everyKindScene.replaceableComponents!.push(
-  new RectangleComponent({
-    description: "Background",
-    color: "black",
-    rect: { x: 0, y: 0, width: 16, height: 9 },
-  }),
-);
+const everyKindScene = addScene("Every Kind of Vertex", 5_000);
 
 // The same places as Star Fourier and Colorful Star on the first slide.
 everyKindScene.add(
@@ -124,25 +133,82 @@ everyKindScene.add(
   }),
 );
 
-root.add(everyKindScene);
-
 // MARK: Circuit Grid
 
-const gridScene = new DurationAgnosticComponent("Circuit Grid");
-gridScene.minDurationScalar.value = 24_000;
-
-gridScene.replaceableComponents!.push(
-  new RectangleComponent({
-    description: "Background",
-    color: "black",
-    rect: { x: 0, y: 0, width: 16, height: 9 },
-  }),
-);
-
 // 4 columns and 2 rows:  4 circuits.  Change the Lattice's cell size to try other layouts.
-gridScene.add(new CircuitGrid({ description: "Grid" }));
+addScene("Circuit Grid", 24_000).replaceableComponents!.push(new CircuitGrid());
 
-root.add(gridScene);
+// MARK: Three Circuits
+
+const threeScene = addScene("Three Circuits", 24_000);
+
+/**
+ * A straw man:  each circuit gets its own colors, a family of three, used for its Fourier, its reference image and its label.
+ * Each family follows the red, white and blue pattern:  the circle is the deepest color, the fat star the brightest,
+ * and the thin star the palest, the way white is.
+ */
+const threeCircuits = [
+  {
+    circuit: "Every kind A",
+    circleColor: "#f05a28",
+    fatStarColor: "#fbbf24",
+    thinStarColor: "#fef3c7",
+  },
+  {
+    circuit: "Every kind B",
+    circleColor: "#16a34a",
+    fatStarColor: "#22d3ee",
+    thinStarColor: "#ccfbf1",
+  },
+  {
+    circuit: "Interleaved",
+    circleColor: "#8b5cf6",
+    fatStarColor: "#f472b6",
+    thinStarColor: "#ede9fe",
+  },
+];
+
+// Three columns.  In each:  a label running up the left side,
+// the reference image on top, and the Fourier animation below it, as big as it can be.
+threeCircuits.forEach((colors, index) => {
+  const left = (16 / 3) * index;
+  const number = index + 1;
+  threeScene.replaceableComponents!.push(
+    named(
+      `Circuit ${number}`,
+      new StarCircuit({
+        ...colors,
+        referenceRect: { x: left + 1.225, y: 0.4, width: 3.6, height: 3.6 },
+        fourierRect: { x: left + 0.8, y: 4.35, width: 4.45, height: 4.45 },
+      }),
+    ),
+  );
+});
+
+// The labels are separate components:  they change more than anything else.
+threeCircuits.forEach(({ fatStarColor }, index) => {
+  const left = (16 / 3) * index;
+  const number = index + 1;
+  const label = new MultiTextComponent({
+    position: { x: left + 0.45, y: 4.6 },
+    anchorX: "center",
+    textBaseline: "middle",
+    widthMode: "unbounded",
+    rotation: "90° counterclockwise",
+  });
+  label.replaceableComponents!.push(
+    new TextFormatComponent({ color: fatStarColor, size: 0.5 }),
+    new TextSpanComponent({ content: `Circuit ${number}` }),
+  );
+  threeScene.replaceableComponents!.push(named(`Label ${number}`, label));
+});
+
+// MARK: Scratch
+
+// Blank pages, to add anything to from the Visual Editor.
+addScene("Scratch 1", 5_000);
+addScene("Scratch 2", 5_000);
+addScene("Scratch 3", 5_000);
 
 // Don't await this.  See canvasRecorder.start().
 canvasRecorder.start(root, { name: "7-pointed-star" });

@@ -51,8 +51,12 @@ One-time setup, in the GitHub repo:  Settings → Pages → Build and deployment
   1. "7 Pointed Star":  the Fourier star and the colorful star.
   2. "Vertex Pairings":  closeups of the top vertex.
   3. "Every Kind of Vertex":  two whole circuits with rounded corners, that between them show every kind of vertex.
-  4. "Circuit Grid":  four circuits, each a multi-color Fourier animation next to its reference image.
+  4. "Circuit Grid":  a Circuit Grid component, for trying layouts.
+  5. "Three Circuits":  three Star Circuits, laid out like Peano vs Fourier, each in its own colors, plus a Multi Text label for each.
+  6. "Scratch 1", "Scratch 2", "Scratch 3":  only a background.  The author fills these from the Visual Editor.
   The editor matches saved state by description, starting at the root.  Renaming or wrapping the root drops the saved state.
+  The author prefers components added as replaceable children, so the Visual Editor can change or delete them, and labels separate from what they label.
+  A replaceable child's constructor `description` is lost when the editor reloads it from the registry.  `named()` sets `userEditableDescription`, which is saved.
 - `src/euler-circuits.ts`:  graph math only, no imports, so Node can run it.  Hand picked circuits (`GROUPED_7`, `INTERLEAVED_7`), the search, the duplicate filter.
   Node only strips types, so this file (and `scripts/`) can't use enums or constructor parameter properties.  `erasableSyntaxOnly` in tsconfig enforces that.
 - `src/star-path.ts`:  circuit → `PathShape`, plus a record of which commands came from which edge.  Those records say where each color starts and stops.
@@ -69,18 +73,25 @@ One-time setup, in the GitHub repo:  Settings → Pages → Build and deployment
   Sample i is at t = i / N, and each edge starts with a sample at its first vertex, so each run of same colored edges covers a known range of `t`.
   `samplesWithStarts()` and `getFrameRules()` are copies of the library's `samplesFromPath()` and `getAnimationRules()`, changed to expose that.
   Circle, then fat star, then thin star, with round caps, like the reference images.  Round caps leave no notch at the sharp corners of the last steps.
-- `src/circuit-grid.ts`:  a Lattice of circles:  Fourier, reference, Fourier, reference, in reading order.
-  It draws the Fourier itself, with `colored-fourier.ts`, because FourierComponent only draws into its own Dest Rect.
+  `ColoredAnimations` is the animation cache each component keeps:  by circuit, thrown away when Term Groups changes.
+- `src/circuit-grid.ts`:  a Lattice of circles:  Fourier, reference, Fourier, reference, in reading order.  Registered as "Circuit Grid".
+  A quick tool for trying layouts.  New work goes into Star Circuit instead.
+- `src/star-circuit.ts`:  one circuit, as a Fourier animation and a reference image, each in its own rectangle, in one set of colors.  Registered as "Star Circuit".
+  A class meant to be extended:  override `drawFourier()` or `drawReference()` for variations, like the 3D reference image in `development-plans/3d-euler-circuits.md`.
+  The Circuit field takes a name from `NAMED_CIRCUITS_7` (offered as suggestions) or the vertices in order, read by `parseCircuit7()`.
 - `scripts/count-circuits.ts`:  the counts above.
 - `scripts/find-vertex-types.ts`:  every pairing is equally common (K7 minus a vertex is K6, so the graph can't tell the pairings apart).
   At most 7 kinds fit in one circuit.  `EVERY_KIND_A_7` and `EVERY_KIND_B_7` are the first pair it found that shows all 11.
 - `scripts/pick-circuits.ts`:  random circuits, with a fixed seed.  `RANDOM_7` came from here.
 - `properties/`:  the editor's saved state, written there so it's in git.  See `properties/README.md`.
-- `library-issues.md`:  problems found in canvas-recorder-lib.  Add to it; don't stop to fix the library unless it's urgent.
+- `development-plans/`:  plans and notes, written for the author and for future sessions.
+  - `library-issues.md`:  problems found in canvas-recorder-lib.  Add to it; don't stop to fix the library unless it's urgent.
+  - `enumerate-all-circuits.md`:  options for computing every circuit's Fourier terms and storing them to search.  Not started.
+  - `3d-euler-circuits.md`:  the author's idea for a 3D reference image.  Far in the future.
 
 ## The multi-color Fourier
 
-Working in the Circuit Grid (`src/colored-fourier.ts`).  Slide 1's Star Fourier is still the library's one color FourierComponent.
+Working in Circuit Grid and Star Circuit (`src/colored-fourier.ts`).  Slide 1's Star Fourier is still the library's one color FourierComponent.
 
 - Where the curve crosses itself, the layer drawn last wins.  In the first steps the biggest circle is traced several times over, so it looks mostly white.
 - The same idea would let a Fourier of several open pieces skip, or fade, the connecting lines that close it.

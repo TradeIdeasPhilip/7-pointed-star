@@ -1,5 +1,6 @@
 import {
   ColorScheduleInfo,
+  componentRegistry,
   Keyframe,
   LatticeScheduleInfo,
   NumberScheduleInfo,
@@ -11,20 +12,15 @@ import { LatticeValue } from "canvas-recorder-lib/src/lattice";
 import { myRainbow } from "canvas-recorder-lib/src/glib/my-rainbow";
 import { panAndZoom } from "canvas-recorder-lib/src/glib/transforms";
 import {
-  orderTerms,
-  parseTermGroups,
-} from "canvas-recorder-lib/src/slide-components/fourier";
-import {
   Circuit,
   EVERY_KIND_A_7,
   EVERY_KIND_B_7,
   RANDOM_7,
 } from "./euler-circuits.ts";
 import {
+  ColoredAnimations,
   coloredSource,
   drawColoredFrame,
-  Frame,
-  getFrameRules,
 } from "./colored-fourier.ts";
 import { drawRoundedCircuit, STAR_BOUNDS } from "./rounded-star.ts";
 
@@ -47,9 +43,10 @@ const CIRCUITS: readonly Circuit[] = [EVERY_KIND_A_7, EVERY_KIND_B_7, ...RANDOM_
  * Each part of a Fourier animation is the color of the edges it becomes,
  * the same colors as the reference images.
  *
- * Not in the component registry.  Add it to a parent with `add()`, as a fixed child.
+ * A quick way to try a layout.  In the component registry as "Circuit Grid".
  */
 export class CircuitGrid implements Showable {
+  readonly registryKey = "Circuit Grid";
   readonly description: string;
   readonly duration = 0;
   readonly latticeSchedule = new LatticeScheduleInfo("Lattice", {
@@ -114,28 +111,7 @@ export class CircuitGrid implements Showable {
     if (initialValues.step !== undefined)
       this.stepSchedule.set(initialValues.step);
   }
-  /** The animation for each circuit, for the Term Groups in `#rulesTermGroups`.  Thrown away when Term Groups changes. */
-  readonly #rules = new Map<Circuit, ((progress: number) => Frame)[]>();
-  #rulesTermGroups = "";
-  #rulesFor(circuit: Circuit, termGroups: string) {
-    if (termGroups != this.#rulesTermGroups) {
-      this.#rules.clear();
-      this.#rulesTermGroups = termGroups;
-    }
-    let rules = this.#rules.get(circuit);
-    if (!rules) {
-      const ordered = orderTerms(
-        coloredSource(circuit).terms,
-        parseTermGroups(termGroups).groups,
-      );
-      rules =
-        ordered.keyframes.length < 2
-          ? []
-          : getFrameRules(ordered.terms, ordered.keyframes);
-      this.#rules.set(circuit, rules);
-    }
-    return rules;
-  }
+  readonly #animations = new ColoredAnimations();
   show({ context, timeInMs }: ShowOptions) {
     const lattice = this.latticeSchedule.latticeAt(timeInMs);
     const termGroups = this.termGroupsSchedule.at(timeInMs);
@@ -158,14 +134,12 @@ export class CircuitGrid implements Showable {
       context.lineWidth = lineWidth;
       if (index % 2 == 1) {
         drawRoundedCircuit(context, circuit, fit, settings, colors);
-      } else if (step >= 0) {
-        const rules = this.#rulesFor(circuit, termGroups);
-        if (rules.length > 0) {
-          const ruleIndex = Math.min(Math.floor(step), rules.length - 1);
-          const progress = Math.min(1, step - ruleIndex);
+      } else {
+        const frame = this.#animations.frameAt(circuit, termGroups, step);
+        if (frame) {
           drawColoredFrame(
             context,
-            rules[ruleIndex](progress),
+            frame,
             coloredSource(circuit).runs,
             fit,
             colors,
@@ -175,3 +149,15 @@ export class CircuitGrid implements Showable {
     });
   }
 }
+
+// MARK: Registry
+
+componentRegistry.set("Circuit Grid", {
+  create() {
+    return new CircuitGrid();
+  },
+  description:
+    "Several 7 pointed star circuits at once, for trying layouts.  " +
+    "The Lattice says where the cells are:  a Fourier animation, then its reference image, then the next circuit.",
+  howToGenerate: { type: "class", class: CircuitGrid },
+});
