@@ -24,6 +24,9 @@ None of them block this project.  We'll go through them together when the video 
 4. **`myRainbow.blue` doesn't exist.**
    The blue is `myRainbow.myBlue`.  There's also `cssBlue`.
    Easy to get wrong when describing colors in words.
+16. **The rule for user errors isn't written down.**
+   Not in the library's CLAUDE.md or README.  The author has explained it in several conversations.
+   This project's CLAUDE.md now has it, under "User errors".  The library's CLAUDE.md, and the README's "Register your own components", should say the same.
 
 ## API
 
@@ -60,6 +63,11 @@ None of them block this project.  We'll go through them together when the video 
    Slide 1's "Star Fourier" probably shows as "Fourier" after a reload.
    `userEditableDescription` is saved, so this project sets that instead (`named()` in main.ts).
    Maybe a sentence in the README, next to "Register your own components".
+15. **A project's own component can't add a Visual Editor panel, or a warning.**
+   The custom panels are a hand-written list in `dev/canvas-recorder.ts`, by class:  `instanceof FourierComponent`, `MultiTextComponent`, and so on.
+   Star Circuit wants to show its own messages, and eventually a panel for choosing a circuit one vertex at a time.  See `circuit-editor.md`.
+   The only general hook is `Showable.rootComponentEditor`, and only for a root.
+   Plan:  the same interface on any Showable, as an optional `editorPanel` field.  See `editor-panels.md`.
 
 ## Bugs
 
@@ -67,6 +75,16 @@ None of them block this project.  We'll go through them together when the video 
    It uses `t = i / (N - 1)`, so sample N-1 is at t = 1, the same point as sample 0.
    For a closed curve, `i / N` would space the samples evenly.
    This project doesn't use it.
+17. **`SlowImage.showError()` throws on an empty rectangle.**
+   `if (width <= 0 || height <= 0) throw new Error("wtf")`, in `src/slow-image-sources.ts`.
+   It's what an image or video draws while it can't show itself, so a Dest Rect with no width, while the file is loading or missing, probably throws from `show()`.
+   Not tried in the GUI.  Drawing nothing would fit the rule for user errors.
+19. **The diff file (`<name>.txt`) prints every replaceable child, changed or not.**
+   In `buildDiffText()` in `dev/canvas-recorder.ts`, `diffNode()` compares fixed children property by property, but for replaceable children it just prints them all (`if (currentComponents.length > 0)`), as code.
+   It never looks at the TypeScript defaults' `components`.  That made sense when every replaceable child had been added in the GUI.
+   This project starts every scene with a replaceable Background, so all 8 scenes show up, plus Star Fourier, Circuit Grid, the Star Circuits and the labels:
+   120 lines, when the real change was 2 properties.  The saved `.json` is fine:  it only has the one scene that changed.
+   Fix:  print nothing when the list matches the defaults.  When the list has the same components in the same order, print property differences, like a fixed child.  Otherwise print the whole list, as now.
 
 ## Build
 
@@ -83,3 +101,6 @@ None of them block this project.  We'll go through them together when the video 
    The comment should say so, and that it's probably not what you're looking for.  The real caches are `#termsCache` and `#animationCache` in `FourierComponent`.
    Related:  that `Map` never removes anything.  While the dot grows into the first curve, `t` is scaled by `safePartEnds`, which changes every frame, so each frame adds a few hundred new entries.
    They're freed when the animation cache is replaced.  Not a problem yet.
+18. **Two comments still describe the old run-in-Node rule.**
+   `src/slow-image-sources.ts`:  "All code in /src should (ideally) be able to run in node.js or in a browser thread."
+   `src/utility.ts` mentions tsx too.  The rule now:  no module touches the DOM while it loads.  See `editor-panels.md`.

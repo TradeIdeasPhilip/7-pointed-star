@@ -168,8 +168,9 @@ const threeCircuits = [
   },
 ];
 
-// Three columns.  In each:  a label running up the left side,
-// the reference image on top, and the Fourier animation below it, as big as it can be.
+// Three columns.  In each:  the Fourier animation at the bottom, as big as it can be,
+// and the reference image above it, smaller and lined up with its right edge.
+// The label runs up the room that leaves, beside the reference image.
 threeCircuits.forEach((colors, index) => {
   const left = (16 / 3) * index;
   const number = index + 1;
@@ -178,7 +179,7 @@ threeCircuits.forEach((colors, index) => {
       `Circuit ${number}`,
       new StarCircuit({
         ...colors,
-        referenceRect: { x: left + 1.225, y: 0.4, width: 3.6, height: 3.6 },
+        referenceRect: { x: left + 1.65, y: 0.4, width: 3.6, height: 3.6 },
         fourierRect: { x: left + 0.8, y: 4.35, width: 4.45, height: 4.45 },
       }),
     ),
@@ -186,11 +187,15 @@ threeCircuits.forEach((colors, index) => {
 });
 
 // The labels are separate components:  they change more than anything else.
+// Position, Width and Height came from dragging the first label's frame in the Visual Editor.
+// Width and Height only size that frame:  with Width Mode "unbounded", the text ignores them.
 threeCircuits.forEach(({ fatStarColor }, index) => {
   const left = (16 / 3) * index;
   const number = index + 1;
   const label = new MultiTextComponent({
-    position: { x: left + 0.45, y: 4.6 },
+    position: { x: left + 1.156787834, y: 2.264549333 },
+    width: 3.590597181008901,
+    height: 0.7869065281899106,
     anchorX: "center",
     textBaseline: "middle",
     widthMode: "unbounded",

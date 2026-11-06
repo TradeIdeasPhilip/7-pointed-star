@@ -88,6 +88,17 @@ One-time setup, in the GitHub repo:  Settings → Pages → Build and deployment
   - `library-issues.md`:  problems found in canvas-recorder-lib.  Add to it; don't stop to fix the library unless it's urgent.
   - `enumerate-all-circuits.md`:  options for computing every circuit's Fourier terms and storing them to search.  Not started.
   - `3d-euler-circuits.md`:  the author's idea for a 3D reference image.  Far in the future.
+  - `circuit-editor.md`:  choosing a circuit one vertex at a time, and what to draw when the result is several loops.  Ideas only.
+  - `editor-panels.md`:  a Visual Editor panel for any component, like the old `rootComponentEditor`.  A library change.  Ideas only.
+
+## User errors
+
+The author's rule, for every component:  a mistake in the Visual Editor is a state, not an error.
+- Show a warning, in the editor or on the canvas.  Never throw, and never a dialog box.
+- Save it like any other state.  Editing between two good states often passes through bad ones.
+- Draw as much as still makes sense.  Values in worse shape can come back from IndexedDB or a file, so fail gracefully and make them easy to fix.
+- The library's "throw when saving a file" is only for external failures, like an image or video that doesn't load.
+- Assertions are still fine for the programmer's own mistakes, like the hand picked circuits checked at load time.
 
 ## The multi-color Fourier
 
