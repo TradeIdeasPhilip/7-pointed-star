@@ -95,7 +95,8 @@
                 "value": 24000
               }
             ],
-            "components": []
+            "components": [],
+            "userEditableDescription": "Star Fourier"
           }
         ],
         "fixedComponents": [

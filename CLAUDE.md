@@ -117,7 +117,7 @@ To try a library change here, `npm link ../canvas-recorder-lib`, and keep `npm r
 Any `npm install` or `npm ci` puts the published copy back.  `npm ls canvas-recorder-lib` shows which one is in use.
 
 Import the main object and common components from `canvas-recorder-lib`; anything else by path,
-e.g. `canvas-recorder-lib/src/glib/path-shape` or `canvas-recorder-lib/src/slide-components/fourier`.
+e.g. `canvas-recorder-lib/src/glib/path-shape` or `canvas-recorder-lib/src/glib/transforms`.
 
 ## Comments
 

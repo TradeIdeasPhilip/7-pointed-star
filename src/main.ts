@@ -20,6 +20,7 @@ import {
   canvasRecorder,
   DurationAgnosticComponent,
   ease,
+  FourierComponent,
   InSeriesComponent,
   MultiTextComponent,
   RectangleComponent,
@@ -27,7 +28,6 @@ import {
   TextFormatComponent,
   TextSpanComponent,
 } from "canvas-recorder-lib";
-import { FourierComponent } from "canvas-recorder-lib/src/slide-components/fourier";
 // Must come before any FourierComponent is constructed.
 import { GROUPED_SOURCE } from "./star-sources.ts";
 import { ColorfulStar } from "./colorful-star.ts";
@@ -73,17 +73,19 @@ function named<T extends Showable>(name: string, component: T): T {
 const starScene = addScene("7 Pointed Star");
 
 starScene.replaceableComponents!.push(
-  new FourierComponent({
-    description: "Star Fourier",
-    source: GROUPED_SOURCE,
-    destRect: { x: 0.5, y: 1, width: 7, height: 7 },
-    termGroups: "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023",
-    step: [
-      { time: 0, value: 0 },
-      { time: 22_000, value: 11 },
-    ],
-    minDuration: 24_000,
-  }),
+  named(
+    "Star Fourier",
+    new FourierComponent({
+      source: GROUPED_SOURCE,
+      destRect: { x: 0.5, y: 1, width: 7, height: 7 },
+      termGroups: "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023",
+      step: [
+        { time: 0, value: 0 },
+        { time: 22_000, value: 11 },
+      ],
+      minDuration: 24_000,
+    }),
+  ),
 );
 
 // A fixed child:  the Visual Editor can edit it, but not delete it.

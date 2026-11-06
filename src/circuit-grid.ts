@@ -3,12 +3,12 @@ import {
   componentRegistry,
   Keyframe,
   LatticeScheduleInfo,
+  LatticeValue,
   NumberScheduleInfo,
   Showable,
   ShowOptions,
   StringScheduleInfo,
 } from "canvas-recorder-lib";
-import { LatticeValue } from "canvas-recorder-lib/src/lattice";
 import { myRainbow } from "canvas-recorder-lib/src/glib/my-rainbow";
 import { panAndZoom } from "canvas-recorder-lib/src/glib/transforms";
 import {

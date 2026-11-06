@@ -1,4 +1,4 @@
-import { FourierComponent } from "canvas-recorder-lib/src/slide-components/fourier";
+import { FourierComponent } from "canvas-recorder-lib";
 import {
   EVERY_KIND_A_7,
   EVERY_KIND_B_7,

@@ -13,7 +13,7 @@
     "pick-circuits": "node scripts/pick-circuits.ts"
   },
   "dependencies": {
-    "canvas-recorder-lib": "^0.5.0",
+    "canvas-recorder-lib": "^0.6.0",
     "phil-lib": "^1.8.1"
   },
   "devDependencies": {

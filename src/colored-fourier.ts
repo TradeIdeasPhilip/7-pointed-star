@@ -12,7 +12,7 @@
  * @module
  */
 
-import { ease } from "canvas-recorder-lib";
+import { ease, orderTerms, parseTermGroups } from "canvas-recorder-lib";
 import {
   Command,
   LCommand,
@@ -28,10 +28,6 @@ import {
   samplesToFourier,
   termsToParametricFunction,
 } from "canvas-recorder-lib/src/peano-fourier/fourier-shared";
-import {
-  orderTerms,
-  parseTermGroups,
-} from "canvas-recorder-lib/src/slide-components/fourier";
 import {
   assertNonNullable,
   initializedArray,
