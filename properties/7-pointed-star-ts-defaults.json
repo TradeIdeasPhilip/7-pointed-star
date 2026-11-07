@@ -629,7 +629,12 @@
                 "value": "#fbbf24"
               },
               {
-                "description": "Line Width",
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.05
+              },
+              {
+                "description": "Reference Line Width",
                 "type": "number",
                 "value": 0.05
               }
@@ -714,7 +719,12 @@
                 "value": "#22d3ee"
               },
               {
-                "description": "Line Width",
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.05
+              },
+              {
+                "description": "Reference Line Width",
                 "type": "number",
                 "value": 0.05
               }
@@ -799,7 +809,12 @@
                 "value": "#f472b6"
               },
               {
-                "description": "Line Width",
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.05
+              },
+              {
+                "description": "Reference Line Width",
                 "type": "number",
                 "value": 0.05
               }

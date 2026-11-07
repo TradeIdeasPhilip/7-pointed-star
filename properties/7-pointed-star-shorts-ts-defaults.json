@@ -114,7 +114,12 @@
                 "value": "rgb(0, 128, 255)"
               },
               {
-                "description": "Line Width",
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.05
+              },
+              {
+                "description": "Reference Line Width",
                 "type": "number",
                 "value": 0.05
               }

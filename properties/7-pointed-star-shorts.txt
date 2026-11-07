@@ -2,7 +2,7 @@
 → Scratch 1
 → → Min Duration
 TypeScript: 5000
-Current:    60000
+Current:    120000
 → → Top
   [added]
   const top = new StarCircuit({ description: "Top" });
@@ -12,7 +12,7 @@ Current:    60000
   top.circleColorSchedule.set("#8b5cf6");
   top.thinStarColorSchedule.set("#ede9fe");
   top.fatStarColorSchedule.set("#f472b6");
-  top.lineWidthSchedule.set(0.08);
+  top.fourierLineWidthSchedule.set(0.15);
   top.userEditableDescription = "Top";
   scratch1.replaceableComponents!.push(top);
 → → Bottom
@@ -20,10 +20,12 @@ Current:    60000
   const bottom = new StarCircuit({ description: "Bottom" });
   bottom.circuitSchedule.set("Every kind B");
   bottom.fourierRectSchedule.set({"x":1,"y":8.5,"width":7,"height":7});
-  bottom.referenceRectSchedule.set({"x":6.5,"y":7,"width":2,"height":2});
+  bottom.referenceRectSchedule.set([{"time":30000,"value":{"x":1,"y":8.5,"width":7,"height":7}},{"time":35000,"value":{"x":6.5,"y":7,"width":2,"height":2}}]);
+  bottom.stepSchedule.set([{"time":30000,"value":0},{"time":90000,"value":11}]);
   bottom.circleColorSchedule.set("#16a34a");
   bottom.thinStarColorSchedule.set("#ccfbf1");
   bottom.fatStarColorSchedule.set("#22d3ee");
-  bottom.lineWidthSchedule.set(0.08);
+  bottom.fourierLineWidthSchedule.set(0.15);
+  bottom.referenceLineWidthSchedule.set([{"time":30000,"value":0.15},{"time":35000,"value":0.05}]);
   bottom.userEditableDescription = "Bottom";
   scratch1.replaceableComponents!.push(bottom);

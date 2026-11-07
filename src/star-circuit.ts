@@ -26,7 +26,7 @@ export type StarColors = readonly [string, string, string];
 
 /**
  * One Euler circuit of the 7 pointed star, shown twice:  a Fourier animation, and a reference image.
- * Each has its own rectangle, so they can go anywhere, and move while the animation runs.
+ * Each has its own rectangle and line width, so they can go anywhere, and change while the animation runs.
  * One set of colors for both, so they match.
  *
  * The Circuit field takes a name from its suggestions, or the vertices in order, like "0 1 2 0 3 …".
@@ -82,7 +82,16 @@ export class StarCircuit implements Showable {
     "Fat Star Color",
     myRainbow.myBlue,
   );
-  readonly lineWidthSchedule = new NumberScheduleInfo("Line Width", 0.05);
+  /** In units, so it doesn't grow or shrink with the Fourier Rect. */
+  readonly fourierLineWidthSchedule = new NumberScheduleInfo(
+    "Fourier Line Width",
+    0.05,
+  );
+  /** In units, so it doesn't grow or shrink with the Reference Rect. */
+  readonly referenceLineWidthSchedule = new NumberScheduleInfo(
+    "Reference Line Width",
+    0.05,
+  );
   readonly schedules = [
     this.circuitSchedule,
     this.fourierRectSchedule,
@@ -95,7 +104,8 @@ export class StarCircuit implements Showable {
     this.circleColorSchedule,
     this.thinStarColorSchedule,
     this.fatStarColorSchedule,
-    this.lineWidthSchedule,
+    this.fourierLineWidthSchedule,
+    this.referenceLineWidthSchedule,
   ] as const;
   constructor(
     initialValues: {
@@ -108,7 +118,8 @@ export class StarCircuit implements Showable {
       circleColor?: string | readonly Keyframe<string>[];
       thinStarColor?: string | readonly Keyframe<string>[];
       fatStarColor?: string | readonly Keyframe<string>[];
-      lineWidth?: number | readonly Keyframe<number>[];
+      fourierLineWidth?: number | readonly Keyframe<number>[];
+      referenceLineWidth?: number | readonly Keyframe<number>[];
     } = {},
   ) {
     this.description = initialValues.description ?? "Star Circuit";
@@ -129,8 +140,10 @@ export class StarCircuit implements Showable {
       this.thinStarColorSchedule.set(initialValues.thinStarColor);
     if (initialValues.fatStarColor !== undefined)
       this.fatStarColorSchedule.set(initialValues.fatStarColor);
-    if (initialValues.lineWidth !== undefined)
-      this.lineWidthSchedule.set(initialValues.lineWidth);
+    if (initialValues.fourierLineWidth !== undefined)
+      this.fourierLineWidthSchedule.set(initialValues.fourierLineWidth);
+    if (initialValues.referenceLineWidth !== undefined)
+      this.referenceLineWidthSchedule.set(initialValues.referenceLineWidth);
   }
 
   /** The last Circuit text read, and what it meant.  Never more than one entry. */
@@ -184,7 +197,7 @@ export class StarCircuit implements Showable {
         this.fourierRectSchedule.at(timeInMs),
         "meet",
       );
-      context.lineWidth = this.lineWidthSchedule.at(timeInMs);
+      context.lineWidth = this.fourierLineWidthSchedule.at(timeInMs);
       drawColoredFrame(context, frame, coloredSource(circuit).runs, fit, colors);
     }
   }
@@ -205,7 +218,7 @@ export class StarCircuit implements Showable {
       this.referenceRectSchedule.at(timeInMs),
       "meet",
     );
-    context.lineWidth = this.lineWidthSchedule.at(timeInMs);
+    context.lineWidth = this.referenceLineWidthSchedule.at(timeInMs);
     drawRoundedCircuit(context, circuit, fit, settings, colors);
   }
 }
