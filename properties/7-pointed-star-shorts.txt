@@ -1,0 +1,29 @@
+7 Pointed Star Shorts
+→ Scratch 1
+→ → Min Duration
+TypeScript: 5000
+Current:    60000
+→ → Top
+  [added]
+  const top = new StarCircuit({ description: "Top" });
+  top.circuitSchedule.set("Interleaved");
+  top.fourierRectSchedule.set({"x":1,"y":0.5,"width":7,"height":7});
+  top.referenceRectSchedule.set({"x":0.5,"y":7,"width":2,"height":2});
+  top.circleColorSchedule.set("#8b5cf6");
+  top.thinStarColorSchedule.set("#ede9fe");
+  top.fatStarColorSchedule.set("#f472b6");
+  top.lineWidthSchedule.set(0.08);
+  top.userEditableDescription = "Top";
+  scratch1.replaceableComponents!.push(top);
+→ → Bottom
+  [added]
+  const bottom = new StarCircuit({ description: "Bottom" });
+  bottom.circuitSchedule.set("Every kind B");
+  bottom.fourierRectSchedule.set({"x":1,"y":8.5,"width":7,"height":7});
+  bottom.referenceRectSchedule.set({"x":6.5,"y":7,"width":2,"height":2});
+  bottom.circleColorSchedule.set("#16a34a");
+  bottom.thinStarColorSchedule.set("#ccfbf1");
+  bottom.fatStarColorSchedule.set("#22d3ee");
+  bottom.lineWidthSchedule.set(0.08);
+  bottom.userEditableDescription = "Bottom";
+  scratch1.replaceableComponents!.push(bottom);

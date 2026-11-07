@@ -1,0 +1,144 @@
+{
+  "formatVersion": 2,
+  "videoKey": "7-pointed-star-shorts",
+  "tree": {
+    "description": "7 Pointed Star Shorts",
+    "fixedComponents": [
+      {
+        "description": "Scratch 1",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 60000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Interleaved"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1,
+                  "y": 0.5,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0.5,
+                  "y": 7,
+                  "width": 2,
+                  "height": 2
+                }
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "#8b5cf6"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "#ede9fe"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "#f472b6"
+              },
+              {
+                "description": "Line Width",
+                "type": "number",
+                "value": 0.08
+              }
+            ],
+            "userEditableDescription": "Top"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Every kind B"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1,
+                  "y": 8.5,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 6.5,
+                  "y": 7,
+                  "width": 2,
+                  "height": 2
+                }
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "#16a34a"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "#ccfbf1"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "#22d3ee"
+              },
+              {
+                "description": "Line Width",
+                "type": "number",
+                "value": 0.08
+              }
+            ],
+            "userEditableDescription": "Bottom"
+          }
+        ]
+      }
+    ]
+  }
+}

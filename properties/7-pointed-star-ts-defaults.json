@@ -33,7 +33,8 @@
                   "height": 9
                 }
               }
-            ]
+            ],
+            "userEditableDescription": "Background"
           },
           {
             "registryKey": "Fourier",
@@ -97,11 +98,9 @@
             ],
             "components": [],
             "userEditableDescription": "Star Fourier"
-          }
-        ],
-        "fixedComponents": [
+          },
           {
-            "description": "Colorful Star",
+            "registryKey": "Colorful Star",
             "schedules": [
               {
                 "description": "Dest Rect",
@@ -133,7 +132,8 @@
                 "type": "number",
                 "value": 0.05
               }
-            ]
+            ],
+            "userEditableDescription": "Colorful Star"
           }
         ]
       },
@@ -165,12 +165,11 @@
                   "height": 9
                 }
               }
-            ]
-          }
-        ],
-        "fixedComponents": [
+            ],
+            "userEditableDescription": "Background"
+          },
           {
-            "description": "Pairings",
+            "registryKey": "Vertex Pairings",
             "schedules": [
               {
                 "description": "Dest Rect",
@@ -247,7 +246,8 @@
                 "type": "color",
                 "value": "#999"
               }
-            ]
+            ],
+            "userEditableDescription": "Pairings"
           }
         ]
       },
@@ -279,12 +279,11 @@
                   "height": 9
                 }
               }
-            ]
-          }
-        ],
-        "fixedComponents": [
+            ],
+            "userEditableDescription": "Background"
+          },
           {
-            "description": "Left Star",
+            "registryKey": "Rounded Star",
             "schedules": [
               {
                 "description": "Circuit",
@@ -346,10 +345,11 @@
                 "type": "color",
                 "value": "#999"
               }
-            ]
+            ],
+            "userEditableDescription": "Left Star"
           },
           {
-            "description": "Right Star",
+            "registryKey": "Rounded Star",
             "schedules": [
               {
                 "description": "Circuit",
@@ -411,7 +411,8 @@
                 "type": "color",
                 "value": "#999"
               }
-            ]
+            ],
+            "userEditableDescription": "Right Star"
           }
         ]
       },
@@ -443,7 +444,8 @@
                   "height": 9
                 }
               }
-            ]
+            ],
+            "userEditableDescription": "Background"
           },
           {
             "registryKey": "Circuit Grid",
@@ -546,7 +548,8 @@
                   "height": 9
                 }
               }
-            ]
+            ],
+            "userEditableDescription": "Background"
           },
           {
             "registryKey": "Star Circuit",
@@ -1238,7 +1241,8 @@
                   "height": 9
                 }
               }
-            ]
+            ],
+            "userEditableDescription": "Background"
           }
         ]
       },
@@ -1270,7 +1274,8 @@
                   "height": 9
                 }
               }
-            ]
+            ],
+            "userEditableDescription": "Background"
           }
         ]
       },
@@ -1302,7 +1307,8 @@
                   "height": 9
                 }
               }
-            ]
+            ],
+            "userEditableDescription": "Background"
           }
         ]
       }

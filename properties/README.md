@@ -3,7 +3,7 @@
 Saved Visual Editor state, so it's in git.
 The editor always saves your work inside the browser (IndexedDB), but that isn't visible to git.
 
-Three file types, all named after the `name` passed to `canvasRecorder.start()`, `7-pointed-star`:
+Three file types for each video, all named after the `name` passed to `canvasRecorder.start()`:  `7-pointed-star` or `7-pointed-star-shorts`.
 
 | File | What it is |
 | --- | --- |
@@ -12,4 +12,4 @@ Three file types, all named after the `name` passed to `canvasRecorder.start()`,
 | `<name>.txt` | A **diff**, not a log — a human-readable comparison of the live tree against the TypeScript defaults. Produced by the "Save Diffs" button. The `.txt` extension hides this, hence this table. |
 
 To fill this folder, use **💾 Save As**, the **Save defaults** checkbox, and **Save Diffs**, pointing each at this folder.
-The browser remembers each choice, so after the first time they keep saving here.
+The browser remembers each choice, for each video, so after the first time they keep saving here.

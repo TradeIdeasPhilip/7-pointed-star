@@ -1,6 +1,7 @@
 import { ReadOnlyRect } from "phil-lib/misc";
 import {
   ColorScheduleInfo,
+  componentRegistry,
   Keyframe,
   NumberScheduleInfo,
   RectangleScheduleInfo,
@@ -56,9 +57,10 @@ const PAIR_COLORS = [myRainbow.yellow, myRainbow.cyan, myRainbow.magenta];
  * Each edge keeps its own color up to the middle of the turn.
  * With nothing rounded, every pairing looks the same:  six lines meeting at a point.
  *
- * Not in the component registry.  Add it to a parent with `add()`, as a fixed child.
+ * In the component registry as "Vertex Pairings".
  */
 export class VertexPairings implements Showable {
+  readonly registryKey = "Vertex Pairings";
   readonly description: string;
   readonly duration = 0;
   /** All 15 closeups fit inside this, in 5 columns and 3 rows. */
@@ -202,3 +204,14 @@ export class VertexPairings implements Showable {
     });
   }
 }
+
+// MARK: Registry
+
+componentRegistry.set("Vertex Pairings", {
+  create() {
+    return new VertexPairings();
+  },
+  description:
+    "Closeups of one vertex:  all 15 ways a circuit can pass through it, in a 5 × 3 grid.",
+  howToGenerate: { type: "class", class: VertexPairings },
+});

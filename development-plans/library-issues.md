@@ -9,8 +9,10 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
 ## Setup and docs
 
 3. **There's no list of the files a new project needs.**
-   This project copied them from affine-transforms and simple-video-editor:  `package.json`, `tsconfig.json`, `vite.config.js`, `index.html`, `public/icon.png`, `.gitignore` and `properties/README.md`.
-   And `.github/workflows/deploy.yml` from riemann-surfaces-3d, for GitHub Pages.  The README mentions a GitHub Pages deploy, but doesn't show one.
+   Note:  The samples in the same repository as the library are not suitable for copying as is for multiple reasons.
+   Currently the best place to get started is to [degit](https://github.com/Rich-Harris/degit) this project.
+   There are some other sample projects in work, but this one is currently in the best shape.
+   The readme should point to one or more good examples.
 
 ## API
 
@@ -37,6 +39,10 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    Star Circuit wants to show its own messages, and eventually a panel for choosing a circuit one vertex at a time.  See `circuit-editor.md`.
    The only general hook is `Showable.rootComponentEditor`, and only for a root.
    Plan:  the same interface on any Showable, as an optional `editorPanel` field.  See `editor-panels.md`.
+20. **A project with more than one video has to write its own menu.**
+   canvas-recorder had `?toShow=` and a list of links built in.  In this library, `canvasRecorder.start()` takes one Showable, so this project's `src/main.ts` does it, in about 30 lines.
+   That part is fine, and it's a good pattern to copy.  Maybe something like `canvasRecorder.startMenu()`, and a section in the README.
+   The player has no link back to the menu.  This project's menu opens each video in a new tab instead.
 
 ## Bugs
 
@@ -45,6 +51,15 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    For a closed curve, `i / N` would space the samples evenly.
    This project doesn't use it.
    Planned for the library's 1.0.0:  see its `development-plans/release-1.0.md`.
+21. **The player's sessionStorage isn't kept per video.**
+   The keys in `dev/canvas-recorder.ts` are plain names:  `"index"`, `"timeInSeconds"`, `"zoomSelect"`, `"panX"` and so on.
+   Open one video, then another in the same tab, and the second opens at the first one's chapter number and time.
+   In this project, choosing Three Circuits in the main video made the Shorts video open on Scratch 3, with the play range of that chapter.
+   `"pendingScheduleSave"` is shared too.  Its backup carries the video's key, so the wrong video won't apply it, but the next load clears it, so a backup for the first video is lost.
+   The IndexedDB write usually covers that.  The comments say a dirty preview's content lives only in the backup.
+   Fix:  add `startRequest.name` to every sessionStorage key, the way `videoSizeStorageKey` does for localStorage.
+22. **The Paste button's tooltip uses the wrong name.**
+   A child row's button says `Paste into "Slide"`, from `child.description`, while the row itself says "Pan and Scan", from `userEditableDescription`.
 
 ## Build
 

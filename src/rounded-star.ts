@@ -1,6 +1,7 @@
 import { ReadOnlyRect } from "phil-lib/misc";
 import {
   ColorScheduleInfo,
+  componentRegistry,
   Keyframe,
   NumberScheduleInfo,
   RectangleScheduleInfo,
@@ -105,9 +106,10 @@ export function drawRoundedCircuit(
  *
  * Only for reference images.  Never mixed with a Fourier animation.
  *
- * Not in the component registry.  Add it to a parent with `add()`, as a fixed child.
+ * In the component registry as "Rounded Star".
  */
 export class RoundedStar implements Showable {
+  readonly registryKey = "Rounded Star";
   readonly description: string;
   readonly duration = 0;
   readonly circuitSchedule = new SelectScheduleInfo(
@@ -226,3 +228,14 @@ export class RoundedStar implements Showable {
     }
   }
 }
+
+// MARK: Registry
+
+componentRegistry.set("Rounded Star", {
+  create() {
+    return new RoundedStar();
+  },
+  description:
+    "One whole circuit with every corner rounded, and each vertex's pairing number.  It doesn't move.",
+  howToGenerate: { type: "class", class: RoundedStar },
+});

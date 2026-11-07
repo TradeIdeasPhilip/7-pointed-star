@@ -1,6 +1,7 @@
 import { ReadOnlyRect } from "phil-lib/misc";
 import {
   ColorScheduleInfo,
+  componentRegistry,
   Keyframe,
   NumberScheduleInfo,
   RectangleScheduleInfo,
@@ -27,11 +28,10 @@ const STAR_BOUNDS: ReadOnlyRect = { x: -1, y: -1, width: 2, height: 2 };
  * It draws from the circuit's edge records, the same records a multi-color
  * Fourier will use to decide where each color starts and stops.
  *
- * Not in the component registry.  Add it to a parent with `add()`, as a fixed
- * child.  The Visual Editor can still edit and save its schedules, matched by
- * `description`.
+ * In the component registry as "Colorful Star".
  */
 export class ColorfulStar implements Showable {
+  readonly registryKey = "Colorful Star";
   readonly description: string;
   readonly duration = 0;
   /** The star fits inside this, centered, keeping its shape. */
@@ -115,3 +115,14 @@ export class ColorfulStar implements Showable {
     }
   }
 }
+
+// MARK: Registry
+
+componentRegistry.set("Colorful Star", {
+  create() {
+    return new ColorfulStar();
+  },
+  description:
+    "The finished 7 pointed star, in three colors, not animated.",
+  howToGenerate: { type: "class", class: ColorfulStar },
+});

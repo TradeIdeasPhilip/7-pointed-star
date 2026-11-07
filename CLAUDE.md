@@ -25,7 +25,7 @@ That code did the pentagram (132 circuits, 28 unique) and the hexagram (372, 66)
 ## Commands
 
 ```bash
-npm run dev             # Vite dev server on http://localhost:5178 (fixed port; the editor's saved state is per origin)
+npm run dev             # Vite dev server on http://localhost:5178 (fixed port; the editor's saved state is per origin).  Opens a menu of the videos.
 npm run build           # tsc + vite build → dist/ (gitignored)
 npm run count-circuits  # Count the Euler circuits for 5, 6 and 7 points.  Plain Node, no browser.
 npm run find-vertex-types  # How common each vertex pairing is, and pairs of circuits that show every kind.  About 25 seconds.
@@ -37,6 +37,7 @@ No test runner, no linter.  TypeScript errors surface in the IDE and on `npm run
 ## Publishing
 
 Every push to `master` builds the site and publishes it to GitHub Pages:  https://tradeideasphilip.github.io/7-pointed-star/
+That's the menu.  Add `?toShow=7-pointed-star` or `?toShow=7-pointed-star-shorts` to go straight to a video.
 The workflow is `.github/workflows/deploy.yml`, copied from riemann-surfaces-3d.
 `dist/` is never committed.  To redeploy without a new commit:  Actions → Deploy to GitHub Pages → Run workflow.
 
@@ -47,7 +48,10 @@ One-time setup, in the GitHub repo:  Settings → Pages → Build and deployment
 
 ## Layout
 
-- `src/main.ts`:  the root, an InSeriesComponent of scenes.  Each scene is a fixed child with its own black background.  Starts the editor with `name: "7-pointed-star"`.
+- `src/main.ts`:  chooses the video.  `?toShow=` names one; without it, the page shows a menu.  Each video's code loads only when it's chosen.
+  A video's key is also the `name` given to `canvasRecorder.start()`, so it names the saved work and the files in `properties/`.  Don't change one.
+  Menu links open new tabs, because the player's sessionStorage isn't kept per video.  See `library-issues.md`, item 21.
+- `src/full-video.ts`:  the main video, `?toShow=7-pointed-star`.  16 × 9 units, 3840 × 2160 pixels.  The root is an InSeriesComponent of scenes.  Each scene is a fixed child with its own black background.
   1. "7 Pointed Star":  the Fourier star and the colorful star.
   2. "Vertex Pairings":  closeups of the top vertex.
   3. "Every Kind of Vertex":  two whole circuits with rounded corners, that between them show every kind of vertex.
@@ -55,19 +59,26 @@ One-time setup, in the GitHub repo:  Settings → Pages → Build and deployment
   5. "Three Circuits":  three Star Circuits, laid out like Peano vs Fourier, each in its own colors, plus a Multi Text label for each.
   6. "Scratch 1", "Scratch 2", "Scratch 3":  only a background.  The author fills these from the Visual Editor.
   The editor matches saved state by description, starting at the root.  Renaming or wrapping the root drops the saved state.
-  The author prefers components added as replaceable children, so the Visual Editor can change or delete them, and labels separate from what they label.
+  The author prefers components added as replaceable children, so the Visual Editor can change, copy or delete them, and labels separate from what they label.
+  The author's plan:  a few template slides that always match the TypeScript defaults, so the diff file says nothing about them.  Copy a template, or part of one, from the GUI to a blank slide, in either video.
   A replaceable child's constructor `description` is lost when the editor reloads it from the registry.  `named()` sets `userEditableDescription`, which is saved.
+- `src/shorts.ts`:  every portrait video, `?toShow=7-pointed-star-shorts`, for YouTube Shorts.  9 × 16 units, 1080 × 1920 pixels, size locked.  Previews of the main video, one or more scenes each.
+  1. "Portrait Template":  one Star Circuit and a label, laid out for a phone.
+  2. "Pan and Scan Template":  an empty Slide that moves slowly across a 16 × 9 picture.  Paste a whole slide from the main video into it.
+  3. "Scratch 1", "Scratch 2", "Scratch 3":  only a background.
+- `src/scenes.ts`:  `addScene()` and `named()`, shared by the videos.  Set `canvasRecorder.size` before `addScene()`, because the background fills the canvas.
+- `src/all-components.ts`:  imports every custom component, so any video can insert or paste any of them.  Add each new component here.
 - `src/euler-circuits.ts`:  graph math only, no imports, so Node can run it.  Hand picked circuits (`GROUPED_7`, `INTERLEAVED_7`), the search, the duplicate filter.
   Node only strips types, so this file (and `scripts/`) can't use enums or constructor parameter properties.  `erasableSyntaxOnly` in tsconfig enforces that.
 - `src/star-path.ts`:  circuit → `PathShape`, plus a record of which commands came from which edge.  Those records say where each color starts and stops.
 - `src/star-sources.ts`:  registers the circuits as `FourierComponent.sources`.  Import it before constructing any FourierComponent.
-- `src/colorful-star.ts`:  the finished picture in three colors, not animated.  A fixed child, not in the component registry.
+- `src/colorful-star.ts`:  the finished picture in three colors, not animated.  Registered as "Colorful Star".
 - `src/vertex-corners.ts`:  the rounded corners at one vertex.  Shared by the next two.
   Each pair of edges gets a level:  how many pairs in its way (surrounding it, or crossing it and wider) stay closer to the vertex.
   The cut back along each edge is Corner Size × (Rounding + level × Rounding Step).  For reference images only, never mixed with a Fourier animation.
-- `src/vertex-pairings.ts`:  all 15 ways to pair off the 6 edges at the top vertex, in a 5 × 3 grid, numbered 1 to 15 by rows.
+- `src/vertex-pairings.ts`:  all 15 ways to pair off the 6 edges at the top vertex, in a 5 × 3 grid, numbered 1 to 15 by rows.  Registered as "Vertex Pairings".
   The numbers are `VERTEX_PAIRINGS_7` in `euler-circuits.ts`.  Mirror images:  2 and 6, 3 and 11, 4 and 12, 9 and 13.  So 11 kinds.
-- `src/rounded-star.ts`:  one whole circuit with every corner rounded, and each vertex's pairing number.  The Circuit field picks from a short list.
+- `src/rounded-star.ts`:  one whole circuit with every corner rounded, and each vertex's pairing number.  The Circuit field picks from a short list.  Registered as "Rounded Star".
   `drawRoundedCircuit()` draws a reference image into any rectangle.
 - `src/colored-fourier.ts`:  the multi-color Fourier.  Each frame is drawn in pieces, by `t`, each piece the color of the edges it becomes.
   Sample i is at t = i / N, and each edge starts with a sample at its first vertex, so each run of same colored edges covers a known range of `t`.

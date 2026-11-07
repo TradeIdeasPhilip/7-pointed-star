@@ -1,0 +1,478 @@
+{
+  "formatVersion": 2,
+  "videoKey": "7-pointed-star-shorts",
+  "tree": {
+    "description": "7 Pointed Star Shorts",
+    "components": [],
+    "fixedComponents": [
+      {
+        "description": "Portrait Template",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 24000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Every kind A"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1.1,
+                  "y": 6,
+                  "width": 6.8,
+                  "height": 6.8
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 4.5,
+                  "y": 2.4,
+                  "width": 3.4,
+                  "height": 3.4
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 22000,
+                    "value": 11
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "value": 0.4
+              },
+              {
+                "description": "Rounding",
+                "type": "number",
+                "value": 0.6
+              },
+              {
+                "description": "Rounding Step",
+                "type": "number",
+                "value": 0.25
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "rgb(255, 0, 0)"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "white"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "rgb(0, 128, 255)"
+              },
+              {
+                "description": "Line Width",
+                "type": "number",
+                "value": 0.05
+              }
+            ],
+            "userEditableDescription": "Circuit"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 2.8,
+                  "y": 4.1
+                }
+              },
+              {
+                "description": "Alignment",
+                "type": "select",
+                "value": "center"
+              },
+              {
+                "description": "Anchor X",
+                "type": "select",
+                "value": "center"
+              },
+              {
+                "description": "Baseline",
+                "type": "select",
+                "value": "middle"
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 7.5
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 4
+              },
+              {
+                "description": "Additional Line Height",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              },
+              {
+                "description": "Rotation",
+                "type": "select",
+                "value": "none"
+              },
+              {
+                "description": "Width Mode",
+                "type": "select",
+                "value": "unbounded"
+              },
+              {
+                "description": "Height Mode",
+                "type": "select",
+                "value": "unbounded"
+              },
+              {
+                "description": "May Grow",
+                "type": "select",
+                "value": "shrink or grow"
+              },
+              {
+                "description": "Auto Size",
+                "type": "select",
+                "value": "live"
+              },
+              {
+                "description": "Frozen Size",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "rgb(0, 128, 255)"
+                  },
+                  {
+                    "description": "Font Size",
+                    "type": "number",
+                    "value": 0.5
+                  },
+                  {
+                    "description": "Boldness",
+                    "type": "number",
+                    "value": 1
+                  },
+                  {
+                    "description": "Obliqueness",
+                    "type": "number",
+                    "value": 0
+                  },
+                  {
+                    "description": "Alpha",
+                    "type": "number",
+                    "value": 1
+                  }
+                ],
+                "scalars": [
+                  {
+                    "description": "Name",
+                    "type": "string",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "Circuit 1"
+                  },
+                  {
+                    "description": "Style",
+                    "type": "string",
+                    "value": ""
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Label"
+          }
+        ]
+      },
+      {
+        "description": "Pan and Scan Template",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 24000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Slide",
+            "schedules": [
+              {
+                "description": "Alpha",
+                "type": "number",
+                "value": 1
+              },
+              {
+                "description": "𝓐",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 24000,
+                    "value": -7
+                  }
+                ]
+              },
+              {
+                "description": "𝓑",
+                "type": "number",
+                "value": 3.5
+              },
+              {
+                "description": "𝓒",
+                "type": "number",
+                "value": 1
+              },
+              {
+                "description": "𝓓",
+                "type": "number",
+                "value": 1
+              },
+              {
+                "description": "𝓔",
+                "type": "number",
+                "value": 1
+              },
+              {
+                "description": "𝓕",
+                "type": "number",
+                "value": 1
+              },
+              {
+                "description": "𝓖",
+                "type": "number",
+                "value": 1
+              },
+              {
+                "description": "𝓗",
+                "type": "number",
+                "value": 1
+              },
+              {
+                "description": "𝓘",
+                "type": "number",
+                "value": 1
+              },
+              {
+                "description": "𝓙",
+                "type": "number",
+                "value": 1
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              },
+              {
+                "description": "Transform Template",
+                "type": "string",
+                "value": "translate(𝓐px, 𝓑px) scale(𝓒)"
+              }
+            ],
+            "components": [],
+            "userEditableDescription": "Pan and Scan"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 1",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 2",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 3",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      }
+    ]
+  }
+}
