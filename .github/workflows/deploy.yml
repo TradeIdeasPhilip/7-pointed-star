@@ -1,6 +1,9 @@
-# Build the site and publish it to GitHub Pages on every push to master.
+# Build the site and publish it to GitHub Pages on every push to master:
+#   /                 the menu, and every video
+#   /build-info.txt   which commit is live:  its URL, its date, and its title, one per line
 # The compiled output never gets committed.  See CLAUDE.md, "Publishing".
-# Copied from riemann-surfaces-3d.
+# Copied from riemann-surfaces-3d, and build-info.txt from canvas-recorder-lib's docs.yml.
+# One-time setup:  Settings → Pages → Source:  "GitHub Actions".
 name: Deploy to GitHub Pages
 
 on:
@@ -31,6 +34,10 @@ jobs:
       - run: npm ci
       # Type checks with tsc, then builds into dist/.
       - run: npm run build
+      # A failed build or deploy leaves the old site up, build-info.txt included, so this always
+      # says what's really live.  Compare its first line with the newest commit on master.
+      - name: Build info
+        run: git log -1 --format="https://github.com/${{ github.repository }}/commit/%H%n%cI%n%s" > dist/build-info.txt
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:

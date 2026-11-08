@@ -44,6 +44,8 @@ The workflow is `.github/workflows/deploy.yml`, copied from riemann-surfaces-3d.
 One-time setup, in the GitHub repo:  Settings → Pages → Build and deployment → Source:  GitHub Actions.
 
 `npm run build` runs `tsc` first, so a type error fails the deploy, and the live site keeps the last good version.
+Each deploy also writes https://tradeideasphilip.github.io/7-pointed-star/build-info.txt:  the live commit's URL, date and title, one per line.
+If its first line isn't the newest commit on `master`, the last deploy failed.  git-all-status checks this.
 `npm ci` on GitHub uses the published library, so don't deploy code that needs an unpublished library change.
 
 ## Layout

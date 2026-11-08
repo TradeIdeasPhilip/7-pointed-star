@@ -1,18 +1,10 @@
 # canvas-recorder-lib issues
 
-Things this project ran into with canvas-recorder-lib.  It's on 0.6.0 now.
+Things this project ran into with canvas-recorder-lib.  It's on 0.7.0 now.
 None of them block this project.  We'll go through them together when the video is done.
 
 Fixed in 0.6.0, and removed from this list:  1, 2, 4, 5, 6, 9, 12, 14, 16, 17, 18 and 19.
 The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the same thing.
-
-## Setup and docs
-
-3. **There's no list of the files a new project needs.**
-   Note:  The samples in the same repository as the library are not suitable for copying as is for multiple reasons.
-   Currently the best place to get started is to [degit](https://github.com/Rich-Harris/degit) this project.
-   There are some other sample projects in work, but this one is currently in the best shape.
-   The readme should point to one or more good examples.
 
 ## API
 
