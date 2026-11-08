@@ -41,7 +41,7 @@
               {
                 "description": "Circuit",
                 "type": "string",
-                "value": "Interleaved"
+                "value": "Forward Backward Forward"
               },
               {
                 "description": "Fourier Rect",
@@ -56,12 +56,92 @@
               {
                 "description": "Reference Rect",
                 "type": "rectangle",
-                "value": {
-                  "x": 0.5,
-                  "y": 7,
-                  "width": 2,
-                  "height": 2
-                }
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": {
+                      "x": 0.5,
+                      "y": 7,
+                      "width": 2,
+                      "height": 2
+                    }
+                  },
+                  {
+                    "time": 1500,
+                    "value": {
+                      "x": 1,
+                      "y": 0.5,
+                      "width": 7,
+                      "height": 7
+                    }
+                  },
+                  {
+                    "time": 10000,
+                    "value": {
+                      "x": 1,
+                      "y": 0.5,
+                      "width": 7,
+                      "height": 7
+                    },
+                    "easeAfter": "easeOut"
+                  },
+                  {
+                    "time": 16000,
+                    "value": {
+                      "x": 0.5,
+                      "y": 7,
+                      "width": 2,
+                      "height": 2
+                    }
+                  }
+                ]
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10-19, 20-39, 40-99, 100-299, 300-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 12300,
+                    "value": 0
+                  },
+                  {
+                    "time": 120000,
+                    "value": 15
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 1000,
+                    "value": 0
+                  },
+                  {
+                    "time": 5150,
+                    "value": 0.4
+                  }
+                ]
+              },
+              {
+                "description": "Rounding",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 1000,
+                    "value": 0
+                  },
+                  {
+                    "time": 5150,
+                    "value": 0.6
+                  }
+                ]
               },
               {
                 "description": "Circle Color",
@@ -82,6 +162,28 @@
                 "description": "Fourier Line Width",
                 "type": "number",
                 "value": 0.15
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0.05
+                  },
+                  {
+                    "time": 1500,
+                    "value": 0.15
+                  },
+                  {
+                    "time": 10000,
+                    "value": 0.15
+                  },
+                  {
+                    "time": 16000,
+                    "value": 0.05
+                  }
+                ]
               }
             ],
             "userEditableDescription": "Top"
@@ -92,7 +194,7 @@
               {
                 "description": "Circuit",
                 "type": "string",
-                "value": "Every kind B"
+                "value": "All Forward"
               },
               {
                 "description": "Fourier Rect",
@@ -109,7 +211,16 @@
                 "type": "rectangle",
                 "keyframes": [
                   {
-                    "time": 30000,
+                    "time": 0,
+                    "value": {
+                      "x": 6.5,
+                      "y": 7,
+                      "width": 2,
+                      "height": 2
+                    }
+                  },
+                  {
+                    "time": 1500,
                     "value": {
                       "x": 1,
                       "y": 8.5,
@@ -118,7 +229,17 @@
                     }
                   },
                   {
-                    "time": 35000,
+                    "time": 10000,
+                    "value": {
+                      "x": 1,
+                      "y": 8.5,
+                      "width": 7,
+                      "height": 7
+                    },
+                    "easeAfter": "easeOut"
+                  },
+                  {
+                    "time": 16000,
                     "value": {
                       "x": 6.5,
                       "y": 7,
@@ -129,16 +250,49 @@
                 ]
               },
               {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10-19, 20-39, 40-99, 100-299, 300-1023"
+              },
+              {
                 "description": "Step",
                 "type": "number",
                 "keyframes": [
                   {
-                    "time": 30000,
+                    "time": 12300,
                     "value": 0
                   },
                   {
-                    "time": 90000,
-                    "value": 11
+                    "time": 120000,
+                    "value": 15
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 1000,
+                    "value": 0
+                  },
+                  {
+                    "time": 5150,
+                    "value": 0.4
+                  }
+                ]
+              },
+              {
+                "description": "Rounding",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 1000,
+                    "value": 0
+                  },
+                  {
+                    "time": 5150,
+                    "value": 0.6
                   }
                 ]
               },
@@ -167,11 +321,19 @@
                 "type": "number",
                 "keyframes": [
                   {
-                    "time": 30000,
+                    "time": 0,
+                    "value": 0.05
+                  },
+                  {
+                    "time": 1500,
                     "value": 0.15
                   },
                   {
-                    "time": 35000,
+                    "time": 10000,
+                    "value": 0.15
+                  },
+                  {
+                    "time": 16000,
                     "value": 0.05
                   }
                 ]
@@ -179,7 +341,47 @@
             ],
             "userEditableDescription": "Bottom"
           }
+        ],
+        "soundClips": [
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-07 22-24-31.423.wav",
+            "startMsIntoScene": 0,
+            "startMsIntoClip": 9996.095433,
+            "lengthMs": 11973.3
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-08 00-06-36.848.wav",
+            "startMsIntoScene": 13852.931083,
+            "startMsIntoClip": 414.01973,
+            "lengthMs": 20455.969
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-08 00-36-47.054.wav",
+            "startMsIntoScene": 36933.7,
+            "startMsIntoClip": 434.037267,
+            "lengthMs": 31072.8
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-08 00-40-39.938.wav",
+            "startMsIntoScene": 79056.9,
+            "startMsIntoClip": 436.331905,
+            "lengthMs": 9728
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-08 00-41-44.137.wav",
+            "startMsIntoScene": 92946.688109,
+            "startMsIntoClip": 431.789879,
+            "lengthMs": 22560
+          }
         ]
+      }
+    ],
+    "soundClips": [
+      {
+        "source": "local:7-pointed-star-shorts 2026-11-07 22-04-19.533.wav",
+        "startMsIntoScene": 0,
+        "startMsIntoClip": 427.595158,
+        "lengthMs": 16522.666667
       }
     ]
   }

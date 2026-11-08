@@ -178,13 +178,27 @@ assertEulerCircuit(7, STEPS_7, EVERY_KIND_A_7);
 assertEulerCircuit(7, STEPS_7, EVERY_KIND_B_7);
 RANDOM_7.forEach((circuit) => assertEulerCircuit(7, STEPS_7, circuit));
 
+export const ALL_FORWARD: Circuit = circuitFromSteps(
+  7,
+  [1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3],
+);
+
+export const FORWARD_BACKWARD_FORWARD: Circuit = circuitFromSteps(
+  7,
+  [1, 1, 1, 1, 1, 1, 1, -2, -2, -2, -2, -2, -2, -2, 3, 3, 3, 3, 3, 3, 3],
+);
+
 /** Every hand picked circuit, by the name a person can type to ask for it. */
 export const NAMED_CIRCUITS_7: ReadonlyMap<string, Circuit> = new Map([
+  ["All Forward", ALL_FORWARD],
+  ["Forward Backward Forward", FORWARD_BACKWARD_FORWARD],
   ["Every kind A", EVERY_KIND_A_7],
   ["Every kind B", EVERY_KIND_B_7],
   ["Grouped", GROUPED_7],
   ["Interleaved", INTERLEAVED_7],
-  ...RANDOM_7.map((circuit, index) => [`Random ${index + 1}`, circuit] as const),
+  ...RANDOM_7.map(
+    (circuit, index) => [`Random ${index + 1}`, circuit] as const,
+  ),
 ]);
 
 /**
@@ -253,7 +267,10 @@ export function forEachEulerCircuit(
     throw new Error("Too many edges for a 32 bit mask.");
   }
   /** For each vertex, its neighbors and the edge numbers that lead to them. */
-  const neighbors = Array.from({ length: n }, () => new Array<[number, number]>());
+  const neighbors = Array.from(
+    { length: n },
+    () => new Array<[number, number]>(),
+  );
   edges.forEach(([a, b], index) => {
     neighbors[a].push([b, index]);
     neighbors[b].push([a, index]);

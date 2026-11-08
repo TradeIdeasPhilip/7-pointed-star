@@ -2,6 +2,389 @@
   "formatVersion": 2,
   "videoKey": "7-pointed-star",
   "tree": {
-    "description": "7 Pointed Star Video"
+    "description": "7 Pointed Star Video",
+    "fixedComponents": [
+      {
+        "description": "7 Pointed Star",
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 16,
+                  "height": 9
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Fourier",
+            "schedules": [
+              {
+                "description": "Source",
+                "type": "select",
+                "value": "7-Star: grouped"
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 22000,
+                    "value": 11
+                  }
+                ]
+              },
+              {
+                "description": "Dest Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0.5,
+                  "y": 1,
+                  "width": 7,
+                  "height": 7
+                }
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 24000
+              }
+            ],
+            "userEditableDescription": "Star Fourier"
+          }
+        ]
+      },
+      {
+        "description": "Vertex Pairings",
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 16,
+                  "height": 9
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Every Kind of Vertex",
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 16,
+                  "height": 9
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Circuit Grid",
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 16,
+                  "height": 9
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Three Circuits",
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 16,
+                  "height": 9
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 1.156787834,
+                  "y": 2.264549333
+                }
+              },
+              {
+                "description": "Baseline",
+                "type": "select",
+                "value": "middle"
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 3.590597181008901
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 0.7869065281899106
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Rotation",
+                "type": "select",
+                "value": "90° counterclockwise"
+              },
+              {
+                "description": "Width Mode",
+                "type": "select",
+                "value": "unbounded"
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "#fbbf24"
+                  },
+                  {
+                    "description": "Font Size",
+                    "type": "number",
+                    "value": 0.5
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "Circuit 1"
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Label 1"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 6.490121167333333,
+                  "y": 2.264549333
+                }
+              },
+              {
+                "description": "Baseline",
+                "type": "select",
+                "value": "middle"
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 3.590597181008901
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 0.7869065281899106
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Rotation",
+                "type": "select",
+                "value": "90° counterclockwise"
+              },
+              {
+                "description": "Width Mode",
+                "type": "select",
+                "value": "unbounded"
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "#22d3ee"
+                  },
+                  {
+                    "description": "Font Size",
+                    "type": "number",
+                    "value": 0.5
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "Circuit 2"
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Label 2"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 11.823454500666665,
+                  "y": 2.264549333
+                }
+              },
+              {
+                "description": "Baseline",
+                "type": "select",
+                "value": "middle"
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 3.590597181008901
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 0.7869065281899106
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Rotation",
+                "type": "select",
+                "value": "90° counterclockwise"
+              },
+              {
+                "description": "Width Mode",
+                "type": "select",
+                "value": "unbounded"
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "#f472b6"
+                  },
+                  {
+                    "description": "Font Size",
+                    "type": "number",
+                    "value": 0.5
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "Circuit 3"
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Label 3"
+          }
+        ]
+      }
+    ]
   }
 }

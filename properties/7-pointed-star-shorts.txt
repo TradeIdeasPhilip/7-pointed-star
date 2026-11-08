@@ -1,31 +1,45 @@
 7 Pointed Star Shorts
+→ Sound Clips
+TypeScript: undefined
+Current:    [{"source":"local:7-pointed-star-shorts 2026-11-07 22-04-19.533.wav","startMsIntoScene":0,"startMsIntoClip":427.595158,"lengthMs":16522.666667}]
 → Scratch 1
 → → Min Duration
 TypeScript: 5000
 Current:    120000
+→ → Sound Clips
+TypeScript: undefined
+Current:    [{"source":"local:7-pointed-star-shorts 2026-11-07 22-24-31.423.wav","startMsIntoScene":0,"startMsIntoClip":9996.095433,"lengthMs":11973.3},{"source":"local:7-pointed-star-shorts 2026-11-08 00-06-36.848.wav","startMsIntoScene":13852.931083,"startMsIntoClip":414.01973,"lengthMs":20455.969},{"source":"local:7-pointed-star-shorts 2026-11-08 00-36-47.054.wav","startMsIntoScene":36933.7,"startMsIntoClip":434.037267,"lengthMs":31072.8},{"source":"local:7-pointed-star-shorts 2026-11-08 00-40-39.938.wav","startMsIntoScene":79056.9,"startMsIntoClip":436.331905,"lengthMs":9728},{"source":"local:7-pointed-star-shorts 2026-11-08 00-41-44.137.wav","startMsIntoScene":92946.688109,"startMsIntoClip":431.789879,"lengthMs":22560}]
 → → Top
   [added]
   const top = new StarCircuit({ description: "Top" });
-  top.circuitSchedule.set("Interleaved");
+  top.circuitSchedule.set("Forward Backward Forward");
   top.fourierRectSchedule.set({"x":1,"y":0.5,"width":7,"height":7});
-  top.referenceRectSchedule.set({"x":0.5,"y":7,"width":2,"height":2});
+  top.referenceRectSchedule.set([{"time":0,"value":{"x":0.5,"y":7,"width":2,"height":2}},{"time":1500,"value":{"x":1,"y":0.5,"width":7,"height":7}},{"time":10000,"value":{"x":1,"y":0.5,"width":7,"height":7},"easeAfter":"easeOut"},{"time":16000,"value":{"x":0.5,"y":7,"width":2,"height":2}}]);
+  top.termGroupsSchedule.set("0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10-19, 20-39, 40-99, 100-299, 300-1023");
+  top.stepSchedule.set([{"time":12300,"value":0},{"time":120000,"value":15}]);
+  top.cornerSizeSchedule.set([{"time":1000,"value":0},{"time":5150,"value":0.4}]);
+  top.roundingSchedule.set([{"time":1000,"value":0},{"time":5150,"value":0.6}]);
   top.circleColorSchedule.set("#8b5cf6");
   top.thinStarColorSchedule.set("#ede9fe");
   top.fatStarColorSchedule.set("#f472b6");
   top.fourierLineWidthSchedule.set(0.15);
+  top.referenceLineWidthSchedule.set([{"time":0,"value":0.05},{"time":1500,"value":0.15},{"time":10000,"value":0.15},{"time":16000,"value":0.05}]);
   top.userEditableDescription = "Top";
   scratch1.replaceableComponents!.push(top);
 → → Bottom
   [added]
   const bottom = new StarCircuit({ description: "Bottom" });
-  bottom.circuitSchedule.set("Every kind B");
+  bottom.circuitSchedule.set("All Forward");
   bottom.fourierRectSchedule.set({"x":1,"y":8.5,"width":7,"height":7});
-  bottom.referenceRectSchedule.set([{"time":30000,"value":{"x":1,"y":8.5,"width":7,"height":7}},{"time":35000,"value":{"x":6.5,"y":7,"width":2,"height":2}}]);
-  bottom.stepSchedule.set([{"time":30000,"value":0},{"time":90000,"value":11}]);
+  bottom.referenceRectSchedule.set([{"time":0,"value":{"x":6.5,"y":7,"width":2,"height":2}},{"time":1500,"value":{"x":1,"y":8.5,"width":7,"height":7}},{"time":10000,"value":{"x":1,"y":8.5,"width":7,"height":7},"easeAfter":"easeOut"},{"time":16000,"value":{"x":6.5,"y":7,"width":2,"height":2}}]);
+  bottom.termGroupsSchedule.set("0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10-19, 20-39, 40-99, 100-299, 300-1023");
+  bottom.stepSchedule.set([{"time":12300,"value":0},{"time":120000,"value":15}]);
+  bottom.cornerSizeSchedule.set([{"time":1000,"value":0},{"time":5150,"value":0.4}]);
+  bottom.roundingSchedule.set([{"time":1000,"value":0},{"time":5150,"value":0.6}]);
   bottom.circleColorSchedule.set("#16a34a");
   bottom.thinStarColorSchedule.set("#ccfbf1");
   bottom.fatStarColorSchedule.set("#22d3ee");
   bottom.fourierLineWidthSchedule.set(0.15);
-  bottom.referenceLineWidthSchedule.set([{"time":30000,"value":0.15},{"time":35000,"value":0.05}]);
+  bottom.referenceLineWidthSchedule.set([{"time":0,"value":0.05},{"time":1500,"value":0.15},{"time":10000,"value":0.15},{"time":16000,"value":0.05}]);
   bottom.userEditableDescription = "Bottom";
   scratch1.replaceableComponents!.push(bottom);
