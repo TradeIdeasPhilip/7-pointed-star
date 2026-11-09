@@ -43,3 +43,40 @@ Current:    [{"source":"local:7-pointed-star-shorts 2026-11-07 22-24-31.423.wav"
   bottom.referenceLineWidthSchedule.set([{"time":0,"value":0.05},{"time":1500,"value":0.15},{"time":10000,"value":0.15},{"time":16000,"value":0.05}]);
   bottom.userEditableDescription = "Bottom";
   scratch1.replaceableComponents!.push(bottom);
+→ Scratch 2
+→ → Min Duration
+TypeScript: 5000
+Current:    90000
+→ → Sound Clips
+TypeScript: undefined
+Current:    [{"source":"local:7-pointed-star-shorts 2026-11-08 17-15-28.694.wav","startMsIntoScene":0,"startMsIntoClip":429.292066,"lengthMs":4559.9},{"source":"local:7-pointed-star-shorts 2026-11-08 17-15-28.694.wav","startMsIntoScene":5511.290878,"startMsIntoClip":4989.192066,"lengthMs":21571.609},{"source":"local:7-pointed-star-shorts 2026-11-08 17-15-28.694.wav","startMsIntoScene":36787.383059,"startMsIntoClip":34317.225066,"lengthMs":9662.378},{"source":"local:7-pointed-star-shorts 2026-11-08 17-15-28.694.wav","startMsIntoScene":61276.000284,"startMsIntoClip":43979.603066,"lengthMs":18215.589},{"source":"local:7-pointed-star-shorts 2026-11-08 17-15-28.694.wav","startMsIntoScene":80254.492449,"startMsIntoClip":62195.192066,"lengthMs":3423.4},{"source":"local:7-pointed-star-shorts 2026-11-08 17-24-39.479.wav","startMsIntoScene":84337.988615,"startMsIntoClip":465.979189,"lengthMs":5214.8},{"source":"local:7-pointed-star-shorts 2026-11-08 17-44-37.781.wav","startMsIntoScene":27163.624564,"startMsIntoClip":435.137706,"lengthMs":9477.333333},{"source":"local:7-pointed-star-shorts 2026-11-08 17-47-47.782.wav","startMsIntoScene":48133.496685,"startMsIntoClip":451.805643,"lengthMs":10928}]
+→ → Tessellating Triangles
+  [added]
+  const tessellatingTriangles = new TessellatingTriangles({ description: "Tessellating Triangles" });
+  tessellatingTriangles.upColorSchedule.set("rgb(0% 0% 0%)");
+  tessellatingTriangles.downColorSchedule.set("#1c1c1c");
+  tessellatingTriangles.sideLengthSchedule.set(1.5);
+  scratch2.replaceableComponents!.push(tessellatingTriangles);
+→ → Top
+  [added]
+  const top2 = new StarCircuit({ description: "Top" });
+  top2.fourierRectSchedule.set({"x":1,"y":0.5,"width":7,"height":7});
+  top2.referenceRectSchedule.set([{"time":0,"value":{"x":1,"y":4.5,"width":7,"height":7},"easeAfter":"easeOut"},{"time":30000,"value":{"x":0.5,"y":7,"width":2,"height":2}}]);
+  top2.termGroupsSchedule.set("0 200-1023, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10-19, 20-39, 40-99, 100-199");
+  top2.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":14}]);
+  top2.fillColorSchedule.set("rgb(0% 50.2% 100% / 33%)");
+  top2.fourierLineWidthSchedule.set(0.075);
+  top2.referenceLineWidthSchedule.set([{"time":0,"value":0.1},{"time":30000,"value":0.025}]);
+  top2.userEditableDescription = "Top";
+  scratch2.replaceableComponents!.push(top2);
+→ → Bottom
+  [added]
+  const bottom2 = new StarCircuit({ description: "Bottom" });
+  bottom2.fourierRectSchedule.set({"x":1,"y":8.5,"width":7,"height":7});
+  bottom2.referenceRectSchedule.set({"x":1,"y":20,"width":7,"height":7});
+  bottom2.termGroupsSchedule.set("0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10-19, 20-39, 40-99, 100-299 300-1023");
+  bottom2.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":14}]);
+  bottom2.fillColorSchedule.set("rgb(0% 50.2% 100% / 33%)");
+  bottom2.fourierLineWidthSchedule.set(0.075);
+  bottom2.userEditableDescription = "Bottom";
+  scratch2.replaceableComponents!.push(bottom2);

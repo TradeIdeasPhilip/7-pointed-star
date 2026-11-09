@@ -374,6 +374,248 @@
             "lengthMs": 22560
           }
         ]
+      },
+      {
+        "description": "Scratch 2",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 90000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Tessellating Triangles",
+            "schedules": [
+              {
+                "description": "▲ Color",
+                "type": "color",
+                "value": "rgb(0% 0% 0%)"
+              },
+              {
+                "description": "▼ Color",
+                "type": "color",
+                "value": "#1c1c1c"
+              },
+              {
+                "description": "Side Length",
+                "type": "number",
+                "value": 1.5
+              }
+            ]
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1,
+                  "y": 0.5,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": {
+                      "x": 1,
+                      "y": 4.5,
+                      "width": 7,
+                      "height": 7
+                    },
+                    "easeAfter": "easeOut"
+                  },
+                  {
+                    "time": 30000,
+                    "value": {
+                      "x": 0.5,
+                      "y": 7,
+                      "width": 2,
+                      "height": 2
+                    }
+                  }
+                ]
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0 200-1023, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10-19, 20-39, 40-99, 100-199"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 90000,
+                    "value": 14
+                  }
+                ]
+              },
+              {
+                "description": "Fill Color",
+                "type": "color",
+                "value": "rgb(0% 50.2% 100% / 33%)"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.075
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0.1
+                  },
+                  {
+                    "time": 30000,
+                    "value": 0.025
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Top"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1,
+                  "y": 8.5,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1,
+                  "y": 20,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10-19, 20-39, 40-99, 100-299 300-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 90000,
+                    "value": 14
+                  }
+                ]
+              },
+              {
+                "description": "Fill Color",
+                "type": "color",
+                "value": "rgb(0% 50.2% 100% / 33%)"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.075
+              }
+            ],
+            "userEditableDescription": "Bottom"
+          }
+        ],
+        "soundClips": [
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-08 17-15-28.694.wav",
+            "startMsIntoScene": 0,
+            "startMsIntoClip": 429.292066,
+            "lengthMs": 4559.9
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-08 17-15-28.694.wav",
+            "startMsIntoScene": 5511.290878,
+            "startMsIntoClip": 4989.192066,
+            "lengthMs": 21571.609
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-08 17-15-28.694.wav",
+            "startMsIntoScene": 36787.383059,
+            "startMsIntoClip": 34317.225066,
+            "lengthMs": 9662.378
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-08 17-15-28.694.wav",
+            "startMsIntoScene": 61276.000284,
+            "startMsIntoClip": 43979.603066,
+            "lengthMs": 18215.589
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-08 17-15-28.694.wav",
+            "startMsIntoScene": 80254.492449,
+            "startMsIntoClip": 62195.192066,
+            "lengthMs": 3423.4
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-08 17-24-39.479.wav",
+            "startMsIntoScene": 84337.988615,
+            "startMsIntoClip": 465.979189,
+            "lengthMs": 5214.8
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-08 17-44-37.781.wav",
+            "startMsIntoScene": 27163.624564,
+            "startMsIntoClip": 435.137706,
+            "lengthMs": 9477.333333
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-08 17-47-47.782.wav",
+            "startMsIntoScene": 48133.496685,
+            "startMsIntoClip": 451.805643,
+            "lengthMs": 10928
+          }
+        ]
       }
     ],
     "soundClips": [

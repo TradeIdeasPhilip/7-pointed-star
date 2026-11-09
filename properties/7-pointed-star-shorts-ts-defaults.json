@@ -114,6 +114,11 @@
                 "value": "rgb(0, 128, 255)"
               },
               {
+                "description": "Fill Color",
+                "type": "color",
+                "value": "transparent"
+              },
+              {
                 "description": "Fourier Line Width",
                 "type": "number",
                 "value": 0.05

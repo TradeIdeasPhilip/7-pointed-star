@@ -92,6 +92,8 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
 - `src/star-circuit.ts`:  one circuit, as a Fourier animation and a reference image, each in its own rectangle, in one set of colors.  Registered as "Star Circuit".
   A class meant to be extended:  override `drawFourier()` or `drawReference()` for variations, like the 3D reference image in `development-plans/3d-euler-circuits.md`.
   The Circuit field takes a name from `NAMED_CIRCUITS_7` (offered as suggestions) or the vertices in order, read by `parseCircuit7()`.
+- `src/tessellating-triangles.ts`:  a background of equilateral triangles in two colors.  Registered as "Tessellating Triangles".
+  The fields say "▲ Color" and "▼ Color"; the code says `upColor` and `downColor`.
 - `scripts/count-circuits.ts`:  the counts above.
 - `scripts/find-vertex-types.ts`:  every pairing is equally common (K7 minus a vertex is K6, so the graph can't tell the pairings apart).
   At most 7 kinds fit in one circuit.  `EVERY_KIND_A_7` and `EVERY_KIND_B_7` are the first pair it found that shows all 11.

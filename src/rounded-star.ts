@@ -33,6 +33,39 @@ const CIRCUITS: ReadonlyMap<string, Circuit> = new Map([
   ["Interleaved", INTERLEAVED_7],
 ]);
 
+/**
+ * Fill a closed curve that's been drawn in pieces, end to end.
+ *
+ * Uses the even-odd rule, so where the curve crosses itself the fill alternates, like a checkerboard.
+ * The default rule, nonzero, would fill almost the whole disk evenly.
+ *
+ * The pieces are joined into one outline.  Where one piece doesn't end exactly where the next starts,
+ * which is common with rounding errors, the gap becomes a tiny straight line.
+ * `PathShape.canvasPath` would start a new outline there instead, and each would be filled on its own.
+ * @param pieces In order, each starting where the last one ended.  Empty pieces are fine.
+ */
+export function fillPieces(
+  context: CanvasRenderingContext2D,
+  pieces: readonly PathShape[],
+  fillColor: string,
+) {
+  if (fillColor == "transparent") {
+    return;
+  }
+  const commands = pieces.flatMap((piece) => piece.commands);
+  if (commands.length == 0) {
+    return;
+  }
+  const path = new Path2D();
+  path.moveTo(commands[0].x0, commands[0].y0);
+  for (const command of commands) {
+    command.addToPath(path);
+  }
+  path.closePath();
+  context.fillStyle = fillColor;
+  context.fill(path, "evenodd");
+}
+
 /** The star's own coordinates:  the unit circle.  The same as Colorful Star and the Fourier component. */
 export const STAR_BOUNDS: ReadOnlyRect = { x: -1, y: -1, width: 2, height: 2 };
 
@@ -41,6 +74,7 @@ export const STAR_BOUNDS: ReadOnlyRect = { x: -1, y: -1, width: 2, height: 2 };
  * Uses the context's current line width.
  * @param fit From the star's own coordinates ({@link STAR_BOUNDS}) to the canvas.
  * @param colors The circle, the fat star and the thin star.
+ * @param fillColor Fills the inside of the curve, before the lines are drawn.  See {@link fillPieces}.
  */
 export function drawRoundedCircuit(
   context: CanvasRenderingContext2D,
@@ -48,6 +82,7 @@ export function drawRoundedCircuit(
   fit: DOMMatrix,
   settings: RoundingSettings,
   colors: readonly [string, string, string],
+  fillColor: string = "transparent",
 ) {
   /** Everything at vertex v is drawn at the top vertex, then rotated into place. */
   const rotations = Array.from({ length: 7 }, (_, vertex) =>
@@ -57,8 +92,11 @@ export function drawRoundedCircuit(
   const layers = [[], [], [], []] as PathShape[][];
   /** `cuts[vertex][spoke]` is how much of that edge the turn at that vertex replaced. */
   const cuts: number[][] = [];
+  /** `turns[vertex][spoke]` is that edge's half of the turn at that vertex, from the middle of the turn out to the edge. */
+  const turns: PathShape[][] = [];
   vertexPairingNumbers(circuit).forEach((number, vertex) => {
     cuts[vertex] = [];
+    turns[vertex] = [];
     const rounded = roundCorners(
       VERTEX_PAIRINGS_7[number - 1],
       settings,
@@ -66,26 +104,36 @@ export function drawRoundedCircuit(
     );
     for (const { spokes, cuts: pairCuts, halfTurns } of rounded) {
       spokes.forEach((spoke, side) => {
+        const turn = halfTurns[side].transform(rotations[vertex]);
         cuts[vertex][SPOKES.indexOf(spoke)] = pairCuts[side];
-        layers[spoke.distance].push(
-          halfTurns[side].transform(rotations[vertex]),
-        );
+        turns[vertex][SPOKES.indexOf(spoke)] = turn;
+        layers[spoke.distance].push(turn);
       });
     }
   });
+  /** Every piece, in the circuit's order and direction, for the fill. */
+  const inOrder: PathShape[] = [];
   // The rest of each edge, between the turns at its two ends.
   for (let position = 0; position < circuit.length - 1; position++) {
     const from = circuit[position];
     const to = circuit[position + 1];
+    /** The vertex after `to`.  The circuit is closed, so after the last vertex comes the second. */
+    const next = circuit[position + 2] ?? circuit[1];
     const spoke = SPOKES[spokeIndex(from, to)];
     const start = cuts[from][spokeIndex(from, to)];
     const end = spoke.length - cuts[to][spokeIndex(to, from)];
     if (end > start + 1e-9) {
-      layers[spoke.distance].push(
-        spoke.piece(start, end).transform(rotations[from]),
-      );
+      const piece = spoke.piece(start, end).transform(rotations[from]);
+      layers[spoke.distance].push(piece);
+      inOrder.push(piece);
     }
+    // Through the turn at `to`:  in to its middle, then out along the next edge.
+    inOrder.push(
+      turns[to][spokeIndex(to, from)].reverse(),
+      turns[to][spokeIndex(to, next)],
+    );
   }
+  fillPieces(context, inOrder, fillColor);
   context.lineCap = "round";
   context.lineJoin = "round";
   // Circle, then fat star, then thin star, like Colorful Star.
@@ -112,11 +160,9 @@ export class RoundedStar implements Showable {
   readonly registryKey = "Rounded Star";
   readonly description: string;
   readonly duration = 0;
-  readonly circuitSchedule = new SelectScheduleInfo(
-    "Circuit",
-    "Every kind A",
-    [...CIRCUITS.keys()],
-  );
+  readonly circuitSchedule = new SelectScheduleInfo("Circuit", "Every kind A", [
+    ...CIRCUITS.keys(),
+  ]);
   /** The star fits inside this, centered, keeping its shape. */
   readonly destRectSchedule = new RectangleScheduleInfo("Dest Rect", {
     x: 4.5,

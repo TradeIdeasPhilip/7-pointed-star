@@ -37,6 +37,7 @@ import {
   sum,
 } from "phil-lib/misc";
 import { Circuit } from "./euler-circuits.ts";
+import { fillPieces } from "./rounded-star.ts";
 import { circuitToPath, StarPath } from "./star-path.ts";
 
 // MARK: Samples
@@ -231,7 +232,9 @@ export function getFrameRules(
       ...terms.slice(0, numberOfTerms).map((term) => Math.abs(term.frequency)),
     );
   const recommendedNumberOfSegments = (numberOfTerms: number) =>
-    numberOfTerms == 0 ? 8 : 8 * Math.min(getMaxFrequency(numberOfTerms), 110) + 7;
+    numberOfTerms == 0
+      ? 8
+      : 8 * Math.min(getMaxFrequency(numberOfTerms), 110) + 7;
   return initializedArray(keyframes.length - 1, (index) => {
     const startingTermCount = keyframes[index];
     const endingTermCount = keyframes[index + 1];
@@ -345,7 +348,11 @@ export class ColoredAnimations {
    * Fractions are the transition to the next step.
    * @returns undefined when there's nothing to draw:  Step is negative, or there are no groups.
    */
-  frameAt(circuit: Circuit, termGroups: string, step: number): Frame | undefined {
+  frameAt(
+    circuit: Circuit,
+    termGroups: string,
+    step: number,
+  ): Frame | undefined {
     if (!(step >= 0)) {
       return undefined;
     }
@@ -384,6 +391,8 @@ export class ColoredAnimations {
  * Uses the context's current line width.
  * @param fit From the star's own coordinates to the canvas.
  * @param colors The circle, the fat star and the thin star.
+ * @param fillColor Fills the inside of the curve, before the lines are drawn.  See {@link fillPieces}.
+ * While the dot grows into the first curve, a straight line closes the part drawn so far.
  */
 export function drawColoredFrame(
   context: CanvasRenderingContext2D,
@@ -391,8 +400,17 @@ export function drawColoredFrame(
   runs: readonly ColorRun[],
   fit: DOMMatrix,
   colors: readonly [string, string, string],
+  fillColor = "transparent",
 ) {
   const { f, end, segments } = frame;
+  if (segments > 0) {
+    // The whole curve as one piece.  A dot or a straight line (segments == 0) has no inside.
+    const whole = PathShape.glitchFreeParametric(
+      (t) => f(t * end),
+      Math.max(2, Math.ceil(segments * end)),
+    );
+    fillPieces(context, [whole.transform(fit)], fillColor);
+  }
   /** The commands of each color, by distance:  1 for the circle, 2 the fat star, 3 the thin star. */
   const layers = [[], [], [], []] as Command[][];
   for (const run of runs) {

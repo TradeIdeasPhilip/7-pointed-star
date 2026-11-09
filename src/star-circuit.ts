@@ -50,10 +50,12 @@ export class StarCircuit implements Showable {
     height: 7,
   });
   /** The reference image fits inside this, centered, keeping its shape. */
-  readonly referenceRectSchedule = new RectangleScheduleInfo(
-    "Reference Rect",
-    { x: 8.5, y: 1, width: 7, height: 7 },
-  );
+  readonly referenceRectSchedule = new RectangleScheduleInfo("Reference Rect", {
+    x: 8.5,
+    y: 1,
+    width: 7,
+    height: 7,
+  });
   /** The same as the Fourier component's Term Groups. */
   readonly termGroupsSchedule = new StringScheduleInfo(
     "Term Groups",
@@ -82,6 +84,15 @@ export class StarCircuit implements Showable {
     "Fat Star Color",
     myRainbow.myBlue,
   );
+  /**
+   * Fills the inside of both the Fourier and the reference image, under the lines.
+   * Where the curve crosses itself, the fill alternates, like a checkerboard.
+   * Try a color with a low alpha.
+   */
+  readonly fillColorSchedule = new ColorScheduleInfo(
+    "Fill Color",
+    "transparent",
+  );
   /** In units, so it doesn't grow or shrink with the Fourier Rect. */
   readonly fourierLineWidthSchedule = new NumberScheduleInfo(
     "Fourier Line Width",
@@ -104,6 +115,7 @@ export class StarCircuit implements Showable {
     this.circleColorSchedule,
     this.thinStarColorSchedule,
     this.fatStarColorSchedule,
+    this.fillColorSchedule,
     this.fourierLineWidthSchedule,
     this.referenceLineWidthSchedule,
   ] as const;
@@ -118,6 +130,7 @@ export class StarCircuit implements Showable {
       circleColor?: string | readonly Keyframe<string>[];
       thinStarColor?: string | readonly Keyframe<string>[];
       fatStarColor?: string | readonly Keyframe<string>[];
+      fillColor?: string | readonly Keyframe<string>[];
       fourierLineWidth?: number | readonly Keyframe<number>[];
       referenceLineWidth?: number | readonly Keyframe<number>[];
     } = {},
@@ -140,6 +153,8 @@ export class StarCircuit implements Showable {
       this.thinStarColorSchedule.set(initialValues.thinStarColor);
     if (initialValues.fatStarColor !== undefined)
       this.fatStarColorSchedule.set(initialValues.fatStarColor);
+    if (initialValues.fillColor !== undefined)
+      this.fillColorSchedule.set(initialValues.fillColor);
     if (initialValues.fourierLineWidth !== undefined)
       this.fourierLineWidthSchedule.set(initialValues.fourierLineWidth);
     if (initialValues.referenceLineWidth !== undefined)
@@ -147,7 +162,8 @@ export class StarCircuit implements Showable {
   }
 
   /** The last Circuit text read, and what it meant.  Never more than one entry. */
-  #parsed: { readonly text: string; readonly result: Circuit | string } | undefined;
+  #parsed:
+    { readonly text: string; readonly result: Circuit | string } | undefined;
   /** The circuit at this time, or why there isn't one. */
   circuitAt(timeInMs: number): Circuit | string {
     const text = this.circuitSchedule.at(timeInMs);
@@ -175,8 +191,9 @@ export class StarCircuit implements Showable {
       this.fatStarColorSchedule.at(timeInMs),
       this.thinStarColorSchedule.at(timeInMs),
     ];
-    this.drawReference(options, circuit, colors);
-    this.drawFourier(options, circuit, colors);
+    const fillColor = this.fillColorSchedule.at(timeInMs);
+    this.drawReference(options, circuit, colors, fillColor);
+    this.drawFourier(options, circuit, colors, fillColor);
   }
 
   readonly #animations = new ColoredAnimations();
@@ -185,6 +202,7 @@ export class StarCircuit implements Showable {
     { context, timeInMs }: ShowOptions,
     circuit: Circuit,
     colors: StarColors,
+    fillColor: string,
   ) {
     const frame = this.#animations.frameAt(
       circuit,
@@ -198,7 +216,14 @@ export class StarCircuit implements Showable {
         "meet",
       );
       context.lineWidth = this.fourierLineWidthSchedule.at(timeInMs);
-      drawColoredFrame(context, frame, coloredSource(circuit).runs, fit, colors);
+      drawColoredFrame(
+        context,
+        frame,
+        coloredSource(circuit).runs,
+        fit,
+        colors,
+        fillColor,
+      );
     }
   }
 
@@ -207,6 +232,7 @@ export class StarCircuit implements Showable {
     { context, timeInMs }: ShowOptions,
     circuit: Circuit,
     colors: StarColors,
+    fillColor: string,
   ) {
     const settings: RoundingSettings = {
       cornerSize: this.cornerSizeSchedule.at(timeInMs),
@@ -219,7 +245,7 @@ export class StarCircuit implements Showable {
       "meet",
     );
     context.lineWidth = this.referenceLineWidthSchedule.at(timeInMs);
-    drawRoundedCircuit(context, circuit, fit, settings, colors);
+    drawRoundedCircuit(context, circuit, fit, settings, colors, fillColor);
   }
 }
 
