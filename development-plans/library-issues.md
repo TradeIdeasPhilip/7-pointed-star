@@ -63,6 +63,20 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
 22. **The Paste button's tooltip uses the wrong name.**
    A child row's button says `Paste into "Slide"`, from `child.description`, while the row itself says "Pan and Scan", from `userEditableDescription`.
 
+24. **Two modules need the browser when they load,** so the library's pure math can't run in plain Node.
+   * `glib/transforms` calls its own `runTests()` at the bottom of the module, and that calls `panAndZoom()`, which calls `new DOMMatrix()`.
+     `glib/path-shape` imports it, so anything that uses PathShape fails with "DOMMatrix is not defined",
+     including the Fourier math in `peano-fourier/fourier-shared`, which is otherwise pure.
+   * `glib/line-font` builds a font when it loads, and that calls `new DOMMatrixReadOnly()` (about line 746 of the built file).
+     The library's main entry loads it, so `import … from "canvas-recorder-lib"` fails in Node even with the shim below.
+   This project's `scripts/node-dom.ts` supplies a small 2D DOMMatrix, which covers the first one.  Don't grow it to cover the second:  fix the library instead.
+   Fix:  move the self-test into a test file, and build the font the first time it's used.
+   Then a short Node script in the library's build that imports `path-shape` and `fourier-shared` would keep it that way.
+   Then delete `node-dom.ts`.
+   The rule in `editor-panels.md`, "a module never touches the DOM while it loads", is the same idea.
+   A tsconfig with no DOM types for `scripts/` would be the stricter check, but phil-lib's `misc.ts` mixes DOM helpers with math like `positiveModulo()`,
+   and it ships as TypeScript source, so `skipLibCheck` doesn't skip it.  That config fails until phil-lib splits that file.
+
 ## Build
 
 11. **A warning in every production build:**  `"use restrict"` in `node_modules/bit-twiddle`, a MODULE_LEVEL_DIRECTIVE warning.

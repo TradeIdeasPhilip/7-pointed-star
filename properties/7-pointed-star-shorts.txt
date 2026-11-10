@@ -80,3 +80,38 @@ Current:    [{"source":"local:7-pointed-star-shorts 2026-11-08 17-15-28.694.wav"
   bottom2.fourierLineWidthSchedule.set(0.075);
   bottom2.userEditableDescription = "Bottom";
   scratch2.replaceableComponents!.push(bottom2);
+→ Scratch 3
+→ → Min Duration
+TypeScript: 5000
+Current:    90000
+→ → Star Circuit
+  [added]
+  const starCircuit = new StarCircuit({ description: "Star Circuit" });
+  starCircuit.circuitSchedule.set("Every kind B");
+  starCircuit.fourierRectSchedule.set({"x":1,"y":8.5,"width":7,"height":7});
+  starCircuit.referenceRectSchedule.set({"x":18.5,"y":1,"width":7,"height":7});
+  starCircuit.fourierLineWidthSchedule.set(0.1);
+  scratch3.replaceableComponents!.push(starCircuit);
+→ → Red
+  [added]
+  const red = new FourierComponent({ description: "Red" });
+  red.destRectSchedule.set({"x":1,"y":0.5,"width":7,"height":7});
+  red.strokeColorSchedule.set("rgb(255, 0, 0)");
+  red.lineWidthSchedule.set(0.1);
+  red.userEditableDescription = "Red";
+  scratch3.replaceableComponents!.push(red);
+→ → White
+  [added]
+  const white = new FourierComponent({ description: "White" });
+  white.destRectSchedule.set({"x":1,"y":0.5,"width":7,"height":7});
+  white.strokeColorSchedule.set("white");
+  white.lineWidthSchedule.set(0.1);
+  white.userEditableDescription = "White";
+  scratch3.replaceableComponents!.push(white);
+→ → Blue
+  [added]
+  const blue = new FourierComponent({ description: "Blue" });
+  blue.destRectSchedule.set({"x":1,"y":0.5,"width":7,"height":7});
+  blue.lineWidthSchedule.set(0.1);
+  blue.userEditableDescription = "Blue";
+  scratch3.replaceableComponents!.push(blue);

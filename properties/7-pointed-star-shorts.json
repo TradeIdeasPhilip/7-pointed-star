@@ -616,6 +616,147 @@
             "lengthMs": 10928
           }
         ]
+      },
+      {
+        "description": "Scratch 3",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 90000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Every kind B"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1,
+                  "y": 8.5,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 18.5,
+                  "y": 1,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.1
+              }
+            ]
+          },
+          {
+            "registryKey": "Fourier",
+            "schedules": [
+              {
+                "description": "Dest Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1,
+                  "y": 0.5,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Stroke Color",
+                "type": "color",
+                "value": "rgb(255, 0, 0)"
+              },
+              {
+                "description": "Line Width",
+                "type": "number",
+                "value": 0.1
+              }
+            ],
+            "userEditableDescription": "Red"
+          },
+          {
+            "registryKey": "Fourier",
+            "schedules": [
+              {
+                "description": "Dest Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1,
+                  "y": 0.5,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Stroke Color",
+                "type": "color",
+                "value": "white"
+              },
+              {
+                "description": "Line Width",
+                "type": "number",
+                "value": 0.1
+              }
+            ],
+            "userEditableDescription": "White"
+          },
+          {
+            "registryKey": "Fourier",
+            "schedules": [
+              {
+                "description": "Dest Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1,
+                  "y": 0.5,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Line Width",
+                "type": "number",
+                "value": 0.1
+              }
+            ],
+            "userEditableDescription": "Blue"
+          }
+        ]
       }
     ],
     "soundClips": [

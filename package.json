@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "count-circuits": "node scripts/count-circuits.ts",
     "find-vertex-types": "node scripts/find-vertex-types.ts",
-    "pick-circuits": "node scripts/pick-circuits.ts"
+    "pick-circuits": "node scripts/pick-circuits.ts",
+    "fourier-analysis": "node scripts/fourier-analysis.ts"
   },
   "dependencies": {
     "canvas-recorder-lib": "^0.7.1",

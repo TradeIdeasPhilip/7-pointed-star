@@ -2,9 +2,9 @@ import { positiveModulo } from "phil-lib/misc";
 import {
   PathBuilder,
   PathShape,
-  Point,
+  type Point,
 } from "canvas-recorder-lib/src/glib/path-shape";
-import { Circuit, stepDistance } from "./euler-circuits.ts";
+import { type Circuit, stepDistance } from "./euler-circuits.ts";
 
 /**
  * Where vertex `k` of an `n` pointed star goes.
