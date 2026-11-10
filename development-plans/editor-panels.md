@@ -1,7 +1,45 @@
 # Editor panels
 
-A Visual Editor panel for any component, not just a root.  A library change, planned from this project.
-Brainstorming from 2026-10-31.  Nothing built yet.
+Our own tools in the Visual Editor, for Star Circuit and any later component.
+
+## Start here (2026-11-08)
+
+### What exists
+
+- **Built:  the messages panel,** `src/editor-messages.ts`.  No library change.
+  - Select a Star Circuit and it says whether the circuit is valid, and whether Term Groups and Step match.
+  - The Term Groups and Step checks are the library's own (`checkTermGroups()`, `checkStepRange()`), the same ones the library's Fourier panel shows for a Fourier component.
+  - It updates on every keystroke, and hides itself when the selected component has nothing to say.
+  - Any component can join:  give it an `editorMessages()` method.
+- **How it works:**  the library's one general hook, `Showable.rootComponentEditor`, a panel for whatever is chosen in the Edit list.
+  `addScene()` attaches one to the video's root and to every scene.  It's a stopgap, with limits:
+  - It sits above the component list, top right, not with the component's properties, bottom right.
+  - Only what we attach it to has it.  Something else chosen in the Edit list, like a pasted Slide with its own length, shows no panel.  Neither does another project.
+  - After choosing a scene, it stays hidden until you click a component.
+- **The library has no way to add a new kind of field,** like its rectangle or point editors.  The kinds are a fixed list.  We don't need one (below).
+
+### What we want, in order
+
+1. **Library:  a panel's changes must be saved.**  `library-issues.md`, item 23.  Small, about one line.
+   *Why first:*  the vertex editor changes the Circuit field from a panel.  Today that change either isn't saved, or saving it throws away the selection.  Nothing else blocks the vertex editor.
+2. **This project:  the vertex editor.**  `circuit-editor.md`.  Big.
+   It goes in the messages panel, as a second section under the messages.
+   Its first step (the pairings spelling, the drawing table, the X) needs no library change and can start any time.
+3. **Library:  `editorPanel` on any component.**  `library-issues.md`, item 15.  Medium.  Wanted, not needed.
+   *Why:*  the panel would sit next to the component's own properties, work wherever the component is, in any project, and know the component's own time.
+   *Why it can wait:*  the stopgap does the job for this project.  Moving to it changes only the wiring in `editor-messages.ts`.  The components' `editorMessages()` and the vertex editor's code stay as they are.
+4. **Not wanted:  a new kind of field for the circuit.**
+   *Why:*  Circuit is a string, and the library already edits strings, with a list of suggestions.  The vertex editor needs more room than one field anyway:  the star to click, 15 choices, and what each one would do.
+   And it would be a big library change:  saving, loading and the diff file all depend on that fixed list of kinds.
+
+### Why the warnings aren't on the canvas
+
+Some of them are on purpose, like a Step that starts after 0 to skip the first steps.  On the canvas, they'd end up in the recorded video.
+Real errors, like a circuit that won't parse, still draw a message on the canvas too, because then there's nothing to draw.
+
+## Background
+
+The rest of this file is the original brainstorm, from 2026-10-31:  the library's side of item 15.
 The first user would be Star Circuit's vertex editor (`circuit-editor.md`).
 
 ## What's there now

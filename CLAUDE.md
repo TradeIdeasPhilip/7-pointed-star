@@ -69,6 +69,9 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   2. "Pan and Scan Template":  an empty Slide that moves slowly across a 16 × 9 picture.  Paste a whole slide from the main video into it.
   3. "Scratch 1", "Scratch 2", "Scratch 3":  only a background.
 - `src/scenes.ts`:  `addScene()` and `named()`, shared by the videos.  Set `canvasRecorder.size` before `addScene()`, because the background fills the canvas.
+  `addScene()` also gives the root and the scene the messages panel.
+- `src/editor-messages.ts`:  a panel in the Visual Editor, top right, that shows the selected component's warnings.  A component opts in with an `editorMessages()` method; Star Circuit has one.
+  It uses the library's `rootComponentEditor` hook, as a stopgap.  Priorities and reasons:  the top of `development-plans/editor-panels.md`.
 - `src/all-components.ts`:  imports every custom component, so any video can insert or paste any of them.  Add each new component here.
 - `src/euler-circuits.ts`:  graph math only, no imports, so Node can run it.  Hand picked circuits (`GROUPED_7`, `INTERLEAVED_7`), the search, the duplicate filter.
   Node only strips types, so this file (and `scripts/`) can't use enums or constructor parameter properties.  `erasableSyntaxOnly` in tsconfig enforces that.
@@ -103,8 +106,8 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   - `library-issues.md`:  problems found in canvas-recorder-lib.  Add to it; don't stop to fix the library unless it's urgent.
   - `enumerate-all-circuits.md`:  options for computing every circuit's Fourier terms and storing them to search.  Not started.
   - `3d-euler-circuits.md`:  the author's idea for a 3D reference image.  Far in the future.
-  - `circuit-editor.md`:  choosing a circuit one vertex at a time, and what to draw when the result is several loops.  Ideas only.
-  - `editor-panels.md`:  a Visual Editor panel for any component, like the old `rootComponentEditor`.  A library change.  Ideas only.
+  - `circuit-editor.md`:  choosing a circuit one vertex at a time, and what to draw when the result is several loops.  Not started; waits on library item 23.
+  - `editor-panels.md`:  our own tools in the Visual Editor.  Starts with what exists, what we want in priority order, and why.  Then the library brainstorm.
 
 ## User errors
 

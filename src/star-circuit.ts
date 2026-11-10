@@ -1,14 +1,18 @@
 import { ReadOnlyRect } from "phil-lib/misc";
 import {
+  checkStepRange,
+  checkTermGroups,
   ColorScheduleInfo,
   componentRegistry,
   Keyframe,
   NumberScheduleInfo,
+  parseTermGroups,
   RectangleScheduleInfo,
   Showable,
   ShowOptions,
   StringScheduleInfo,
 } from "canvas-recorder-lib";
+import { EditorMessage, HasEditorMessages } from "./editor-messages.ts";
 import { myRainbow } from "canvas-recorder-lib/src/glib/my-rainbow";
 import { panAndZoom } from "canvas-recorder-lib/src/glib/transforms";
 import { showError } from "canvas-recorder-lib/src/slide-components/show-error";
@@ -36,7 +40,7 @@ export type StarColors = readonly [string, string, string];
  *
  * In the component registry as "Star Circuit".
  */
-export class StarCircuit implements Showable {
+export class StarCircuit implements Showable, HasEditorMessages {
   readonly registryKey = "Star Circuit";
   readonly description: string;
   readonly duration = 0;
@@ -171,6 +175,90 @@ export class StarCircuit implements Showable {
       this.#parsed = { text, result: parseCircuit7(text) };
     }
     return this.#parsed.result;
+  }
+
+  /**
+   * For the Visual Editor:  is the circuit valid, and do Term Groups and Step make sense together?
+   * The Term Groups and Step checks are the library's, the same ones its Fourier panel shows.
+   * See `editor-messages.ts`.
+   */
+  editorMessages(): EditorMessage[] {
+    const messages: EditorMessage[] = [];
+    /** Says which keyframe, when a field has more than one. */
+    const at = (keyframes: readonly Keyframe<unknown>[], time: number) =>
+      keyframes.length > 1 ? `At ${time} ms:  ` : "";
+    const plural = (count: number, noun: string) =>
+      `${count} ${noun}${count == 1 ? "" : "s"}`;
+
+    // MARK: Circuit
+    const circuitKeyframes = this.circuitSchedule.schedule;
+    for (const { time, value } of circuitKeyframes) {
+      const circuit = parseCircuit7(value);
+      messages.push(
+        typeof circuit == "string"
+          ? // The message already starts with "Circuit:".
+            { level: "error", text: `${at(circuitKeyframes, time)}${circuit}` }
+          : {
+              level: "ok",
+              text: `${at(circuitKeyframes, time)}Circuit:  every edge exactly once`,
+            },
+      );
+    }
+
+    // MARK: Term Groups
+    const termKeyframes = this.termGroupsSchedule.schedule;
+    const groupCounts = new Set<number>();
+    for (const { time, value } of termKeyframes) {
+      const parsed = parseTermGroups(value);
+      groupCounts.add(parsed.groups.length);
+      const termCount = parsed.groups.reduce(
+        (sum, group) => sum + group.length,
+        0,
+      );
+      const problems = [...parsed.warnings];
+      // Checked against the circuit in effect at the same time.
+      // Without a valid circuit there are no terms to check against, so no ✓.
+      const circuit = parseCircuit7(this.circuitSchedule.at(time));
+      const checked = typeof circuit != "string";
+      if (checked) {
+        problems.push(
+          ...checkTermGroups(parsed.groups, coloredSource(circuit).terms),
+        );
+      }
+      const clean =
+        checked && parsed.errors.length == 0 && problems.length == 0;
+      messages.push({
+        level: clean ? "ok" : "note",
+        text: `${at(termKeyframes, time)}Term Groups:  ${plural(parsed.groups.length, "group")}, ${plural(termCount, "term")}`,
+      });
+      for (const error of parsed.errors) {
+        messages.push({ level: "error", text: error });
+      }
+      for (const problem of problems) {
+        messages.push({ level: "warning", text: problem });
+      }
+    }
+
+    // MARK: Step
+    if (groupCounts.size == 1) {
+      const [groupCount] = groupCounts;
+      const problems = checkStepRange(this.stepSchedule.schedule, groupCount);
+      if (problems.length == 0) {
+        messages.push({
+          level: "ok",
+          text: `Step runs from 0 to ${groupCount}`,
+        });
+      }
+      for (const problem of problems) {
+        messages.push({ level: "warning", text: problem });
+      }
+    } else {
+      messages.push({
+        level: "note",
+        text: "Term Groups changes over time, so Step can't be checked against one number of groups.",
+      });
+    }
+    return messages;
   }
 
   show(options: ShowOptions) {

@@ -26,11 +26,21 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    Both copies are faithful, so the curves, timing and segment counts match the library's.
    `makeEasing()` is private in fourier-shared.ts, so it's copied too.
    If the library returned these, `FourierComponent.drawPath()` could offer a hook for coloring by `t`.
-15. **A project's own component can't add a Visual Editor panel, or a warning.**
-   The custom panels are a hand-written list in `dev/canvas-recorder.ts`, by class:  `instanceof FourierComponent`, `MultiTextComponent`, and so on.
-   Star Circuit wants to show its own messages, and eventually a panel for choosing a circuit one vertex at a time.  See `circuit-editor.md`.
-   The only general hook is `Showable.rootComponentEditor`, and only for a root.
-   Plan:  the same interface on any Showable, as an optional `editorPanel` field.  See `editor-panels.md`.
+15. **A project's own component can't add a Visual Editor panel.**  Wanted, not needed.  Second priority, after item 23.
+   The library's own panels are a hand-written list in `updateScheduleEditor()` in `dev/canvas-recorder.ts`, one `instanceof` each:  `FourierComponent`, `MultiTextComponent`, and so on.  Star Circuit isn't on it.
+   The only general hook is `Showable.rootComponentEditor`:  a panel for whatever is chosen in the Edit list.
+   Since 2026-11-08, this project uses that as a stopgap.  `src/editor-messages.ts` shows Star Circuit's warnings, and the vertex editor will go there too.  The limits:
+   * It sits above the component list, top right, not next to the component's properties, bottom right.
+   * It only exists where we attach it:  `addScene()` does the root and each scene.  Anything else chosen in the Edit list, or another project, has none.
+   * Its times are the chapter's, not the component's.  The same thing for a Star Circuit sitting directly in a scene.
+   Plan:  the same interface on any Showable, as an optional `editorPanel` field.  See `editor-panels.md`, which starts with the priorities and reasons.
+   Moving to it changes only the wiring in `editor-messages.ts`.
+23. **A panel can't save a property it changes.**  Needed for the vertex editor (`circuit-editor.md`).  First priority, and small.
+   After changing a property, a `rootComponentEditor` panel tells the editor with `VisualEditorAPI.refreshGUI()`.  In `dev/canvas-recorder.ts` (`const visualEditorAPI`, about line 1842):
+   * `"properties"` rebuilds the property tables, but never calls `markDirty()`.  So the change isn't saved, to IndexedDB or to `properties/`, unless some later edit saves it.  A reload loses it.
+   * `"structure"` saves, but also sets `selectedSlideChild = null`.  So after every click in the panel, the selection jumps back to the scene.
+   Fix:  make `"properties"` call `markDirty()`, as the library's own panels do after a change (Handwriting's `progressChanged()`, Image File's `urlChanged()`).
+   Check that it records an undo step too.  Or add the `propertyChanged(property)` call that `editor-panels.md` proposes.
 20. **A project with more than one video has to write its own menu.**
    canvas-recorder had `?toShow=` and a list of links built in.  In this library, `canvasRecorder.start()` takes one Showable, so this project's `src/main.ts` does it, in about 30 lines.
    That part is fine, and it's a good pattern to copy.  Maybe something like `canvasRecorder.startMenu()`, and a section in the README.
