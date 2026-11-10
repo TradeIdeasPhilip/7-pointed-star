@@ -677,15 +677,65 @@
                 }
               },
               {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4, 5-6,7-9, 10-19, 20-39, 40-99, 100-299, 300-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 90000,
+                    "value": 12
+                  }
+                ]
+              },
+              {
                 "description": "Fourier Line Width",
                 "type": "number",
                 "value": 0.1
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 52345
               }
             ]
           },
           {
             "registryKey": "Fourier",
             "schedules": [
+              {
+                "description": "Source",
+                "type": "select",
+                "value": "circle"
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4, 5,6,7,8,9, 10-19, 20-39"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 90000,
+                    "value": 12
+                  }
+                ]
+              },
               {
                 "description": "Dest Rect",
                 "type": "rectangle",
@@ -713,13 +763,162 @@
             "registryKey": "Fourier",
             "schedules": [
               {
+                "description": "Source",
+                "type": "select",
+                "value": "7-Star: fat"
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4, 5-19, 20-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 7500,
+                    "value": 0
+                  },
+                  {
+                    "time": 15000,
+                    "value": 1
+                  },
+                  {
+                    "time": 22500,
+                    "value": 1
+                  },
+                  {
+                    "time": 30000,
+                    "value": 2
+                  },
+                  {
+                    "time": 37500,
+                    "value": 2
+                  },
+                  {
+                    "time": 45000,
+                    "value": 3
+                  },
+                  {
+                    "time": 52500,
+                    "value": 3
+                  },
+                  {
+                    "time": 60000,
+                    "value": 4
+                  },
+                  {
+                    "time": 67500,
+                    "value": 4
+                  },
+                  {
+                    "time": 75000,
+                    "value": 5
+                  },
+                  {
+                    "time": 82500,
+                    "value": 5
+                  },
+                  {
+                    "time": 90000,
+                    "value": 6
+                  }
+                ]
+              },
+              {
                 "description": "Dest Rect",
                 "type": "rectangle",
                 "value": {
                   "x": 1,
                   "y": 0.5,
                   "width": 7,
-                  "height": 7
+                  "height": 6.6533915
+                }
+              },
+              {
+                "description": "Line Width",
+                "type": "number",
+                "value": 0.1
+              }
+            ],
+            "userEditableDescription": "Blue"
+          },
+          {
+            "registryKey": "Fourier",
+            "schedules": [
+              {
+                "description": "Source",
+                "type": "select",
+                "value": "7-Star: thin"
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 7500,
+                    "value": 0
+                  },
+                  {
+                    "time": 15000,
+                    "value": 0
+                  },
+                  {
+                    "time": 22500,
+                    "value": 1
+                  },
+                  {
+                    "time": 30000,
+                    "value": 1
+                  },
+                  {
+                    "time": 37500,
+                    "value": 2
+                  },
+                  {
+                    "time": 45000,
+                    "value": 2
+                  },
+                  {
+                    "time": 52500,
+                    "value": 3
+                  },
+                  {
+                    "time": 60000,
+                    "value": 3
+                  },
+                  {
+                    "time": 67500,
+                    "value": 4
+                  },
+                  {
+                    "time": 75000,
+                    "value": 4
+                  },
+                  {
+                    "time": 82500,
+                    "value": 5
+                  },
+                  {
+                    "time": 90000,
+                    "value": 5
+                  }
+                ]
+              },
+              {
+                "description": "Dest Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1,
+                  "y": 0.5,
+                  "width": 7,
+                  "height": 6.6533915
                 }
               },
               {
@@ -734,27 +933,14 @@
               }
             ],
             "userEditableDescription": "White"
-          },
+          }
+        ],
+        "soundClips": [
           {
-            "registryKey": "Fourier",
-            "schedules": [
-              {
-                "description": "Dest Rect",
-                "type": "rectangle",
-                "value": {
-                  "x": 1,
-                  "y": 0.5,
-                  "width": 7,
-                  "height": 7
-                }
-              },
-              {
-                "description": "Line Width",
-                "type": "number",
-                "value": 0.1
-              }
-            ],
-            "userEditableDescription": "Blue"
+            "source": "local:7-pointed-star-shorts 2026-11-10 01-58-34.453.wav",
+            "startMsIntoScene": 0,
+            "startMsIntoClip": 423.511468,
+            "lengthMs": 86500.6
           }
         ]
       }

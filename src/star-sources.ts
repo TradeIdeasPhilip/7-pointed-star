@@ -6,6 +6,8 @@ import {
   INTERLEAVED_7,
 } from "./euler-circuits.ts";
 import { circuitToPath } from "./star-path.ts";
+import { makePolygon } from "canvas-recorder-lib/src/peano-fourier/fourier-shared";
+import { FULL_CIRCLE } from "phil-lib/misc";
 
 /**
  * The 7 pointed stars offered by the Fourier component's Source field.
@@ -33,4 +35,19 @@ FourierComponent.sources.set("7-Star: every kind A", {
 });
 FourierComponent.sources.set("7-Star: every kind B", {
   path: circuitToPath(7, EVERY_KIND_B_7).pathShape,
+});
+
+FourierComponent.sources.set("7-Star: thin", {
+  path: makePolygon(7, 2, undefined, 0).transform(new DOMMatrix().rotate(-90)),
+});
+
+FourierComponent.sources.set("7-Star: fat", {
+  path: makePolygon(7, 1, undefined, 0).transform(new DOMMatrix().rotate(-90)),
+});
+
+FourierComponent.sources.set("circle", {
+  parametric(t) {
+    // A circle that starts at the top, to match the stars.
+    return { x: Math.sin(t * FULL_CIRCLE) , y:-Math.cos(t*FULL_CIRCLE)};
+  },
 });

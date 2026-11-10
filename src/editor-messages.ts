@@ -4,7 +4,8 @@
  * A stopgap.  The library has no way yet for a component to add a panel next to its own properties
  * (`development-plans/library-issues.md`, item 15).
  * The hook it does have is `Showable.rootComponentEditor`, for whatever is chosen in the Edit list:
- * the whole video, or one scene.  `addScene()` gives both one of these panels.
+ * the whole video, one scene, or anything else with a duration.  `addScene()` gives the video and each scene one of these panels,
+ * and each Star Circuit gives itself one.
  * It sits at the top of the component list, top right, and shows the messages of the selected component.
  * When the library has a panel hook for any component, the messages move there, unchanged.
  *

@@ -4,15 +4,19 @@ import {
   checkTermGroups,
   ColorScheduleInfo,
   componentRegistry,
+  DurationAgnosticComponent,
   Keyframe,
   NumberScheduleInfo,
   parseTermGroups,
   RectangleScheduleInfo,
-  Showable,
   ShowOptions,
   StringScheduleInfo,
 } from "canvas-recorder-lib";
-import { EditorMessage, HasEditorMessages } from "./editor-messages.ts";
+import {
+  addEditorMessages,
+  EditorMessage,
+  HasEditorMessages,
+} from "./editor-messages.ts";
 import { myRainbow } from "canvas-recorder-lib/src/glib/my-rainbow";
 import { panAndZoom } from "canvas-recorder-lib/src/glib/transforms";
 import { showError } from "canvas-recorder-lib/src/slide-components/show-error";
@@ -38,12 +42,16 @@ export type StarColors = readonly [string, string, string];
  *
  * Override {@link drawFourier} or {@link drawReference} to draw either one differently.
  *
+ * A DurationAgnosticComponent, like the library's FourierComponent.  That gives it Min Duration,
+ * and a block on the Visual Editor's timeline, with a handle to drag it.
+ *
  * In the component registry as "Star Circuit".
  */
-export class StarCircuit implements Showable, HasEditorMessages {
+export class StarCircuit
+  extends DurationAgnosticComponent
+  implements HasEditorMessages
+{
   readonly registryKey = "Star Circuit";
-  readonly description: string;
-  readonly duration = 0;
   /** A name from the suggestions, or the vertices in order. */
   readonly circuitSchedule = new StringScheduleInfo("Circuit", "Every kind A");
   /** The finished Fourier curve fits inside this, centered, keeping its shape.  Earlier steps can wander outside it. */
@@ -107,22 +115,6 @@ export class StarCircuit implements Showable, HasEditorMessages {
     "Reference Line Width",
     0.05,
   );
-  readonly schedules = [
-    this.circuitSchedule,
-    this.fourierRectSchedule,
-    this.referenceRectSchedule,
-    this.termGroupsSchedule,
-    this.stepSchedule,
-    this.cornerSizeSchedule,
-    this.roundingSchedule,
-    this.roundingStepSchedule,
-    this.circleColorSchedule,
-    this.thinStarColorSchedule,
-    this.fatStarColorSchedule,
-    this.fillColorSchedule,
-    this.fourierLineWidthSchedule,
-    this.referenceLineWidthSchedule,
-  ] as const;
   constructor(
     initialValues: {
       description?: string;
@@ -137,9 +129,11 @@ export class StarCircuit implements Showable, HasEditorMessages {
       fillColor?: string | readonly Keyframe<string>[];
       fourierLineWidth?: number | readonly Keyframe<number>[];
       referenceLineWidth?: number | readonly Keyframe<number>[];
+      /** How long to ask the parent for.  The default covers the default Step schedule. */
+      minDuration?: number;
     } = {},
   ) {
-    this.description = initialValues.description ?? "Star Circuit";
+    super(initialValues.description ?? "Star Circuit");
     this.circuitSchedule.choices = [...NAMED_CIRCUITS_7.keys()];
     if (initialValues.circuit !== undefined)
       this.circuitSchedule.set(initialValues.circuit);
@@ -163,6 +157,25 @@ export class StarCircuit implements Showable, HasEditorMessages {
       this.fourierLineWidthSchedule.set(initialValues.fourierLineWidth);
     if (initialValues.referenceLineWidth !== undefined)
       this.referenceLineWidthSchedule.set(initialValues.referenceLineWidth);
+    this.minDurationScalar.value = initialValues.minDuration ?? 22_000;
+    this.schedules.push(
+      this.circuitSchedule,
+      this.fourierRectSchedule,
+      this.referenceRectSchedule,
+      this.termGroupsSchedule,
+      this.stepSchedule,
+      this.cornerSizeSchedule,
+      this.roundingSchedule,
+      this.roundingStepSchedule,
+      this.circleColorSchedule,
+      this.thinStarColorSchedule,
+      this.fatStarColorSchedule,
+      this.fillColorSchedule,
+      this.fourierLineWidthSchedule,
+      this.referenceLineWidthSchedule,
+    );
+    // With a duration, it's also in the Edit list, on its own.  This shows its messages there too.
+    addEditorMessages(this);
   }
 
   /** The last Circuit text read, and what it meant.  Never more than one entry. */
@@ -261,7 +274,9 @@ export class StarCircuit implements Showable, HasEditorMessages {
     return messages;
   }
 
-  show(options: ShowOptions) {
+  override show(options: ShowOptions): void {
+    // Any children first, under the star, as in FourierComponent.
+    super.show(options);
     const { context, timeInMs } = options;
     const circuit = this.circuitAt(timeInMs);
     if (typeof circuit == "string") {

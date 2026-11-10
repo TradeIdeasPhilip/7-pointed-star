@@ -14,7 +14,8 @@ Our own tools in the Visual Editor, for Star Circuit and any later component.
 - **How it works:**  the library's one general hook, `Showable.rootComponentEditor`, a panel for whatever is chosen in the Edit list.
   `addScene()` attaches one to the video's root and to every scene.  It's a stopgap, with limits:
   - It sits above the component list, top right, not with the component's properties, bottom right.
-  - Only what we attach it to has it.  Something else chosen in the Edit list, like a pasted Slide with its own length, shows no panel.  Neither does another project.
+  - Only what we attach it to has it:  the video, each scene, and each Star Circuit (which is in the Edit list on its own since 2026-11-09).
+    Something else chosen in the Edit list, like a pasted Slide with its own length, shows no panel.  Neither does another project.
   - After choosing a scene, it stays hidden until you click a component.
 - **The library has no way to add a new kind of field,** like its rectangle or point editors.  The kinds are a fixed list.  We don't need one (below).
 

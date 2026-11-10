@@ -94,6 +94,9 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
 - `src/circuit-grid.ts`:  a Lattice of circles:  Fourier, reference, Fourier, reference, in reading order.  Registered as "Circuit Grid".
   A quick tool for trying layouts.  New work goes into Star Circuit instead.
 - `src/star-circuit.ts`:  one circuit, as a Fourier animation and a reference image, each in its own rectangle, in one set of colors.  Registered as "Star Circuit".
+  It extends `DurationAgnosticComponent`, like the library's FourierComponent.  That gives it Min Duration (22 s by default, the end of the default Step) and a block on the timeline.
+  The timeline only shows children that are a `DurationAgnosticComponent`, a `PaddingComponent`, or have `setDuration()`.  A plain `implements Showable` gets no block.
+  With a duration, it's also in the Edit list on its own, so it gets its own messages panel.
   A class meant to be extended:  override `drawFourier()` or `drawReference()` for variations, like the 3D reference image in `development-plans/3d-euler-circuits.md`.
   The Circuit field takes a name from `NAMED_CIRCUITS_7` (offered as suggestions) or the vertices in order, read by `parseCircuit7()`.
 - `src/tessellating-triangles.ts`:  a background of equilateral triangles in two colors.  Registered as "Tessellating Triangles".

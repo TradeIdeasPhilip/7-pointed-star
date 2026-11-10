@@ -1,9 +1,10 @@
 # canvas-recorder-lib issues
 
-Things this project ran into with canvas-recorder-lib.  It's on 0.7.0 now.
+Things this project ran into with canvas-recorder-lib.  It's on 0.7.2 now.
 None of them block this project.  We'll go through them together when the video is done.
 
 Fixed in 0.6.0, and removed from this list:  1, 2, 4, 5, 6, 9, 12, 14, 16, 17, 18 and 19.
+Fixed in 0.7.2, and removed:  10, `samplesFromParametric()` repeating the first point.  The "circle" source is now exactly one term.
 The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the same thing.
 
 ## API
@@ -48,11 +49,6 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
 
 ## Bugs
 
-10. **`samplesFromParametric()` repeats the first point on closed curves.**
-   It uses `t = i / (N - 1)`, so sample N-1 is at t = 1, the same point as sample 0.
-   For a closed curve, `i / N` would space the samples evenly.
-   This project doesn't use it.
-   Planned for the library's 1.0.0:  see its `development-plans/release-1.0.md`.
 21. **The player's sessionStorage isn't kept per video.**
    The keys in `dev/canvas-recorder.ts` are plain names:  `"index"`, `"timeInSeconds"`, `"zoomSelect"`, `"panX"` and so on.
    Open one video, then another in the same tab, and the second opens at the first one's chapter number and time.
@@ -60,6 +56,16 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    `"pendingScheduleSave"` is shared too.  Its backup carries the video's key, so the wrong video won't apply it, but the next load clears it, so a backup for the first video is lost.
    The IndexedDB write usually covers that.  The comments say a dirty preview's content lives only in the backup.
    Fix:  add `startRequest.name` to every sessionStorage key, the way `videoSizeStorageKey` does for localStorage.
+25. **Clicking a block on the timeline doesn't tell the root panel.**  Found 2026-11-10, in 0.7.2.
+   `timelineDisplay.onBlockClick` in `dev/canvas-recorder.ts` (about line 2456) sets `selectedSlideChild` and rebuilds the property tables,
+   but never calls `activeRootComponentEditor?.selectionChanged(child)`.  Every other way of selecting does:
+   the ✎ button in the component list, and `selectInChapter()`, which the same handler already uses for sound clips.
+   Seen here:  choose Three Circuits, click Circuit 2's block, and the property editor shows Circuit 2, but `editor-messages.ts` stays hidden.
+   It catches up at the next `update()`, which any input event sends.  So typing in Min Duration makes it appear.
+   Fix:  one line in `findIn()`, after `updateScheduleEditor(child)`:  `activeRootComponentEditor?.selectionChanged(child);`.
+   Smaller, maybe:  dragging a block's edge changes Min Duration (or the start, for a Padding) without calling `update()`.
+   It is saved:  those are notifying scalars, so `scheduleHasChanged()` reaches the root, which calls `markDirty()`.
+   Nothing in this project's panel depends on duration, so the missing `update()` doesn't show here.
 22. **The Paste button's tooltip uses the wrong name.**
    A child row's button says `Paste into "Slide"`, from `child.description`, while the row itself says "Pan and Scan", from `userEditableDescription`.
 
