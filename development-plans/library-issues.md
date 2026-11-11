@@ -44,6 +44,20 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
 
 ## Bugs
 
+30. **A reload during startup saves the TypeScript defaults over your work.**  Found 2026-11-11, in 0.7.3.
+   Until `initFromDB()` finishes, the live tree is still the TypeScript defaults, and `_loadSource` is undefined.
+   A reload in that window, from Vite's `vite:beforeFullReload` or from `beforeunload`, calls `saveOnUnload()`.
+   That backs up the TypeScript defaults as a new entry, timestamped now.
+   The next startup finds that backup newer than the newest IndexedDB entry, so it applies it and adds it to the history.
+   Everything the Visual Editor added disappears, while components built in TypeScript look normal.  No warning, and nothing in the console.
+   Almost certainly what happened here:  four quick edits to two .ts files, with the Shorts open, removed every Star Circuit except Scratch 4's eight, which the TypeScript builds.
+   The old state was still in the history, but the load window only restores the selected chapter.
+   Two scenes looked normal at their TypeScript defaults, so they were missed, and found only in the next git diff:
+   Scratch 4 had lost its 90 s length, its circuit (Random 2) and eight voice clips, Portrait Template had lost two Night Skies, and the root had lost its voice clip.
+   Fixed by hand:  a file with the last commit's versions of those three, and today's of the rest, then Open.
+   Recovering means loading with the root selected, which also undoes later work, or finding every changed chapter by hand.
+   Fix:  `saveOnUnload()` does nothing until the restore is done (`_loadSource` is set).
+   `saveState()`, in the same hook, may need the same guard, so it can't save the chapter and time before `restorePlace()` runs.
 21. **The player's sessionStorage isn't kept per video.**
    The keys in `dev/canvas-recorder.ts` are plain names:  `"index"`, `"timeInSeconds"`, `"zoomSelect"`, `"panX"` and so on.
    Open one video, then another in the same tab, and the second opens at the first one's chapter number and time.
@@ -64,6 +78,11 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    Empty groups are how several Fourier animations stay in step while one waits (`term-ordering.md`, Hold back three).
    Each of Scratch 4's eight Star Circuits shows two or three of these warnings.
    Fix:  make it a note, or say nothing.  An empty *first* group might still deserve a note.
+29. **The showcase's Freaky Dots never worked, for two reasons.**  Found 2026-11-11.
+   `test-project/src/showcase/freaky-dots.ts`, commented out as "NOT READY FOR PRIME TIME".
+   * Its three layers are three different sets of random dots.  The circles only appear when they're the same dots, turned a little against each other, as the SVG version's three copies of one filter were.
+   * It calls `path.ellipse()` with no `moveTo()` first, so each ellipse joins the last one with a straight line.  Each layer is filled as one huge self-crossing polygon.  That's the CPU cost, too.
+   This project's `src/freaky-dots.ts` works, at about 1.5 ms a frame in 4K.  The showcase could copy it, or drop the slide.
 22. **The Paste button's tooltip uses the wrong name.**
    A child row's button says `Paste into "Slide"`, from `child.description`, while the row itself says "Pan and Scan", from `userEditableDescription`.
 

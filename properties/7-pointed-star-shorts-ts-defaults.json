@@ -133,7 +133,7 @@
               {
                 "description": "Min Duration",
                 "type": "number",
-                "value": 22000
+                "value": 0
               }
             ],
             "components": [],

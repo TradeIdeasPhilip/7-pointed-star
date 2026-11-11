@@ -44,8 +44,9 @@ export type StarColors = readonly [string, string, string];
  *
  * Override {@link drawFourier} or {@link drawReference} to draw either one differently.
  *
- * A DurationAgnosticComponent, like the library's FourierComponent.  That gives it Min Duration,
- * and a block on the Visual Editor's timeline, with a handle to drag it.
+ * A DurationAgnosticComponent, like the library's FourierComponent.  That gives it Min Duration.
+ * It's 0 by default, so it takes no room on the Visual Editor's timeline, and the parent sets the length.
+ * Above 0, it gets a block on the timeline, with a handle to drag it, and can make the parent longer.
  *
  * In the Visual Editor, its own panel says what Step means at the playhead.  See {@link starCircuitPanel}.
  *
@@ -141,7 +142,7 @@ export class StarCircuit
       fillColor?: string | readonly Keyframe<string>[];
       fourierLineWidth?: number | readonly Keyframe<number>[];
       referenceLineWidth?: number | readonly Keyframe<number>[];
-      /** How long to ask the parent for.  The default covers the default Step schedule. */
+      /** How long to ask the parent for.  0 by default:  nothing on the timeline, and the parent sets the length. */
       minDuration?: number;
     } = {},
   ) {
@@ -169,7 +170,7 @@ export class StarCircuit
       this.fourierLineWidthSchedule.set(initialValues.fourierLineWidth);
     if (initialValues.referenceLineWidth !== undefined)
       this.referenceLineWidthSchedule.set(initialValues.referenceLineWidth);
-    this.minDurationScalar.value = initialValues.minDuration ?? 22_000;
+    this.minDurationScalar.value = initialValues.minDuration ?? 0;
     this.schedules.push(
       this.circuitSchedule,
       this.fourierRectSchedule,

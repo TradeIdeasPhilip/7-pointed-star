@@ -132,14 +132,22 @@ export const GROUPED_7: Circuit = circuitFromSteps(7, [
   ...Array<number>(7).fill(3),
 ]);
 
+function circuitFrom3Steps(second: number, third: number): Circuit {
+  return circuitFromSteps(
+    7,
+    Array.from({ length: 7 }, () => [1, second, third]).flat(),
+  );
+}
+
 /**
  * Steps of 1, 2, 3, repeated 7 times:  each color is cut into 7 pieces.
  * 0,1,3,6, 0,2,5, 6,1,4, 5,0,3, 4,6,2, 3,5,1, 2,4,0.
  */
-export const INTERLEAVED_7: Circuit = circuitFromSteps(
-  7,
-  Array.from({ length: 7 }, () => [1, 2, 3]).flat(),
-);
+export const INTERLEAVED_7: Circuit = circuitFrom3Steps(2, 3);
+// These are the only 3 options with 7 way symmetry, after removing duplicates.
+export const INTERLEAVED_7b: Circuit = circuitFrom3Steps( 3,-2);
+export const INTERLEAVED_7c: Circuit = circuitFrom3Steps(-3, -2);
+
 
 /**
  * With {@link EVERY_KIND_B_7}, shows every kind of vertex, if mirror images count as the same kind.
@@ -196,6 +204,8 @@ export const NAMED_CIRCUITS_7: ReadonlyMap<string, Circuit> = new Map([
   ["Every kind B", EVERY_KIND_B_7],
   ["Grouped", GROUPED_7],
   ["Interleaved", INTERLEAVED_7],
+  ["Interleaved B", INTERLEAVED_7b],
+  ["Interleaved C", INTERLEAVED_7c],
   ...RANDOM_7.map(
     (circuit, index) => [`Random ${index + 1}`, circuit] as const,
   ),

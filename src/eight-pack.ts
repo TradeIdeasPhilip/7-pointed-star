@@ -56,7 +56,7 @@ const COLORS: Record<When, StarColors> = {
   //  /** About 5/8 as bright.  Still easy to see on the Night Sky. */
   //  end: ["#a00000", "#0050a0", "#009500"],
   end: [myRainbow.red, myRainbow.green, "#5050ff"],
-  start : ["#00FFFF", "#FF00FF", "#FFFF00"],
+  start: ["#00FFFF", "#FF00FF", "#FFFF00"],
 };
 
 /** The colors that show these choices. */
@@ -180,8 +180,6 @@ export function fillEightPack(
       fourierLineWidth: 0.06,
       // No reference images:  no room.
       referenceLineWidth: 0,
-      // Nothing on the timeline.  The scene sets the length.
-      minDuration: 0,
     });
     components.push(named(when.join(" "), component));
     return { when, component };

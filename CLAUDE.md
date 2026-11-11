@@ -97,8 +97,9 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
 - `src/circuit-grid.ts`:  a Lattice of circles:  Fourier, reference, Fourier, reference, in reading order.  Registered as "Circuit Grid".
   A quick tool for trying layouts.  New work goes into Star Circuit instead.
 - `src/star-circuit.ts`:  one circuit, as a Fourier animation and a reference image, each in its own rectangle, in one set of colors.  Registered as "Star Circuit".
-  It extends `DurationAgnosticComponent`, like the library's FourierComponent.  That gives it Min Duration (22 s by default, the end of the default Step) and a block on the timeline.
-  The timeline only shows children that are a `DurationAgnosticComponent`, a `PaddingComponent`, or have `setDuration()`.  A plain `implements Showable` gets no block.
+  It extends `DurationAgnosticComponent`, like the library's FourierComponent.  That gives it Min Duration, 0 by default.
+  So by default it takes no room on the timeline, and the scene sets the length.  The default Step ends at 22 s, so the scene needs at least that.
+  Above 0, it gets a block on the timeline.  The timeline only shows children that are a `DurationAgnosticComponent`, a `PaddingComponent`, or have `setDuration()`.  A plain `implements Showable` gets no block.
   With a duration, it's also in the Edit list on its own, so it gets its own messages panel.
   A class meant to be extended:  override `drawFourier()` or `drawReference()` for variations, like the 3D reference image in `development-plans/3d-euler-circuits.md`.
   The Circuit field takes a name from `NAMED_CIRCUITS_7` (offered as suggestions) or the vertices in order, read by `parseCircuit7()`.
@@ -116,6 +117,13 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   Copied from the hexagram videos (random-svg-tests 0707534, ✶39); the defaults are the old values, except Seed (it was "Good Night 🌛").  The default Rect is the whole canvas.
   Star i is the same whatever Number of Stars is, and a fraction fades in the next one.  `Random.fromString()` logs, so it keeps one generator per seed.
   Like Tessellating Triangles, a plain Showable with duration 0:  not on the timeline, and the same at any time.
+- `src/freaky-dots.ts`:  a background, three copies of one sheet of random dots, each turned a little around Center, so the dots swirl around it.  Registered as "Freaky Dots".
+  From the hexagram videos (random-svg-tests bf4e80a, ✶36), where SVG turbulence filters made 4K slow and hot.  Here each dot is an ellipse in a Path2D, turned by the canvas transform.
+  The circles (a Glass pattern) only appear because the three sheets are the same dots.  The library's abandoned try, `test-project/src/showcase/freaky-dots.ts`, used three different sets, and no `moveTo()` before each `ellipse()`.
+  A duration of 0, but not the same at any time:  the wiggle and any keyframes use the scene's time.
+  Each 1 × 1 cell's dots come from the Seed and the cell, so they never move, and Rect is only a window.  The paths are rebuilt only when a dot setting changes, or a sheet needs dots it doesn't have.
+  About 1.5 ms a frame at 4K on the author's M1, about what Night Sky costs.
+  To time canvas drawing headless:  a `getImageData()` every frame moves the canvas off the GPU (31 ms here), and a full-canvas `clearRect()` lets Chrome skip the frame before it.
 - `scripts/count-circuits.ts`:  the counts above.
 - `scripts/find-vertex-types.ts`:  every pairing is equally common (K7 minus a vertex is K6, so the graph can't tell the pairings apart).
   At most 7 kinds fit in one circuit.  `EVERY_KIND_A_7` and `EVERY_KIND_B_7` are the first pair it found that shows all 11.
