@@ -103,6 +103,9 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   A class meant to be extended:  override `drawFourier()` or `drawReference()` for variations, like the 3D reference image in `development-plans/3d-euler-circuits.md`.
   The Circuit field takes a name from `NAMED_CIRCUITS_7` (offered as suggestions) or the vertices in order, read by `parseCircuit7()`.
   A line width of 0 turns that part off, at no cost, unless Fill Color is set.  (The canvas ignores a `lineWidth` of 0, so it's handled in `setLineWidth()`.)
+- `src/star-circuit-panel.ts`:  Star Circuit's own `editorPanel` (library 0.7.3), bottom right with its properties.
+  At the playhead:  Step to 2 places, the terms all the way in, and the ones coming in, in the Term Groups format ("2 7-11", or "none").  Warns about terms the circuit doesn't have.
+  `describeStep()` and `formatTerms()` are pure, and would work for the library's FourierComponent too, through `addEditorPanel()`.
 - `src/eight-pack.ts`:  eight copies of one circuit, like ✶37.  Each holds its first, second and third term groups for the end, or not:  2 × 2 × 2.
   Bright or dark circle, fat star and thin star show the three choices.  Empty term groups keep them in step, so all eight share one plain Step.
   `fillEightPack()` builds one in a scene (Scratch 4 in the Shorts).  The console commands are `philDebug.eightPack`:  `find()`, `setTermGroups()`, `setSteps()`, `setCircuit()`.

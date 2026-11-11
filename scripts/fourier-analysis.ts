@@ -43,6 +43,7 @@ const ALREADY_USED = new Set([
   "Forward Backward Forward",
   "Every kind A",
   "Every kind B",
+  "Random 2",
 ]);
 
 // MARK: Examples

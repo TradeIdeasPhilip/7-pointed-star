@@ -13,9 +13,11 @@ Our own tools in the Visual Editor, for Star Circuit and any later component.
   - Any component can join:  give it an `editorMessages()` method.
   - It still uses the old hook, `Showable.rootComponentEditor`, a panel for whatever is chosen in the Edit list.
     `addScene()` attaches one to the video's root and to every scene.  So it sits top right, above the component list, and only where we attached it.
-- **Built:  `saveOutsideChanges()`,** in the same file.  It saves what the console commands in `eight-pack.ts` change.
+- **Built:  Star Circuit's own panel,** `src/star-circuit-panel.ts`, on the new hook (2026-11-10).
+  At the playhead:  Step to 2 places, the terms all the way in, and the ones coming in, in the Term Groups format.  It warns about terms the circuit doesn't have.
+- **Built:  `saveOutsideChanges()`,** in `editor-messages.ts`.  It saves what the console commands in `eight-pack.ts` change.
   It borrows a root panel's `VisualEditorAPI`, and uses `refreshGUI("structure")`, which sends the selection back to the root.
-- **New in the library, 0.7.3** (published 2026-11-10;  this project is still on 0.7.2 until npm has it):
+- **New in the library, 0.7.3** (installed here 2026-11-10):
   - `Showable.editorPanel`:  a component's own panel, bottom right, with its properties.  It shows whenever the component is selected, in any way.  That was item 15.
   - `canvasRecorder.addEditorPanel(factory)`:  the same panel, for any component the factory picks, including the library's own, like FourierComponent.
   - What a panel can ask for (`EditorPanelAPI`):  `getTimeMs()` in the component's own time, `seek()`, `refreshGUI()`, and `propertyChanged(property)`.
@@ -29,8 +31,8 @@ Our own tools in the Visual Editor, for Star Circuit and any later component.
 
 ### What we want, in order
 
-1. **Move to 0.7.3** when npm has it.  Trivial.
-   Then `saveOutsideChanges()` can use `refreshGUI("properties")`, which saves and keeps the selection.
+1. **Use 0.7.3's saving in `saveOutsideChanges()`.**  Trivial.  (0.7.3 is installed.)
+   `refreshGUI("properties")` saves now, and keeps the selection.
    The console commands only change values, so `"structure"` was only for its saving.  Check that the canvas redraws.
 2. **Move the messages to the new hook.**  Small:  only the wiring in `editor-messages.ts` changes.
    One `canvasRecorder.addEditorPanel()` call covers every component with `editorMessages()`.  Star Circuit doesn't change.
@@ -38,7 +40,7 @@ Our own tools in the Visual Editor, for Star Circuit and any later component.
    It also lifts the stopgap's limits.  The messages show next to the component's properties, as soon as it's selected, wherever it is:  a pasted Slide, either video, any chapter.
    Keep the root panels only for `saveOutsideChanges()`, until the console can save without one (`library-issues.md`, item 28).
 3. **The vertex editor.**  `circuit-editor.md`.  Big.  Nothing blocks it now.
-   Make it Star Circuit's own `editorPanel`.  It changes Circuit with `propertyChanged()`, edits the keyframe in effect at `getTimeMs()`, and follows the playhead with `timeChanged()`.
+   It goes in Star Circuit's own `editorPanel`, which exists now (`star-circuit-panel.ts`), as a second section.  It changes Circuit with `propertyChanged()`, edits the keyframe in effect at `getTimeMs()`, and follows the playhead with `timeChanged()`.
    A panel object lasts as long as its component, so it can remember which vertex was picked.
    Its first step (the pairings spelling, the drawing table, the X) needs no panel and can start any time.
 4. **New, optional:  a terms panel.**  Small:  copy the showcase's.

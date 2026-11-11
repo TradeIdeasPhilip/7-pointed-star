@@ -1,6 +1,6 @@
 # canvas-recorder-lib issues
 
-Things this project ran into with canvas-recorder-lib.  It's on 0.7.2 now, and moves to 0.7.3 when npm has it.
+Things this project ran into with canvas-recorder-lib.  It's on 0.7.3 now.
 None of them block this project.  We'll go through them together when the video is done.
 
 Fixed in 0.6.0, and removed from this list:  1, 2, 4, 5, 6, 9, 12, 14, 16, 17, 18 and 19.

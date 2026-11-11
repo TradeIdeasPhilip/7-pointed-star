@@ -14,7 +14,7 @@
     "fourier-analysis": "node scripts/fourier-analysis.ts"
   },
   "dependencies": {
-    "canvas-recorder-lib": "^0.7.2",
+    "canvas-recorder-lib": "^0.7.3",
     "phil-lib": "^1.8.1"
   },
   "devDependencies": {

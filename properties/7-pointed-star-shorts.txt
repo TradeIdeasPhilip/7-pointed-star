@@ -140,3 +140,90 @@ Current:    [{"source":"local:7-pointed-star-shorts 2026-11-10 01-58-34.453.wav"
   white.lineWidthSchedule.set(0.1);
   white.userEditableDescription = "White";
   scratch3.replaceableComponents!.push(white);
+→ Scratch 4
+→ → Min Duration
+TypeScript: 30000
+Current:    90000
+→ → Sound Clips
+TypeScript: undefined
+Current:    [{"source":"local:7-pointed-star-shorts 2026-11-11 00-20-26.864.wav","startMsIntoScene":86279.676756,"startMsIntoClip":97.884101,"lengthMs":2230.8},{"source":"local:7-pointed-star-shorts 2026-11-11 00-18-52.855.wav","startMsIntoScene":10666.044635,"startMsIntoClip":423.884101,"lengthMs":11072.8},{"source":"local:7-pointed-star-shorts 2026-11-11 00-18-52.855.wav","startMsIntoScene":21742.610401,"startMsIntoClip":12121.084101,"lengthMs":528.915899},{"source":"local:7-pointed-star-shorts 2026-11-11 00-18-52.855.wav","startMsIntoScene":22281.719798,"startMsIntoClip":13314.466,"lengthMs":2563.318101},{"source":"local:7-pointed-star-shorts 2026-11-11 00-18-52.855.wav","startMsIntoScene":19.415392,"startMsIntoClip":17846.684101,"lengthMs":10523.908},{"source":"local:7-pointed-star-shorts 2026-11-11 00-18-52.855.wav","startMsIntoScene":25071.876986,"startMsIntoClip":33544.092101,"lengthMs":5218.923},{"source":"local:7-pointed-star-shorts 2026-11-11 00-18-52.855.wav","startMsIntoScene":32221.551515,"startMsIntoClip":38763.015101,"lengthMs":26263.748},{"source":"local:7-pointed-star-shorts 2026-11-11 00-18-52.855.wav","startMsIntoScene":64049.097735,"startMsIntoClip":65026.763101,"lengthMs":20516.821}]
+→ → end end end
+→ → → Circuit
+TypeScript: "Random 5"
+Current:    "Random 2"
+→ → → Term Groups
+TypeScript: ", , , 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, 0, 1, 2"
+Current:    ", , , 3, 4, 5-9, 10-19, 20-39, 40-99, 100-1023, 0, 1, 2"
+→ → → Step
+TypeScript: [{"time":0,"value":0},{"time":30000,"value":14}]
+Current:    [{"time":0,"value":0},{"time":90000,"value":13}]
+→ → start end end
+→ → → Circuit
+TypeScript: "Random 5"
+Current:    "Random 2"
+→ → → Term Groups
+TypeScript: "0, , , 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, , 1, 2"
+Current:    "0, , , 3, 4, 5-9, 10-19, 20-39, 40-99, 100-1023, , 1, 2"
+→ → → Step
+TypeScript: [{"time":0,"value":0},{"time":30000,"value":14}]
+Current:    [{"time":0,"value":0},{"time":90000,"value":13}]
+→ → end start end
+→ → → Circuit
+TypeScript: "Random 5"
+Current:    "Random 2"
+→ → → Term Groups
+TypeScript: ", 1, , 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, 0, , 2"
+Current:    ", 1, , 3, 4, 5-9, 10-19, 20-39, 40-99, 100-1023, 0, , 2"
+→ → → Step
+TypeScript: [{"time":0,"value":0},{"time":30000,"value":14}]
+Current:    [{"time":0,"value":0},{"time":90000,"value":13}]
+→ → start start end
+→ → → Circuit
+TypeScript: "Random 5"
+Current:    "Random 2"
+→ → → Term Groups
+TypeScript: "0, 1, , 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, , , 2"
+Current:    "0, 1, , 3, 4, 5-9, 10-19, 20-39, 40-99, 100-1023, , , 2"
+→ → → Step
+TypeScript: [{"time":0,"value":0},{"time":30000,"value":14}]
+Current:    [{"time":0,"value":0},{"time":90000,"value":13}]
+→ → end end start
+→ → → Circuit
+TypeScript: "Random 5"
+Current:    "Random 2"
+→ → → Term Groups
+TypeScript: ", , 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, 0, 1,"
+Current:    ", , 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-1023, 0, 1,"
+→ → → Step
+TypeScript: [{"time":0,"value":0},{"time":30000,"value":14}]
+Current:    [{"time":0,"value":0},{"time":90000,"value":13}]
+→ → start end start
+→ → → Circuit
+TypeScript: "Random 5"
+Current:    "Random 2"
+→ → → Term Groups
+TypeScript: "0, , 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, , 1,"
+Current:    "0, , 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-1023, , 1,"
+→ → → Step
+TypeScript: [{"time":0,"value":0},{"time":30000,"value":14}]
+Current:    [{"time":0,"value":0},{"time":90000,"value":13}]
+→ → end start start
+→ → → Circuit
+TypeScript: "Random 5"
+Current:    "Random 2"
+→ → → Term Groups
+TypeScript: ", 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, 0, ,"
+Current:    ", 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-1023, 0, ,"
+→ → → Step
+TypeScript: [{"time":0,"value":0},{"time":30000,"value":14}]
+Current:    [{"time":0,"value":0},{"time":90000,"value":13}]
+→ → start start start
+→ → → Circuit
+TypeScript: "Random 5"
+Current:    "Random 2"
+→ → → Term Groups
+TypeScript: "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, , ,"
+Current:    "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-1023, , ,"
+→ → → Step
+TypeScript: [{"time":0,"value":0},{"time":30000,"value":14}]
+Current:    [{"time":0,"value":0},{"time":90000,"value":13}]

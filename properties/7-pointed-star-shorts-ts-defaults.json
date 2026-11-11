@@ -607,17 +607,17 @@
               {
                 "description": "Circle Color",
                 "type": "color",
-                "value": "#a00000"
+                "value": "rgb(255, 0, 0)"
               },
               {
                 "description": "Thin Star Color",
                 "type": "color",
-                "value": "#009500"
+                "value": "#5050ff"
               },
               {
                 "description": "Fat Star Color",
                 "type": "color",
-                "value": "#0050a0"
+                "value": "#0e0"
               },
               {
                 "description": "Fill Color",
@@ -710,17 +710,17 @@
               {
                 "description": "Circle Color",
                 "type": "color",
-                "value": "rgb(255, 0, 0)"
+                "value": "#00FFFF"
               },
               {
                 "description": "Thin Star Color",
                 "type": "color",
-                "value": "#009500"
+                "value": "#5050ff"
               },
               {
                 "description": "Fat Star Color",
                 "type": "color",
-                "value": "#0050a0"
+                "value": "#0e0"
               },
               {
                 "description": "Fill Color",
@@ -813,17 +813,17 @@
               {
                 "description": "Circle Color",
                 "type": "color",
-                "value": "#a00000"
+                "value": "rgb(255, 0, 0)"
               },
               {
                 "description": "Thin Star Color",
                 "type": "color",
-                "value": "#009500"
+                "value": "#5050ff"
               },
               {
                 "description": "Fat Star Color",
                 "type": "color",
-                "value": "rgb(0, 128, 255)"
+                "value": "#FF00FF"
               },
               {
                 "description": "Fill Color",
@@ -916,17 +916,17 @@
               {
                 "description": "Circle Color",
                 "type": "color",
-                "value": "rgb(255, 0, 0)"
+                "value": "#00FFFF"
               },
               {
                 "description": "Thin Star Color",
                 "type": "color",
-                "value": "#009500"
+                "value": "#5050ff"
               },
               {
                 "description": "Fat Star Color",
                 "type": "color",
-                "value": "rgb(0, 128, 255)"
+                "value": "#FF00FF"
               },
               {
                 "description": "Fill Color",
@@ -1019,17 +1019,17 @@
               {
                 "description": "Circle Color",
                 "type": "color",
-                "value": "#a00000"
+                "value": "rgb(255, 0, 0)"
               },
               {
                 "description": "Thin Star Color",
                 "type": "color",
-                "value": "#0e0"
+                "value": "#FFFF00"
               },
               {
                 "description": "Fat Star Color",
                 "type": "color",
-                "value": "#0050a0"
+                "value": "#0e0"
               },
               {
                 "description": "Fill Color",
@@ -1122,17 +1122,17 @@
               {
                 "description": "Circle Color",
                 "type": "color",
-                "value": "rgb(255, 0, 0)"
+                "value": "#00FFFF"
               },
               {
                 "description": "Thin Star Color",
                 "type": "color",
-                "value": "#0e0"
+                "value": "#FFFF00"
               },
               {
                 "description": "Fat Star Color",
                 "type": "color",
-                "value": "#0050a0"
+                "value": "#0e0"
               },
               {
                 "description": "Fill Color",
@@ -1225,17 +1225,17 @@
               {
                 "description": "Circle Color",
                 "type": "color",
-                "value": "#a00000"
+                "value": "rgb(255, 0, 0)"
               },
               {
                 "description": "Thin Star Color",
                 "type": "color",
-                "value": "#0e0"
+                "value": "#FFFF00"
               },
               {
                 "description": "Fat Star Color",
                 "type": "color",
-                "value": "rgb(0, 128, 255)"
+                "value": "#FF00FF"
               },
               {
                 "description": "Fill Color",
@@ -1328,17 +1328,17 @@
               {
                 "description": "Circle Color",
                 "type": "color",
-                "value": "rgb(255, 0, 0)"
+                "value": "#00FFFF"
               },
               {
                 "description": "Thin Star Color",
                 "type": "color",
-                "value": "#0e0"
+                "value": "#FFFF00"
               },
               {
                 "description": "Fat Star Color",
                 "type": "color",
-                "value": "rgb(0, 128, 255)"
+                "value": "#FF00FF"
               },
               {
                 "description": "Fill Color",

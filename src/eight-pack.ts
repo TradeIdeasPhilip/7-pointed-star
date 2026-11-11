@@ -52,9 +52,11 @@ export function whenFor(index: number): [When, When, When] {
 
 /** The circle, the fat star and the thin star, for each choice of the first, second and third term groups. */
 const COLORS: Record<When, StarColors> = {
-  start: [myRainbow.red, myRainbow.myBlue, myRainbow.green],
-  /** About 5/8 as bright.  Still easy to see on the Night Sky. */
-  end: ["#a00000", "#0050a0", "#009500"],
+  //  start: [myRainbow.red, myRainbow.myBlue, myRainbow.green],
+  //  /** About 5/8 as bright.  Still easy to see on the Night Sky. */
+  //  end: ["#a00000", "#0050a0", "#009500"],
+  end: [myRainbow.red, myRainbow.green, "#5050ff"],
+  start : ["#00FFFF", "#FF00FF", "#FFFF00"],
 };
 
 /** The colors that show these choices. */

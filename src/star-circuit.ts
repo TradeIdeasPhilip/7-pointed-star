@@ -5,6 +5,7 @@ import {
   ColorScheduleInfo,
   componentRegistry,
   DurationAgnosticComponent,
+  type EditorPanel,
   Keyframe,
   NumberScheduleInfo,
   parseTermGroups,
@@ -27,6 +28,7 @@ import {
   drawColoredFrame,
 } from "./colored-fourier.ts";
 import { drawRoundedCircuit, STAR_BOUNDS } from "./rounded-star.ts";
+import { starCircuitPanel } from "./star-circuit-panel.ts";
 import { RoundingSettings } from "./vertex-corners.ts";
 
 /** The circle, the fat star and the thin star. */
@@ -44,6 +46,8 @@ export type StarColors = readonly [string, string, string];
  *
  * A DurationAgnosticComponent, like the library's FourierComponent.  That gives it Min Duration,
  * and a block on the Visual Editor's timeline, with a handle to drag it.
+ *
+ * In the Visual Editor, its own panel says what Step means at the playhead.  See {@link starCircuitPanel}.
  *
  * In the component registry as "Star Circuit".
  */
@@ -121,6 +125,8 @@ export class StarCircuit
     "Reference Line Width",
     0.05,
   );
+  /** Its own panel in the Visual Editor:  Step at the playhead, and the terms that means.  A subclass can replace it, or wrap it. */
+  readonly editorPanel: EditorPanel = starCircuitPanel(this);
   constructor(
     initialValues: {
       description?: string;
