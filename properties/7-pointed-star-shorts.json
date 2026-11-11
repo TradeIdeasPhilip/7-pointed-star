@@ -5,6 +5,124 @@
     "description": "7 Pointed Star Shorts",
     "fixedComponents": [
       {
+        "description": "Portrait Template",
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1.1,
+                  "y": 6,
+                  "width": 6.8,
+                  "height": 6.8
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 4.5,
+                  "y": 2.4,
+                  "width": 3.4,
+                  "height": 3.4
+                }
+              }
+            ],
+            "userEditableDescription": "Circuit"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 2.8,
+                  "y": 4.1
+                }
+              },
+              {
+                "description": "Baseline",
+                "type": "select",
+                "value": "middle"
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Width Mode",
+                "type": "select",
+                "value": "unbounded"
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "rgb(0, 128, 255)"
+                  },
+                  {
+                    "description": "Font Size",
+                    "type": "number",
+                    "value": 0.5
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "Circuit 1"
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Label"
+          },
+          {
+            "registryKey": "Night Sky",
+            "schedules": [
+              {
+                "description": "Seed",
+                "type": "string",
+                "value": ""
+              }
+            ]
+          },
+          {
+            "registryKey": "Night Sky"
+          }
+        ]
+      },
+      {
         "description": "Scratch 1",
         "scalars": [
           {

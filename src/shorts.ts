@@ -6,7 +6,7 @@
  * 1. Portrait Template:  one circuit, laid out for a phone.
  * 2. Pan and Scan Template:  an empty Slide that slowly moves across a wider picture.
  *    Copy a whole slide from the main video, and paste it into the Slide.
- * 3. Scratch 1, 2 and 3:  just a background, to add anything to.
+ * 3. Scratch 1 to 13:  just a background, to add anything to.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  * @module
@@ -91,8 +91,9 @@ addScene(root, "Pan and Scan Template", 24_000).replaceableComponents!.push(
 // MARK: Scratch
 
 // Blank pages, to add anything to from the Visual Editor.
-addScene(root, "Scratch 1", 5_000);
-addScene(root, "Scratch 2", 5_000);
-addScene(root, "Scratch 3", 5_000);
+// The editor finds saved work by name, so add more at the end, and never renumber.
+for (let number = 1; number <= 13; number++) {
+  addScene(root, `Scratch ${number}`, 5_000);
+}
 
 export const shorts = root;

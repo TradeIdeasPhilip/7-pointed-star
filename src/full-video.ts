@@ -11,7 +11,7 @@
  * 4. Circuit Grid:  a Circuit Grid component, for trying layouts.
  * 5. Three Circuits:  three Star Circuit components, each in its own colors, with labels.
  *    Laid out like Peano vs Fourier:  the Fourier animations as big as possible, the reference images a little smaller.
- * 6. Scratch 1, 2 and 3:  just a background, to add anything to.
+ * 6. Scratch 1 to 13:  just a background, to add anything to.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  * @module
@@ -177,8 +177,9 @@ threeCircuits.forEach(({ fatStarColor }, index) => {
 // MARK: Scratch
 
 // Blank pages, to add anything to from the Visual Editor.
-addScene(root, "Scratch 1", 5_000);
-addScene(root, "Scratch 2", 5_000);
-addScene(root, "Scratch 3", 5_000);
+// The editor finds saved work by name, so add more at the end, and never renumber.
+for (let number = 1; number <= 13; number++) {
+  addScene(root, `Scratch ${number}`, 5_000);
+}
 
 export const fullVideo = root;

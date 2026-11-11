@@ -2,6 +2,16 @@
 → Sound Clips
 TypeScript: undefined
 Current:    [{"source":"local:7-pointed-star-shorts 2026-11-07 22-04-19.533.wav","startMsIntoScene":0,"startMsIntoClip":427.595158,"lengthMs":16522.666667}]
+→ Portrait Template
+→ → Night Sky #1
+  [added]
+  const nightSky = new NightSky({ description: "Night Sky" });
+  nightSky.seedSchedule.set("");
+  portraitTemplate.replaceableComponents!.push(nightSky);
+→ → Night Sky #2
+  [added]
+  const nightSky2 = new NightSky({ description: "Night Sky" });
+  portraitTemplate.replaceableComponents!.push(nightSky2);
 → Scratch 1
 → → Min Duration
 TypeScript: 5000

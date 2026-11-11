@@ -8,6 +8,7 @@
 
 import "./circuit-grid.ts";
 import "./colorful-star.ts";
+import "./night-sky.ts";
 import "./rounded-star.ts";
 import "./star-circuit.ts";
 import "./star-sources.ts";

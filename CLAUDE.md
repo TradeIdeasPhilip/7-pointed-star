@@ -60,7 +60,7 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   3. "Every Kind of Vertex":  two whole circuits with rounded corners, that between them show every kind of vertex.
   4. "Circuit Grid":  a Circuit Grid component, for trying layouts.
   5. "Three Circuits":  three Star Circuits, laid out like Peano vs Fourier, each in its own colors, plus a Multi Text label for each.
-  6. "Scratch 1", "Scratch 2", "Scratch 3":  only a background.  The author fills these from the Visual Editor.
+  6. "Scratch 1" to "Scratch 13":  only a background.  The author fills these from the Visual Editor.
   The editor matches saved state by description, starting at the root.  Renaming or wrapping the root drops the saved state.
   The author prefers components added as replaceable children, so the Visual Editor can change, copy or delete them, and labels separate from what they label.
   The author's plan:  a few template slides that always match the TypeScript defaults, so the diff file says nothing about them.  Copy a template, or part of one, from the GUI to a blank slide, in either video.
@@ -68,7 +68,7 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
 - `src/shorts.ts`:  every portrait video, `?toShow=7-pointed-star-shorts`, for YouTube Shorts.  9 × 16 units, 1080 × 1920 pixels, size locked.  Previews of the main video, one or more scenes each.
   1. "Portrait Template":  one Star Circuit and a label, laid out for a phone.
   2. "Pan and Scan Template":  an empty Slide that moves slowly across a 16 × 9 picture.  Paste a whole slide from the main video into it.
-  3. "Scratch 1", "Scratch 2", "Scratch 3":  only a background.
+  3. "Scratch 1" to "Scratch 13":  only a background.
 - `src/scenes.ts`:  `addScene()` and `named()`, shared by the videos.  Set `canvasRecorder.size` before `addScene()`, because the background fills the canvas.
   `addScene()` also gives the root and the scene the messages panel.
 - `src/editor-messages.ts`:  a panel in the Visual Editor, top right, that shows the selected component's warnings.  A component opts in with an `editorMessages()` method; Star Circuit has one.
@@ -101,6 +101,10 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   The Circuit field takes a name from `NAMED_CIRCUITS_7` (offered as suggestions) or the vertices in order, read by `parseCircuit7()`.
 - `src/tessellating-triangles.ts`:  a background of equilateral triangles in two colors.  Registered as "Tessellating Triangles".
   The fields say "▲ Color" and "▼ Color"; the code says `upColor` and `downColor`.
+- `src/night-sky.ts`:  a background, a gradient from Top Color to Bottom Color with glowing stars.  Registered as "Night Sky".
+  Copied from the hexagram videos (random-svg-tests 0707534, ✶39); the defaults are the old values, except Seed (it was "Good Night 🌛").  The default Rect is the whole canvas.
+  Star i is the same whatever Number of Stars is, and a fraction fades in the next one.  `Random.fromString()` logs, so it keeps one generator per seed.
+  Like Tessellating Triangles, a plain Showable with duration 0:  not on the timeline, and the same at any time.
 - `scripts/count-circuits.ts`:  the counts above.
 - `scripts/find-vertex-types.ts`:  every pairing is equally common (K7 minus a vertex is K6, so the graph can't tell the pairings apart).
   At most 7 kinds fit in one circuit.  `EVERY_KIND_A_7` and `EVERY_KIND_B_7` are the first pair it found that shows all 11.
@@ -116,6 +120,8 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   - `3d-euler-circuits.md`:  the author's idea for a 3D reference image.  Far in the future.
   - `circuit-editor.md`:  choosing a circuit one vertex at a time, and what to draw when the result is several loops.  Not started; waits on library item 23.
   - `editor-panels.md`:  our own tools in the Visual Editor.  Starts with what exists, what we want in priority order, and why.  Then the library brainstorm.
+  - `term-ordering.md`:  the author's tricks for ordering Fourier terms, from the hexagram videos in random-svg-tests, with commits and videos.
+    Which ones Term Groups can already say, and what the others need.
 
 ## User errors
 
