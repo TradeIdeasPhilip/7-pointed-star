@@ -62,6 +62,12 @@ An empty group is a pause, while other copies add the term this one skips.
 The editor warns about each empty group.  Here they're on purpose.
 The ✶37 to ✶40 videos used an earlier version, then called `moveSmallOnesToTheFront()`, that held back ranks 5, 6 and 7.
 
+**Here:**  `src/eight-pack.ts`, Scratch 4 in the Shorts (2026-11-10).  It holds back the first three groups, not ranks 3 to 5, and the colors show each copy's choices.
+`philDebug.eightPack.setTermGroups()` writes all eight strings from the last copy's Term Groups.
+
+**Pause with empty groups, not with Step.**  Scratch 3 kept circuits in step with complicated Step schedules.  That was a mistake (the author, 2026-11-10).
+Give every copy the same number of groups, and the same plain Step from 0 to the end.  A copy that should wait while the others draw gets an empty group there.
+
 ### Forward and back
 
 The `// MARK: Forward and back` block.  By rank.
@@ -162,7 +168,7 @@ From the commit messages.  ✶N with no link means the commit names only the cir
 
 - **Every by-rank trick:**  type the strings above into Term Groups.  The ranks mean the same thing in our circuits.
 - **Several copies:**  copy a Star Circuit and change its Term Groups.
-- **A canon:**  start each copy's Term Groups with empty groups, or shift its Step keyframes.
+- **A canon:**  start each copy's Term Groups with empty groups.  Better than shifting its Step keyframes (see Hold back three).
 
 ### Next, in `scripts/fourier-analysis.ts`
 

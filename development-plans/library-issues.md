@@ -1,10 +1,15 @@
 # canvas-recorder-lib issues
 
-Things this project ran into with canvas-recorder-lib.  It's on 0.7.2 now.
+Things this project ran into with canvas-recorder-lib.  It's on 0.7.2 now, and moves to 0.7.3 when npm has it.
 None of them block this project.  We'll go through them together when the video is done.
 
 Fixed in 0.6.0, and removed from this list:  1, 2, 4, 5, 6, 9, 12, 14, 16, 17, 18 and 19.
 Fixed in 0.7.2, and removed:  10, `samplesFromParametric()` repeating the first point.  The "circle" source is now exactly one term.
+Fixed in 0.7.3, and removed:
+* 15, a project's own Visual Editor panel.  Now `Showable.editorPanel`, and `canvasRecorder.addEditorPanel()` for any component, the library's included.
+* 23, a panel's change wasn't saved.  Now `refreshGUI("properties")` saves, and so does the new `EditorPanelAPI.propertyChanged()`.
+* 25, a click on a timeline block didn't call `selectionChanged()`.
+What's next for our panels:  the top of `editor-panels.md`.
 The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the same thing.
 
 ## API
@@ -27,25 +32,15 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    Both copies are faithful, so the curves, timing and segment counts match the library's.
    `makeEasing()` is private in fourier-shared.ts, so it's copied too.
    If the library returned these, `FourierComponent.drawPath()` could offer a hook for coloring by `t`.
-15. **A project's own component can't add a Visual Editor panel.**  Wanted, not needed.  Second priority, after item 23.
-   The library's own panels are a hand-written list in `updateScheduleEditor()` in `dev/canvas-recorder.ts`, one `instanceof` each:  `FourierComponent`, `MultiTextComponent`, and so on.  Star Circuit isn't on it.
-   The only general hook is `Showable.rootComponentEditor`:  a panel for whatever is chosen in the Edit list.
-   Since 2026-11-08, this project uses that as a stopgap.  `src/editor-messages.ts` shows Star Circuit's warnings, and the vertex editor will go there too.  The limits:
-   * It sits above the component list, top right, not next to the component's properties, bottom right.
-   * It only exists where we attach it:  `addScene()` does the root and each scene.  Anything else chosen in the Edit list, or another project, has none.
-   * Its times are the chapter's, not the component's.  The same thing for a Star Circuit sitting directly in a scene.
-   Plan:  the same interface on any Showable, as an optional `editorPanel` field.  See `editor-panels.md`, which starts with the priorities and reasons.
-   Moving to it changes only the wiring in `editor-messages.ts`.
-23. **A panel can't save a property it changes.**  Needed for the vertex editor (`circuit-editor.md`).  First priority, and small.
-   After changing a property, a `rootComponentEditor` panel tells the editor with `VisualEditorAPI.refreshGUI()`.  In `dev/canvas-recorder.ts` (`const visualEditorAPI`, about line 1842):
-   * `"properties"` rebuilds the property tables, but never calls `markDirty()`.  So the change isn't saved, to IndexedDB or to `properties/`, unless some later edit saves it.  A reload loses it.
-   * `"structure"` saves, but also sets `selectedSlideChild = null`.  So after every click in the panel, the selection jumps back to the scene.
-   Fix:  make `"properties"` call `markDirty()`, as the library's own panels do after a change (Handwriting's `progressChanged()`, Image File's `urlChanged()`).
-   Check that it records an undo step too.  Or add the `propertyChanged(property)` call that `editor-panels.md` proposes.
 20. **A project with more than one video has to write its own menu.**
    canvas-recorder had `?toShow=` and a list of links built in.  In this library, `canvasRecorder.start()` takes one Showable, so this project's `src/main.ts` does it, in about 30 lines.
    That part is fine, and it's a good pattern to copy.  Maybe something like `canvasRecorder.startMenu()`, and a section in the README.
    The player has no link back to the menu.  This project's menu opens each video in a new tab instead.
+28. **A console command can't save without a panel.**  Wanted, small.  Found 2026-11-10, in 0.7.3.
+   `philDebug.VisualEditor` has the root, the selection and the time, but no way to save.
+   So `saveOutsideChanges()` in `editor-messages.ts` borrows a root panel's `VisualEditorAPI`, and only works in a chapter where `addScene()` attached one.
+   Once the messages move to `addEditorPanel()` (`editor-panels.md`), that's the only reason left for the root panels.
+   Fix:  add `refreshGUI()` to `philDebug.VisualEditor`.
 
 ## Bugs
 
@@ -56,16 +51,19 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    `"pendingScheduleSave"` is shared too.  Its backup carries the video's key, so the wrong video won't apply it, but the next load clears it, so a backup for the first video is lost.
    The IndexedDB write usually covers that.  The comments say a dirty preview's content lives only in the backup.
    Fix:  add `startRequest.name` to every sessionStorage key, the way `videoSizeStorageKey` does for localStorage.
-25. **Clicking a block on the timeline doesn't tell the root panel.**  Found 2026-11-10, in 0.7.2.
-   `timelineDisplay.onBlockClick` in `dev/canvas-recorder.ts` (about line 2456) sets `selectedSlideChild` and rebuilds the property tables,
-   but never calls `activeRootComponentEditor?.selectionChanged(child)`.  Every other way of selecting does:
-   the ✎ button in the component list, and `selectInChapter()`, which the same handler already uses for sound clips.
-   Seen here:  choose Three Circuits, click Circuit 2's block, and the property editor shows Circuit 2, but `editor-messages.ts` stays hidden.
-   It catches up at the next `update()`, which any input event sends.  So typing in Min Duration makes it appear.
-   Fix:  one line in `findIn()`, after `updateScheduleEditor(child)`:  `activeRootComponentEditor?.selectionChanged(child);`.
-   Smaller, maybe:  dragging a block's edge changes Min Duration (or the start, for a Padding) without calling `update()`.
-   It is saved:  those are notifying scalars, so `scheduleHasChanged()` reaches the root, which calls `markDirty()`.
-   Nothing in this project's panel depends on duration, so the missing `update()` doesn't show here.
+   Changed in 0.7.3, not tested here:  the chapter is now saved as a path of names (`"place"`), not a number.
+   So the other video opens on the chapter with the same name, if it has one, or else on the whole video.
+   Both of this project's videos have Scratch 1 to 13, so those still carry over.  The keys are still shared, so the time, the zoom and the backup do too.
+26. **Line Width 0 doesn't hide the line.**  Found 2026-11-10, in 0.7.2.
+   The canvas ignores a `lineWidth` of 0 or less, and keeps the last one set.
+   `FourierComponent.drawPath()` (`src/slide-components/fourier.ts`, about line 506) sets it from Line Width and always strokes, so 0 draws at whatever width came before.
+   Fix:  skip the stroke when Line Width isn't above 0, and skip everything when the fill is also `"transparent"`.  Then 0 is a free way to turn one off.
+   Star Circuit does this now (`setLineWidth()` in `star-circuit.ts`).
+27. **An empty term group is a warning, but it's a technique.**  Found 2026-11-10.
+   `parseTermGroups()` warns "Group N is empty, so that step adds nothing."
+   Empty groups are how several Fourier animations stay in step while one waits (`term-ordering.md`, Hold back three).
+   Each of Scratch 4's eight Star Circuits shows two or three of these warnings.
+   Fix:  make it a note, or say nothing.  An empty *first* group might still deserve a note.
 22. **The Paste button's tooltip uses the wrong name.**
    A child row's button says `Paste into "Slide"`, from `child.description`, while the row itself says "Pan and Scan", from `userEditableDescription`.
 

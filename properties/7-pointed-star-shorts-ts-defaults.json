@@ -497,18 +497,13 @@
           {
             "description": "Min Duration",
             "type": "number",
-            "value": 5000
+            "value": 30000
           }
         ],
         "components": [
           {
-            "registryKey": "Rectangle",
+            "registryKey": "Night Sky",
             "schedules": [
-              {
-                "description": "Color",
-                "type": "color",
-                "value": "black"
-              },
               {
                 "description": "Rect",
                 "type": "rectangle",
@@ -518,9 +513,858 @@
                   "width": 9,
                   "height": 16
                 }
+              },
+              {
+                "description": "Top Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Bottom Color",
+                "type": "color",
+                "value": "midnightblue"
+              },
+              {
+                "description": "Number of Stars",
+                "type": "number",
+                "value": 150
+              },
+              {
+                "description": "Star Size",
+                "type": "number",
+                "value": 1
+              },
+              {
+                "description": "Seed",
+                "type": "string",
+                "value": "Second star to the right, and straight on till morning"
               }
             ],
-            "userEditableDescription": "Background"
+            "userEditableDescription": "Night Sky"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Random 5"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 3,
+                  "height": 3
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 8.5,
+                  "y": 1,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": ", , , 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, 0, 1, 2"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 30000,
+                    "value": 14
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "value": 0.4
+              },
+              {
+                "description": "Rounding",
+                "type": "number",
+                "value": 0.6
+              },
+              {
+                "description": "Rounding Step",
+                "type": "number",
+                "value": 0.25
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "#a00000"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "#009500"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "#0050a0"
+              },
+              {
+                "description": "Fill Color",
+                "type": "color",
+                "value": "transparent"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.06
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [],
+            "userEditableDescription": "end end end"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Random 5"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 4.5,
+                  "y": 0.5,
+                  "width": 3,
+                  "height": 3
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 8.5,
+                  "y": 1,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, , , 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, , 1, 2"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 30000,
+                    "value": 14
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "value": 0.4
+              },
+              {
+                "description": "Rounding",
+                "type": "number",
+                "value": 0.6
+              },
+              {
+                "description": "Rounding Step",
+                "type": "number",
+                "value": 0.25
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "rgb(255, 0, 0)"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "#009500"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "#0050a0"
+              },
+              {
+                "description": "Fill Color",
+                "type": "color",
+                "value": "transparent"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.06
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [],
+            "userEditableDescription": "start end end"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Random 5"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1.5,
+                  "y": 4.5,
+                  "width": 3,
+                  "height": 3
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 8.5,
+                  "y": 1,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": ", 1, , 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, 0, , 2"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 30000,
+                    "value": 14
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "value": 0.4
+              },
+              {
+                "description": "Rounding",
+                "type": "number",
+                "value": 0.6
+              },
+              {
+                "description": "Rounding Step",
+                "type": "number",
+                "value": 0.25
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "#a00000"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "#009500"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "rgb(0, 128, 255)"
+              },
+              {
+                "description": "Fill Color",
+                "type": "color",
+                "value": "transparent"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.06
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [],
+            "userEditableDescription": "end start end"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Random 5"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 5.5,
+                  "y": 4.5,
+                  "width": 3,
+                  "height": 3
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 8.5,
+                  "y": 1,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, , 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, , , 2"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 30000,
+                    "value": 14
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "value": 0.4
+              },
+              {
+                "description": "Rounding",
+                "type": "number",
+                "value": 0.6
+              },
+              {
+                "description": "Rounding Step",
+                "type": "number",
+                "value": 0.25
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "rgb(255, 0, 0)"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "#009500"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "rgb(0, 128, 255)"
+              },
+              {
+                "description": "Fill Color",
+                "type": "color",
+                "value": "transparent"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.06
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [],
+            "userEditableDescription": "start start end"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Random 5"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0.5,
+                  "y": 8.5,
+                  "width": 3,
+                  "height": 3
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 8.5,
+                  "y": 1,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": ", , 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, 0, 1,"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 30000,
+                    "value": 14
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "value": 0.4
+              },
+              {
+                "description": "Rounding",
+                "type": "number",
+                "value": 0.6
+              },
+              {
+                "description": "Rounding Step",
+                "type": "number",
+                "value": 0.25
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "#a00000"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "#0e0"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "#0050a0"
+              },
+              {
+                "description": "Fill Color",
+                "type": "color",
+                "value": "transparent"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.06
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [],
+            "userEditableDescription": "end end start"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Random 5"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 4.5,
+                  "y": 8.5,
+                  "width": 3,
+                  "height": 3
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 8.5,
+                  "y": 1,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, , 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, , 1,"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 30000,
+                    "value": 14
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "value": 0.4
+              },
+              {
+                "description": "Rounding",
+                "type": "number",
+                "value": 0.6
+              },
+              {
+                "description": "Rounding Step",
+                "type": "number",
+                "value": 0.25
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "rgb(255, 0, 0)"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "#0e0"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "#0050a0"
+              },
+              {
+                "description": "Fill Color",
+                "type": "color",
+                "value": "transparent"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.06
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [],
+            "userEditableDescription": "start end start"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Random 5"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1.5,
+                  "y": 12.5,
+                  "width": 3,
+                  "height": 3
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 8.5,
+                  "y": 1,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": ", 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, 0, ,"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 30000,
+                    "value": 14
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "value": 0.4
+              },
+              {
+                "description": "Rounding",
+                "type": "number",
+                "value": 0.6
+              },
+              {
+                "description": "Rounding Step",
+                "type": "number",
+                "value": 0.25
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "#a00000"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "#0e0"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "rgb(0, 128, 255)"
+              },
+              {
+                "description": "Fill Color",
+                "type": "color",
+                "value": "transparent"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.06
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [],
+            "userEditableDescription": "end start start"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Random 5"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 5.5,
+                  "y": 12.5,
+                  "width": 3,
+                  "height": 3
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 8.5,
+                  "y": 1,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023, , ,"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 30000,
+                    "value": 14
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "value": 0.4
+              },
+              {
+                "description": "Rounding",
+                "type": "number",
+                "value": 0.6
+              },
+              {
+                "description": "Rounding Step",
+                "type": "number",
+                "value": 0.25
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "rgb(255, 0, 0)"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "#0e0"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "rgb(0, 128, 255)"
+              },
+              {
+                "description": "Fill Color",
+                "type": "color",
+                "value": "transparent"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.06
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [],
+            "userEditableDescription": "start start start"
           }
         ]
       },

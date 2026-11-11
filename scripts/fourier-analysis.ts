@@ -34,11 +34,15 @@ const LARGEST_SYMMETRY = 9;
 /** Print a symmetry only if its better start has at least this many terms bigger than {@link MIN_INTERESTING_AMPLITUDE}. */
 const MIN_BIG_TERMS_TO_PRINT = 3;
 
-/** Already in videos.  All Forward and Forward Backward Forward in Scratch 1, Every kind A in Scratch 2. */
+/**
+ * Already in videos.  All Forward and Forward Backward Forward in Scratch 1, Every kind A in Scratch 2,
+ * Every kind B in Scratch 3.
+ */
 const ALREADY_USED = new Set([
   "All Forward",
   "Forward Backward Forward",
   "Every kind A",
+  "Every kind B",
 ]);
 
 // MARK: Examples
@@ -128,4 +132,5 @@ for (const { name, circuit } of examples) {
       );
     }
   }
+  console.table(terms.slice(0, 6));
 }

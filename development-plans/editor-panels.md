@@ -2,34 +2,50 @@
 
 Our own tools in the Visual Editor, for Star Circuit and any later component.
 
-## Start here (2026-11-08)
+## Start here (updated 2026-11-10, for library 0.7.3)
 
 ### What exists
 
-- **Built:  the messages panel,** `src/editor-messages.ts`.  No library change.
+- **Built:  the messages panel,** `src/editor-messages.ts`.
   - Select a Star Circuit and it says whether the circuit is valid, and whether Term Groups and Step match.
   - The Term Groups and Step checks are the library's own (`checkTermGroups()`, `checkStepRange()`), the same ones the library's Fourier panel shows for a Fourier component.
   - It updates on every keystroke, and hides itself when the selected component has nothing to say.
   - Any component can join:  give it an `editorMessages()` method.
-- **How it works:**  the library's one general hook, `Showable.rootComponentEditor`, a panel for whatever is chosen in the Edit list.
-  `addScene()` attaches one to the video's root and to every scene.  It's a stopgap, with limits:
-  - It sits above the component list, top right, not with the component's properties, bottom right.
-  - Only what we attach it to has it:  the video, each scene, and each Star Circuit (which is in the Edit list on its own since 2026-11-09).
-    Something else chosen in the Edit list, like a pasted Slide with its own length, shows no panel.  Neither does another project.
-  - After choosing a scene, it stays hidden until you click a component.
+  - It still uses the old hook, `Showable.rootComponentEditor`, a panel for whatever is chosen in the Edit list.
+    `addScene()` attaches one to the video's root and to every scene.  So it sits top right, above the component list, and only where we attached it.
+- **Built:  `saveOutsideChanges()`,** in the same file.  It saves what the console commands in `eight-pack.ts` change.
+  It borrows a root panel's `VisualEditorAPI`, and uses `refreshGUI("structure")`, which sends the selection back to the root.
+- **New in the library, 0.7.3** (published 2026-11-10;  this project is still on 0.7.2 until npm has it):
+  - `Showable.editorPanel`:  a component's own panel, bottom right, with its properties.  It shows whenever the component is selected, in any way.  That was item 15.
+  - `canvasRecorder.addEditorPanel(factory)`:  the same panel, for any component the factory picks, including the library's own, like FourierComponent.
+  - What a panel can ask for (`EditorPanelAPI`):  `getTimeMs()` in the component's own time, `seek()`, `refreshGUI()`, and `propertyChanged(property)`.
+    `propertyChanged()` saves the change, redraws, and rebuilds the tables.
+    The panel itself gets `start()`, `suspend()`, `update()` on every keystroke, and `timeChanged()` when the playhead moves.
+  - `refreshGUI("properties")` saves now, on the old hook too.  That was item 23.
+  - Clicking a block on the timeline now tells the old hook what was selected.  That was item 25.
+  - A panel's change becomes an undo step, like any other edit.  `markDirty()` starts the 5 second autosave, which adds the change to the history.
+  - The library's showcase has one example of each hook, in the library's `test-project/src/showcase/editor-panel.ts`.  Its panel listing a Fourier's terms is a good start for ours.
 - **The library has no way to add a new kind of field,** like its rectangle or point editors.  The kinds are a fixed list.  We don't need one (below).
 
 ### What we want, in order
 
-1. **Library:  a panel's changes must be saved.**  `library-issues.md`, item 23.  Small, about one line.
-   *Why first:*  the vertex editor changes the Circuit field from a panel.  Today that change either isn't saved, or saving it throws away the selection.  Nothing else blocks the vertex editor.
-2. **This project:  the vertex editor.**  `circuit-editor.md`.  Big.
-   It goes in the messages panel, as a second section under the messages.
-   Its first step (the pairings spelling, the drawing table, the X) needs no library change and can start any time.
-3. **Library:  `editorPanel` on any component.**  `library-issues.md`, item 15.  Medium.  Wanted, not needed.
-   *Why:*  the panel would sit next to the component's own properties, work wherever the component is, in any project, and know the component's own time.
-   *Why it can wait:*  the stopgap does the job for this project.  Moving to it changes only the wiring in `editor-messages.ts`.  The components' `editorMessages()` and the vertex editor's code stay as they are.
-4. **Not wanted:  a new kind of field for the circuit.**
+1. **Move to 0.7.3** when npm has it.  Trivial.
+   Then `saveOutsideChanges()` can use `refreshGUI("properties")`, which saves and keeps the selection.
+   The console commands only change values, so `"structure"` was only for its saving.  Check that the canvas redraws.
+2. **Move the messages to the new hook.**  Small:  only the wiring in `editor-messages.ts` changes.
+   One `canvasRecorder.addEditorPanel()` call covers every component with `editorMessages()`.  Star Circuit doesn't change.
+   *Why next:*  the vertex editor goes beside the messages, so it should start out on the new API, in the component's own time.
+   It also lifts the stopgap's limits.  The messages show next to the component's properties, as soon as it's selected, wherever it is:  a pasted Slide, either video, any chapter.
+   Keep the root panels only for `saveOutsideChanges()`, until the console can save without one (`library-issues.md`, item 28).
+3. **The vertex editor.**  `circuit-editor.md`.  Big.  Nothing blocks it now.
+   Make it Star Circuit's own `editorPanel`.  It changes Circuit with `propertyChanged()`, edits the keyframe in effect at `getTimeMs()`, and follows the playhead with `timeChanged()`.
+   A panel object lasts as long as its component, so it can remember which vertex was picked.
+   Its first step (the pairings spelling, the drawing table, the X) needs no panel and can start any time.
+4. **New, optional:  a terms panel.**  Small:  copy the showcase's.
+   For the selected Star Circuit or Fourier, list each term's rank (the number Term Groups uses), frequency and amplitude.
+   *Why:*  Term Groups are ranks, so picking terms by frequency or symmetry means looking up ranks.
+   This is `scripts/fourier-analysis.ts` inside the editor.  See `term-ordering.md`.
+5. **Not wanted:  a new kind of field for the circuit.**
    *Why:*  Circuit is a string, and the library already edits strings, with a list of suggestions.  The vertex editor needs more room than one field anyway:  the star to click, 15 choices, and what each one would do.
    And it would be a big library change:  saving, loading and the diff file all depend on that fixed list of kinds.
 
@@ -42,6 +58,10 @@ Real errors, like a circuit that won't parse, still draw a message on the canvas
 
 The rest of this file is the original brainstorm, from 2026-10-31:  the library's side of item 15.
 The first user would be Star Circuit's vertex editor (`circuit-editor.md`).
+
+0.7.3 built it almost exactly as proposed below, and added `canvasRecorder.addEditorPanel()`.
+Both open questions at the end were settled:  `timeChanged()` is in, and the new panels go after the library's own.
+`rootComponentEditor` isn't marked `@deprecated` yet.
 
 ## What's there now
 

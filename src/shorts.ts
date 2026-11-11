@@ -7,6 +7,7 @@
  * 2. Pan and Scan Template:  an empty Slide that slowly moves across a wider picture.
  *    Copy a whole slide from the main video, and paste it into the Slide.
  * 3. Scratch 1 to 13:  just a background, to add anything to.
+ *    Except Scratch 4, which starts as eight copies of one circuit, like ✶37.  See `eight-pack.ts`.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  * @module
@@ -22,6 +23,7 @@ import {
 } from "canvas-recorder-lib";
 import { myRainbow } from "canvas-recorder-lib/src/glib/my-rainbow";
 import "./all-components.ts";
+import { fillEightPack } from "./eight-pack.ts";
 import { addScene, named } from "./scenes.ts";
 import { StarCircuit } from "./star-circuit.ts";
 
@@ -92,8 +94,13 @@ addScene(root, "Pan and Scan Template", 24_000).replaceableComponents!.push(
 
 // Blank pages, to add anything to from the Visual Editor.
 // The editor finds saved work by name, so add more at the end, and never renumber.
-for (let number = 1; number <= 13; number++) {
-  addScene(root, `Scratch ${number}`, 5_000);
-}
+const scratch = Array.from({ length: 13 }, (_, index) =>
+  addScene(root, `Scratch ${index + 1}`, 5_000),
+);
+
+// Eight copies of Random 5:  its first three terms are almost the same size, so each choice matters about as much.
+const eightPack = scratch[3];
+eightPack.minDurationScalar.value = 30_000;
+fillEightPack(eightPack, "Random 5");
 
 export const shorts = root;

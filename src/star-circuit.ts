@@ -105,12 +105,18 @@ export class StarCircuit
     "Fill Color",
     "transparent",
   );
-  /** In units, so it doesn't grow or shrink with the Fourier Rect. */
+  /**
+   * In units, so it doesn't grow or shrink with the Fourier Rect.
+   * 0 means no lines.  With no Fill Color too, that turns the Fourier off, at no cost.
+   */
   readonly fourierLineWidthSchedule = new NumberScheduleInfo(
     "Fourier Line Width",
     0.05,
   );
-  /** In units, so it doesn't grow or shrink with the Reference Rect. */
+  /**
+   * In units, so it doesn't grow or shrink with the Reference Rect.
+   * 0 means no lines.  With no Fill Color too, that turns the reference image off, at no cost.
+   */
   readonly referenceLineWidthSchedule = new NumberScheduleInfo(
     "Reference Line Width",
     0.05,
@@ -307,6 +313,15 @@ export class StarCircuit
     colors: StarColors,
     fillColor: string,
   ) {
+    const lines = setLineWidth(
+      context,
+      this.fourierLineWidthSchedule.at(timeInMs),
+      colors,
+      fillColor,
+    );
+    if (!lines) {
+      return;
+    }
     const frame = this.#animations.frameAt(
       circuit,
       this.termGroupsSchedule.at(timeInMs),
@@ -318,13 +333,12 @@ export class StarCircuit
         this.fourierRectSchedule.at(timeInMs),
         "meet",
       );
-      context.lineWidth = this.fourierLineWidthSchedule.at(timeInMs);
       drawColoredFrame(
         context,
         frame,
         coloredSource(circuit).runs,
         fit,
-        colors,
+        lines,
         fillColor,
       );
     }
@@ -337,6 +351,15 @@ export class StarCircuit
     colors: StarColors,
     fillColor: string,
   ) {
+    const lines = setLineWidth(
+      context,
+      this.referenceLineWidthSchedule.at(timeInMs),
+      colors,
+      fillColor,
+    );
+    if (!lines) {
+      return;
+    }
     const settings: RoundingSettings = {
       cornerSize: this.cornerSizeSchedule.at(timeInMs),
       rounding: this.roundingSchedule.at(timeInMs),
@@ -347,8 +370,33 @@ export class StarCircuit
       this.referenceRectSchedule.at(timeInMs),
       "meet",
     );
-    context.lineWidth = this.referenceLineWidthSchedule.at(timeInMs);
-    drawRoundedCircuit(context, circuit, fit, settings, colors, fillColor);
+    drawRoundedCircuit(context, circuit, fit, settings, lines, fillColor);
+  }
+}
+
+/** Lines that don't show. */
+const NO_LINES: StarColors = ["transparent", "transparent", "transparent"];
+
+/**
+ * Set the line width, where 0 means no lines.
+ *
+ * The canvas ignores a line width of 0 or less, and keeps the last one set.  So a width of 0 has to be handled here.
+ * @returns The colors to draw the lines with.  All transparent when there are no lines, but a fill.
+ * `undefined` when there's nothing to draw at all:  no lines and a transparent fill.  That's the quick way to turn a part off.
+ */
+function setLineWidth(
+  context: CanvasRenderingContext2D,
+  lineWidth: number,
+  colors: StarColors,
+  fillColor: string,
+): StarColors | undefined {
+  if (lineWidth > 0) {
+    context.lineWidth = lineWidth;
+    return colors;
+  } else if (fillColor == "transparent") {
+    return undefined;
+  } else {
+    return NO_LINES;
   }
 }
 

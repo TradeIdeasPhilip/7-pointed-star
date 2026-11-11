@@ -102,13 +102,13 @@ Today that message is drawn in the Fourier Rect with `showError()`.  The change 
 
 ## The panel
 
-Updated 2026-11-08.  The priorities and reasons are at the top of `editor-panels.md`.
+Updated 2026-11-10, for library 0.7.3.  The priorities and reasons are at the top of `editor-panels.md`.
 
-- **The messages are built,** with no library change:  `src/editor-messages.ts`, through the library's `rootComponentEditor` hook, which `addScene()` attaches to every scene.
-  Star Circuit's `editorMessages()` says whether the circuit parses, and checks Term Groups and Step.  The messages above go there too, as more lines.
-- **The vertex editor goes in the same panel,** under the messages.
-- **One library change first:**  `library-issues.md`, item 23.  Today a panel's change to Circuit either isn't saved, or saving it resets the selection.
-- **Later, maybe:**  item 15 would move the panel next to Star Circuit's own properties.  Only the wiring would change.
+- **The messages are built:**  `src/editor-messages.ts`.  Star Circuit's `editorMessages()` says whether the circuit parses, and checks Term Groups and Step.  The messages above go there too, as more lines.
+  They still use the old `rootComponentEditor` hook, top right.  Next, they move to `canvasRecorder.addEditorPanel()`, next to Star Circuit's properties.
+- **The vertex editor is Star Circuit's own `editorPanel`,** also next to its properties.  A subclass can replace it, or wrap it.
+  The library's own panels come first, then the component's own, then the `addEditorPanel()` ones.  So it would sit above the messages.
+- **No library change needed now.**  0.7.3 fixed item 23 (a panel's change is saved, and is an undo step) and item 15 (a panel for any component).
 
 The vertex editor itself:
 
@@ -123,8 +123,9 @@ The vertex editor itself:
 1. **No library change:**  the pairings spelling, the drawing table above, the X.
    The messages go to the panel, which exists now.  Keep a short one on the canvas, under the X, since there's nothing else to draw.
 2. ~~The library's panel hook, with a Star Circuit panel that only shows the messages.~~  Done another way, 2026-11-08:  `src/editor-messages.ts`.
-3. **Library item 23,** so the panel's changes are saved.
-4. **The vertex editor,** in that panel.
+3. ~~Library item 23,~~ so the panel's changes are saved.  Fixed in 0.7.3.
+4. **Move the messages to `addEditorPanel()`.**  Small.  Step 2 at the top of `editor-panels.md`.
+5. **The vertex editor,** as Star Circuit's `editorPanel`.
 
 ## Questions for later
 

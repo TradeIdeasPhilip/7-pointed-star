@@ -11,6 +11,8 @@
  *
  * A component opts in with an `editorMessages()` method.  See {@link HasEditorMessages}.
  *
+ * The same hook gives console commands a way to save what they change:  {@link saveOutsideChanges}.
+ *
  * Nothing here touches the DOM until the Visual Editor calls `start()`.
  * @module
  */
@@ -45,6 +47,24 @@ function hasEditorMessages(
     typeof (showable as Partial<HasEditorMessages>).editorMessages ===
     "function"
   );
+}
+
+/** What the Visual Editor gave the panel showing now.  `undefined` when the root has no panel, or the editor isn't open. */
+let activeEditor: VisualEditorAPI | undefined;
+
+/**
+ * Tell the Visual Editor that something outside it, like a console command, changed some fields.
+ * It saves them, to IndexedDB and to the synced files in `properties/`, and rebuilds its tables.
+ *
+ * The selection goes back to the root.  That's the only kind of refresh that saves (library item 23).
+ * @returns false when no panel is showing, so nothing was saved yet.  The next edit in the Visual Editor saves everything.
+ */
+export function saveOutsideChanges(): boolean {
+  if (!activeEditor) {
+    return false;
+  }
+  activeEditor.refreshGUI("structure");
+  return true;
 }
 
 /**
@@ -110,6 +130,7 @@ function messagesPanel(owner: Showable): RootComponentEditor {
   return {
     start(visualEditor) {
       editor = visualEditor;
+      activeEditor = visualEditor;
       panel = document.createElement("fieldset");
       panel.style.cssText = "border-color:#6a7fae;margin-bottom:0.4em";
       legend = document.createElement("legend");
@@ -120,6 +141,10 @@ function messagesPanel(owner: Showable): RootComponentEditor {
       return panel;
     },
     suspend() {
+      // Another root's panel may have started already.
+      if (activeEditor === editor) {
+        activeEditor = undefined;
+      }
       editor = undefined;
       panel = legend = lines = undefined;
     },

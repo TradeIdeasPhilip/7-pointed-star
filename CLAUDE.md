@@ -68,11 +68,14 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
 - `src/shorts.ts`:  every portrait video, `?toShow=7-pointed-star-shorts`, for YouTube Shorts.  9 × 16 units, 1080 × 1920 pixels, size locked.  Previews of the main video, one or more scenes each.
   1. "Portrait Template":  one Star Circuit and a label, laid out for a phone.
   2. "Pan and Scan Template":  an empty Slide that moves slowly across a 16 × 9 picture.  Paste a whole slide from the main video into it.
-  3. "Scratch 1" to "Scratch 13":  only a background.
+  3. "Scratch 1" to "Scratch 13":  only a background.  Except Scratch 4:  eight copies of one circuit, from `fillEightPack()`.
 - `src/scenes.ts`:  `addScene()` and `named()`, shared by the videos.  Set `canvasRecorder.size` before `addScene()`, because the background fills the canvas.
   `addScene()` also gives the root and the scene the messages panel.
 - `src/editor-messages.ts`:  a panel in the Visual Editor, top right, that shows the selected component's warnings.  A component opts in with an `editorMessages()` method; Star Circuit has one.
-  It uses the library's `rootComponentEditor` hook, as a stopgap.  Priorities and reasons:  the top of `development-plans/editor-panels.md`.
+  It uses the library's `rootComponentEditor` hook, as a stopgap.  Library 0.7.3 has the real hooks, `Showable.editorPanel` and `canvasRecorder.addEditorPanel()`, and moving to them is next.
+  Priorities and reasons:  the top of `development-plans/editor-panels.md`.
+  `saveOutsideChanges()` uses the same hook to save fields changed from the console.  It uses `refreshGUI("structure")`, which sends the selection back to the root.
+  From 0.7.3, `"properties"` saves too, and keeps the selection.
 - `src/all-components.ts`:  imports every custom component, so any video can insert or paste any of them.  Add each new component here.
 - `src/euler-circuits.ts`:  graph math only, no imports, so Node can run it.  Hand picked circuits (`GROUPED_7`, `INTERLEAVED_7`), the search, the duplicate filter.
   Node only strips types, so this file (and `scripts/`) can't use enums or constructor parameter properties.  `erasableSyntaxOnly` in tsconfig enforces that.
@@ -99,6 +102,11 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   With a duration, it's also in the Edit list on its own, so it gets its own messages panel.
   A class meant to be extended:  override `drawFourier()` or `drawReference()` for variations, like the 3D reference image in `development-plans/3d-euler-circuits.md`.
   The Circuit field takes a name from `NAMED_CIRCUITS_7` (offered as suggestions) or the vertices in order, read by `parseCircuit7()`.
+  A line width of 0 turns that part off, at no cost, unless Fill Color is set.  (The canvas ignores a `lineWidth` of 0, so it's handled in `setLineWidth()`.)
+- `src/eight-pack.ts`:  eight copies of one circuit, like ✶37.  Each holds its first, second and third term groups for the end, or not:  2 × 2 × 2.
+  Bright or dark circle, fat star and thin star show the three choices.  Empty term groups keep them in step, so all eight share one plain Step.
+  `fillEightPack()` builds one in a scene (Scratch 4 in the Shorts).  The console commands are `philDebug.eightPack`:  `find()`, `setTermGroups()`, `setSteps()`, `setCircuit()`.
+  The author copies and pastes this layout, so the commands find the eight by position among the chosen scene's Star Circuits, not by name.
 - `src/tessellating-triangles.ts`:  a background of equilateral triangles in two colors.  Registered as "Tessellating Triangles".
   The fields say "▲ Color" and "▼ Color"; the code says `upColor` and `downColor`.
 - `src/night-sky.ts`:  a background, a gradient from Top Color to Bottom Color with glowing stars.  Registered as "Night Sky".
@@ -118,7 +126,7 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   - `library-issues.md`:  problems found in canvas-recorder-lib.  Add to it; don't stop to fix the library unless it's urgent.
   - `enumerate-all-circuits.md`:  options for computing every circuit's Fourier terms and storing them to search.  Not started.
   - `3d-euler-circuits.md`:  the author's idea for a 3D reference image.  Far in the future.
-  - `circuit-editor.md`:  choosing a circuit one vertex at a time, and what to draw when the result is several loops.  Not started; waits on library item 23.
+  - `circuit-editor.md`:  choosing a circuit one vertex at a time, and what to draw when the result is several loops.  Not started.  Nothing blocks it since library 0.7.3.
   - `editor-panels.md`:  our own tools in the Visual Editor.  Starts with what exists, what we want in priority order, and why.  Then the library brainstorm.
   - `term-ordering.md`:  the author's tricks for ordering Fourier terms, from the hexagram videos in random-svg-tests, with commits and videos.
     Which ones Term Groups can already say, and what the others need.
