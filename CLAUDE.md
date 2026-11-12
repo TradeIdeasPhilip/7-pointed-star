@@ -111,6 +111,9 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   Bright or dark circle, fat star and thin star show the three choices.  Empty term groups keep them in step, so all eight share one plain Step.
   `fillEightPack()` builds one in a scene (Scratch 4 in the Shorts).  The console commands are `philDebug.eightPack`:  `find()`, `setTermGroups()`, `setSteps()`, `setCircuit()`.
   The author copies and pastes this layout, so the commands find the eight by position among the chosen scene's Star Circuits, not by name.
+- `src/four-plus-four.ts`:  a console command for Scratch 5 in the Shorts.  `philDebug.fourPlusFour.setEndTime()` moves the last Step keyframe of the scene's four Star Circuits, and a two-keyframe Night Sky's Bottom Color, to the end of the scene.
+  This file and `eight-pack.ts` are quick, rough scripts for one template each.  The plan is to give each a panel of plain buttons:  "Quick and dirty panels" in `development-plans/editor-panels.md`.
+- `src/console-support.ts`:  `root()`, what's chosen in the Edit list, for console commands.
 - `src/tessellating-triangles.ts`:  a background of equilateral triangles in two colors.  Registered as "Tessellating Triangles".
   The fields say "▲ Color" and "▼ Color"; the code says `upColor` and `downColor`.
 - `src/night-sky.ts`:  a background, a gradient from Top Color to Bottom Color with glowing stars.  Registered as "Night Sky".

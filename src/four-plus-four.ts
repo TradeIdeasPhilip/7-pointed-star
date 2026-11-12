@@ -32,7 +32,6 @@ philDebug.fourPlusFour = {
     find().forEach((starCircuit) => {
       starCircuit.stepSchedule.schedule.at(-1)!.time = endTime;
     });
-    //debugger;
     rootComponent.children?.forEach(({ child }) => {
       if (child instanceof NightSky) {
         const schedule = child.bottomColorSchedule.schedule;
@@ -42,5 +41,18 @@ philDebug.fourPlusFour = {
       }
     });
     save();
+  },
+  showIntro() {
+    find().forEach((starCircuit) => {
+      starCircuit.roundingSchedule.set(0.6);
+      starCircuit.roundingStepSchedule.set(0.25);
+      starCircuit.cornerSizeSchedule.set([
+        { time: 2000, value: 0 },
+        { time: 8_000, value: 0.45 },
+        { time: 10_000, value: 0.45 },
+        { time: 13_000, value: 0.4 },
+      ]);
+      starCircuit.stepSchedule.schedule[0].time = 15000;
+    });
   },
 };

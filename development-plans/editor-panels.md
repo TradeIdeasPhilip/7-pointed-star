@@ -2,7 +2,7 @@
 
 Our own tools in the Visual Editor, for Star Circuit and any later component.
 
-## Start here (updated 2026-11-10, for library 0.7.3)
+## Start here (updated 2026-11-11, for library 0.7.4)
 
 ### What exists
 
@@ -15,7 +15,7 @@ Our own tools in the Visual Editor, for Star Circuit and any later component.
     `addScene()` attaches one to the video's root and to every scene.  So it sits top right, above the component list, and only where we attached it.
 - **Built:  Star Circuit's own panel,** `src/star-circuit-panel.ts`, on the new hook (2026-11-10).
   At the playhead:  Step to 2 places, the terms all the way in, and the ones coming in, in the Term Groups format.  It warns about terms the circuit doesn't have.
-- **Built:  `saveOutsideChanges()`,** in `editor-messages.ts`.  It saves what the console commands in `eight-pack.ts` change.
+- **Built:  `saveOutsideChanges()`,** in `editor-messages.ts`.  It saves what the console commands in `eight-pack.ts` and `four-plus-four.ts` change.
   It borrows a root panel's `VisualEditorAPI`, and uses `refreshGUI("structure")`, which sends the selection back to the root.
 - **New in the library, 0.7.3** (installed here 2026-11-10):
   - `Showable.editorPanel`:  a component's own panel, bottom right, with its properties.  It shows whenever the component is selected, in any way.  That was item 15.
@@ -31,25 +31,78 @@ Our own tools in the Visual Editor, for Star Circuit and any later component.
 
 ### What we want, in order
 
-1. **Use 0.7.3's saving in `saveOutsideChanges()`.**  Trivial.  (0.7.3 is installed.)
+1. **Quick and dirty panels for the scripts.**  Small.  The author wants this soon (2026-11-11).
+   Buttons on a fixed scene that run the code in `eight-pack.ts` (Shorts, Scratch 4) and `four-plus-four.ts` (Shorts, Scratch 5).
+   See "Quick and dirty panels", below.
+2. **Use 0.7.3's saving in `saveOutsideChanges()`.**  Trivial.  Do it in the same sitting as 1:  the buttons save the same way, so it's the same check.
    `refreshGUI("properties")` saves now, and keeps the selection.
    The console commands only change values, so `"structure"` was only for its saving.  Check that the canvas redraws.
-2. **Move the messages to the new hook.**  Small:  only the wiring in `editor-messages.ts` changes.
+3. **Move the messages to the new hook.**  Small:  only the wiring in `editor-messages.ts` changes.
    One `canvasRecorder.addEditorPanel()` call covers every component with `editorMessages()`.  Star Circuit doesn't change.
    *Why next:*  the vertex editor goes beside the messages, so it should start out on the new API, in the component's own time.
    It also lifts the stopgap's limits.  The messages show next to the component's properties, as soon as it's selected, wherever it is:  a pasted Slide, either video, any chapter.
    Keep the root panels only for `saveOutsideChanges()`, until the console can save without one (`library-issues.md`, item 28).
-3. **The vertex editor.**  `circuit-editor.md`.  Big.  Nothing blocks it now.
+4. **The vertex editor.**  `circuit-editor.md`.  Big.  Nothing blocks it now.
    It goes in Star Circuit's own `editorPanel`, which exists now (`star-circuit-panel.ts`), as a second section.  It changes Circuit with `propertyChanged()`, edits the keyframe in effect at `getTimeMs()`, and follows the playhead with `timeChanged()`.
    A panel object lasts as long as its component, so it can remember which vertex was picked.
    Its first step (the pairings spelling, the drawing table, the X) needs no panel and can start any time.
-4. **New, optional:  a terms panel.**  Small:  copy the showcase's.
+5. **New, optional:  a terms panel.**  Small:  copy the showcase's.
    For the selected Star Circuit or Fourier, list each term's rank (the number Term Groups uses), frequency and amplitude.
    *Why:*  Term Groups are ranks, so picking terms by frequency or symmetry means looking up ranks.
    This is `scripts/fourier-analysis.ts` inside the editor.  See `term-ordering.md`.
-5. **Not wanted:  a new kind of field for the circuit.**
+6. **Not wanted:  a new kind of field for the circuit.**
    *Why:*  Circuit is a string, and the library already edits strings, with a list of suggestions.  The vertex editor needs more room than one field anyway:  the star to click, 15 choices, and what each one would do.
    And it would be a big library change:  saving, loading and the diff file all depend on that fixed list of kinds.
+
+### Quick and dirty panels
+
+*The idea, from the author (2026-11-11):*  HyperCard, where you could attach a script to a card or a button.
+The best HyperCard stacks were Frankensteins:  Apple's standard parts for the pretty things, mixed with plain text buttons for everything custom.
+Here the library's Visual Editor is the standard part, and these panels are the text buttons.
+The goal is the ultimate mix of GUI and code, where it's easy to switch to whichever is handier.
+
+*What they're for:*  scripts written for one slide or template, which the author then copies and reuses.
+`eight-pack.ts` and `four-plus-four.ts` are the first two.
+They're a little too complicated to type into the console, and nicer to write with TypeScript's types.
+`philDebug` was a start, but they belong in the Visual Editor.
+
+*How nice:*  not very.  These are for limited use, or prototypes.  Plain buttons, no polish.
+They don't need to be as nice as the library's panels, or Star Circuit's own panel.
+
+The plan:
+- **One shared helper,** `scriptPanel(title, buttons)` in a new `src/script-panel.ts`.  It returns an `EditorPanel`:  a fieldset with the title as its legend, a row of buttons, and a line for the result.
+  - Each button is `{ label, run(component) }`, and `run()` may return a string to show on the result line.
+  - A button that needs an argument gets a text box next to it, e.g. Set Circuit.
+  - Like any panel module, it builds nothing until `start()`.
+- **Attach the panel to one fixed scene,** by identity, in the video's file where the scene is made:
+  ```ts
+  canvasRecorder.addEditorPanel((component) => (component === scene ? panel : undefined));
+  ```
+  - `DurationAgnosticComponent` doesn't declare `editorPanel`, so TypeScript won't let us set it on a scene.  The factory is the typed way to give one object a panel.
+  - The library keeps the factory's answer for as long as the component exists.
+  - Maybe `addScene()` takes the panel as an option.
+  - Choosing the scene in the Edit list selects it, so the panel should show bottom right with the scene's properties.  Check that.
+- **Each script's own file builds its panel,** next to the functions it calls, e.g. `eightPackPanel()` in `eight-pack.ts`.  `shorts.ts` attaches it.
+- **The scripts work on the panel's own component,** not on `root()`.
+  `find()` and `setEndTime()` take the scene as an argument, defaulting to `root()`, so the console commands still work.
+- **Save with the panel's own API:**  `api.refreshGUI("properties")` after `run()`.
+  - It saves (since 0.7.3), keeps the selection, and makes the click one undo step.
+  - No `saveOutsideChanges()`, so these don't need the root panels (`library-issues.md`, item 28).
+  - Check that the canvas redraws and that the property tables show the new values.
+  - That rebuilds the properties, which restarts the panel.  So keep the result line's text and the text boxes' values in the panel object, not only in the DOM.
+- **Errors go on the result line.**  Not a dialog, and not only the console.
+  `run()` may throw, the way the console commands do.  The helper catches it:  the library only catches throws from the panel's own methods, and a button's click handler isn't one.
+- **Keep the `philDebug` commands.**  The buttons and the console call the same functions.  The console is still handy for one-off variations.
+
+The first two panels:
+- **"Four plus four",** on the Shorts' Scratch 5.  One button:  Set End Time.  The file has one interesting function, and it takes no arguments.
+- **"Eight pack",** on the Shorts' Scratch 4.  Set Term Groups, Set Steps, and Set Circuit with a text box.
+  Maybe the result line says what `find()` found, or that the scene doesn't have exactly 8 Star Circuits.
+
+*A known limit:*  a copy of the template in another scene doesn't get the panel.
+The scripts find their Star Circuits by position, so they'd work on a copy; only the panel stays behind.  The console commands still work there.
+If that starts to matter:  a factory that offers the panel to every scene, where the panel decides in `start()` whether it applies, e.g. exactly 8 Star Circuits.
+Decide in `start()`, not in the factory:  the library caches the factory's answer for the component's whole life, and the scene's contents change.
 
 ### Why the warnings aren't on the canvas
 

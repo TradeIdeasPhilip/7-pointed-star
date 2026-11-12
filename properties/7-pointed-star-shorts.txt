@@ -238,7 +238,9 @@ Current:    [{"source":"local:7-pointed-star-shorts 2026-11-11 21-08-15.913.wav"
   interleavedB.circuitSchedule.set("Interleaved B");
   interleavedB.fourierRectSchedule.set({"x":4.5,"y":0.5,"width":3,"height":3});
   interleavedB.referenceRectSchedule.set({"x":0.5,"y":0.5,"width":3,"height":3});
-  interleavedB.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":11}]);
+  interleavedB.termGroupsSchedule.set("0, 1, 2, 3, 4, 5-6, 7-9, 10-19, 20-39, 40-99, 100-1023");
+  interleavedB.stepSchedule.set([{"time":15000,"value":0},{"time":90000,"value":11}]);
+  interleavedB.cornerSizeSchedule.set([{"time":2000,"value":0},{"time":8000,"value":0.45},{"time":10000,"value":0.45},{"time":13000,"value":0.4}]);
   interleavedB.fillColorSchedule.set("rgb(100% 0% 0% / 33%)");
   interleavedB.fourierLineWidthSchedule.set(0.06);
   interleavedB.referenceLineWidthSchedule.set(0.06);
@@ -250,7 +252,9 @@ Current:    [{"source":"local:7-pointed-star-shorts 2026-11-11 21-08-15.913.wav"
   forwardForwardBackward.circuitSchedule.set("Forward Forward Backward");
   forwardForwardBackward.fourierRectSchedule.set({"x":1.5,"y":4.5,"width":3,"height":3});
   forwardForwardBackward.referenceRectSchedule.set({"x":5.5,"y":4.5,"width":3,"height":3});
-  forwardForwardBackward.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":11}]);
+  forwardForwardBackward.termGroupsSchedule.set("0, 1, 2, 3, 4, 5-6, 7-9, 10-19, 20-39, 40-99, 100-1023");
+  forwardForwardBackward.stepSchedule.set([{"time":15000,"value":0},{"time":90000,"value":11}]);
+  forwardForwardBackward.cornerSizeSchedule.set([{"time":2000,"value":0},{"time":8000,"value":0.45},{"time":10000,"value":0.45},{"time":13000,"value":0.4}]);
   forwardForwardBackward.fillColorSchedule.set("rgb(100% 100% 100% / 33%)");
   forwardForwardBackward.fourierLineWidthSchedule.set(0.06);
   forwardForwardBackward.referenceLineWidthSchedule.set(0.06);
@@ -262,7 +266,9 @@ Current:    [{"source":"local:7-pointed-star-shorts 2026-11-11 21-08-15.913.wav"
   interleavedC.circuitSchedule.set("Interleaved C");
   interleavedC.fourierRectSchedule.set({"x":4.5,"y":8.5,"width":3,"height":3});
   interleavedC.referenceRectSchedule.set({"x":0.5,"y":8.5,"width":3,"height":3});
-  interleavedC.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":11}]);
+  interleavedC.termGroupsSchedule.set("0, 1, 2, 3, 4, 5-6, 7-9, 10-19, 20-39, 40-99, 100-1023");
+  interleavedC.stepSchedule.set([{"time":15000,"value":0},{"time":90000,"value":11}]);
+  interleavedC.cornerSizeSchedule.set([{"time":2000,"value":0},{"time":8000,"value":0.45},{"time":10000,"value":0.45},{"time":13000,"value":0.4}]);
   interleavedC.fillColorSchedule.set("rgb(0% 50.2% 100% / 33%)");
   interleavedC.fourierLineWidthSchedule.set(0.06);
   interleavedC.referenceLineWidthSchedule.set(0.06);
@@ -274,7 +280,9 @@ Current:    [{"source":"local:7-pointed-star-shorts 2026-11-11 21-08-15.913.wav"
   forwardBackwardBackward.circuitSchedule.set("Forward Backward Backward");
   forwardBackwardBackward.fourierRectSchedule.set({"x":1.5,"y":12.5,"width":3,"height":3});
   forwardBackwardBackward.referenceRectSchedule.set({"x":5.5,"y":12.5,"width":3,"height":3});
-  forwardBackwardBackward.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":11}]);
+  forwardBackwardBackward.termGroupsSchedule.set("0, 1, 2, 3, 4, 5-6, 7-9, 10-19, 20-39, 40-99, 100-1023");
+  forwardBackwardBackward.stepSchedule.set([{"time":15000,"value":0},{"time":90000,"value":11}]);
+  forwardBackwardBackward.cornerSizeSchedule.set([{"time":2000,"value":0},{"time":8000,"value":0.45},{"time":10000,"value":0.45},{"time":13000,"value":0.4}]);
   forwardBackwardBackward.fourierLineWidthSchedule.set(0.06);
   forwardBackwardBackward.referenceLineWidthSchedule.set(0.06);
   forwardBackwardBackward.userEditableDescription = "Forward Backward Backward";

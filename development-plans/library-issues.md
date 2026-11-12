@@ -42,6 +42,7 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    `philDebug.VisualEditor` has the root, the selection and the time, but no way to save.
    So `saveOutsideChanges()` in `editor-messages.ts` borrows a root panel's `VisualEditorAPI`, and only works in a chapter where `addScene()` attached one.
    Once the messages move to `addEditorPanel()` (`editor-panels.md`), that's the only reason left for the root panels.
+   The planned button panels for these scripts won't need it:  they save through their own `EditorPanelAPI`.  Only typing on the console will.
    Fix:  add `refreshGUI()` to `philDebug.VisualEditor`.
 
 ## Bugs
