@@ -11,7 +11,8 @@
  * 4. Circuit Grid:  a Circuit Grid component, for trying layouts.
  * 5. Three Circuits:  three Star Circuit components, each in its own colors, with labels.
  *    Laid out like Peano vs Fourier:  the Fourier animations as big as possible, the reference images a little smaller.
- * 6. Scratch 1 to 13:  just a background, to add anything to.
+ * 6. Like Share Subscribe:  a prototype.  A Fourier of cursive text, where the lines that close the gaps fade away.
+ * 7. Scratch 1 to 13:  just a background, to add anything to.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  * @module
@@ -25,7 +26,9 @@ import {
   TextFormatComponent,
   TextSpanComponent,
 } from "canvas-recorder-lib";
+import { myRainbow } from "canvas-recorder-lib/src/glib/my-rainbow";
 import "./all-components.ts";
+import { BridgedFourier } from "./bridged-fourier.ts";
 import { CircuitGrid } from "./circuit-grid.ts";
 import { ColorfulStar } from "./colorful-star.ts";
 import { RoundedStar } from "./rounded-star.ts";
@@ -173,6 +176,23 @@ threeCircuits.forEach(({ fatStarColor }, index) => {
   );
   threeScene.replaceableComponents!.push(named(`Label ${number}`, label));
 });
+
+// MARK: Like Share Subscribe
+
+// A remake of "Will it Fourier?", with the lines between strokes fading away.
+// They start the same color as the text, so the first circles look closed.  2 s per step, so they fade during steps 2 to 5.
+// Give Bridge Color a visible color to see every bridge.
+addScene(root, "Like Share Subscribe", 24_000).replaceableComponents!.push(
+  named(
+    "Like Share Subscribe",
+    new BridgedFourier({
+      bridgeColor: [
+        { time: 4_000, value: myRainbow.yellow },
+        { time: 10_000, value: "transparent" },
+      ],
+    }),
+  ),
+);
 
 // MARK: Scratch
 

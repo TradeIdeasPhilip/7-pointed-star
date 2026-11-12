@@ -60,7 +60,8 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   3. "Every Kind of Vertex":  two whole circuits with rounded corners, that between them show every kind of vertex.
   4. "Circuit Grid":  a Circuit Grid component, for trying layouts.
   5. "Three Circuits":  three Star Circuits, laid out like Peano vs Fourier, each in its own colors, plus a Multi Text label for each.
-  6. "Scratch 1" to "Scratch 13":  only a background.  The author fills these from the Visual Editor.
+  6. "Like Share Subscribe":  a prototype Bridged Fourier, cursive text where the lines between strokes fade away.  Only in this video.
+  7. "Scratch 1" to "Scratch 13":  only a background.  The author fills these from the Visual Editor.
   The editor matches saved state by description, starting at the root.  Renaming or wrapping the root drops the saved state.
   The author prefers components added as replaceable children, so the Visual Editor can change, copy or delete them, and labels separate from what they label.
   The author's plan:  a few template slides that always match the TypeScript defaults, so the diff file says nothing about them.  Copy a template, or part of one, from the GUI to a blank slide, in either video.
@@ -94,6 +95,13 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   `samplesWithStarts()` and `getFrameRules()` are copies of the library's `samplesFromPath()` and `getAnimationRules()`, changed to expose that.
   Circle, then fat star, then thin star, with round caps, like the reference images.  Round caps leave no notch at the sharp corners of the last steps.
   `ColoredAnimations` is the animation cache each component keeps:  by circuit, thrown away when Term Groups changes.
+- `src/bridged-fourier.ts`:  a prototype, quick and dirty on purpose.  The multi-color Fourier for any path:  the lines that close the gaps are **bridges**, in their own color.  Registered as "Bridged Fourier".
+  One hard-coded path:  "Like / share / and / subscribe" in the cursive font, lines 2 and 4 backwards so the jumps between lines are short.
+  Fields like the library's Fourier, with Content Color (`myRainbow.yellow`) and Bridge Color (`"transparent"`) in place of Stroke Color.  A visible Bridge Color shows every bridge.
+  `samplesWithBridges()` and `drawBridgedFrame()` are copies of `samplesWithStarts()` and `drawColoredFrame()`; `getFrameRules()` is shared.
+  A gap under 1e-6 is welded:  touching letters can be a rounding error apart, and a bridge there would leave a hole.
+  The path is moved so its samples average to (0, 0), not to the middle of its bounding box.  Otherwise the frequency 0 term starts a group, and that step is NaN (`library-issues.md`, item 31).
+  Only `full-video.ts` imports it, not `all-components.ts`, to keep it out of the Shorts for now.
 - `src/circuit-grid.ts`:  a Lattice of circles:  Fourier, reference, Fourier, reference, in reading order.  Registered as "Circuit Grid".
   A quick tool for trying layouts.  New work goes into Star Circuit instead.
 - `src/star-circuit.ts`:  one circuit, as a Fourier animation and a reference image, each in its own rectangle, in one set of colors.  Registered as "Star Circuit".
@@ -159,9 +167,10 @@ The author's rule, for every component:  a mistake in the Visual Editor is a sta
 Working in Circuit Grid and Star Circuit (`src/colored-fourier.ts`).  Slide 1's Star Fourier is still the library's one color FourierComponent.
 
 - Where the curve crosses itself, the layer drawn last wins.  In the first steps the biggest circle is traced several times over, so it looks mostly white.
-- The same idea would let a Fourier of several open pieces skip, or fade, the connecting lines that close it.
-  The author wants this eventually, e.g. Peano vs Fourier's long diagonal:  thinner or less opaque, starting normal and fading as the animation goes on.
-  So keep `colored-fourier.ts` general enough to reuse.
+- The same idea lets a Fourier of several open pieces skip, or fade, the connecting lines that close it.
+  The author wants this for things like Peano vs Fourier's long diagonal:  thinner or less opaque, starting normal and fading as the animation goes on.
+  The first try is `src/bridged-fourier.ts`, on cursive text.  Bridge Color starts the same as the text, so the first circles look closed, then fades to transparent.
+  So keep `colored-fourier.ts` general enough to reuse.  If the prototype holds up, its copies and `colored-fourier.ts` become one version, colored by ranges of `t`.
 
 ## The library
 
