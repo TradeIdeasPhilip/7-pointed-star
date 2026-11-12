@@ -8,8 +8,6 @@
 
 import "./circuit-grid.ts";
 import "./colorful-star.ts";
-// Not a component, but its console commands, philDebug.eightPack, work with any video.
-import "./eight-pack.ts";
 import "./freaky-dots.ts";
 import "./night-sky.ts";
 import "./rounded-star.ts";
@@ -17,3 +15,7 @@ import "./star-circuit.ts";
 import "./star-sources.ts";
 import "./tessellating-triangles.ts";
 import "./vertex-pairings.ts";
+
+// Not component, but console commands, philDebug.*, work with any video.
+import "./eight-pack.ts";
+import "./four-plus-four.ts"

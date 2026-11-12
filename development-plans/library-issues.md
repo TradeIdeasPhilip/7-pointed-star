@@ -1,6 +1,6 @@
 # canvas-recorder-lib issues
 
-Things this project ran into with canvas-recorder-lib.  It's on 0.7.3 now.
+Things this project ran into with canvas-recorder-lib.  It's on 0.7.4 now.
 None of them block this project.  We'll go through them together when the video is done.
 
 Fixed in 0.6.0, and removed from this list:  1, 2, 4, 5, 6, 9, 12, 14, 16, 17, 18 and 19.
@@ -9,6 +9,8 @@ Fixed in 0.7.3, and removed:
 * 15, a project's own Visual Editor panel.  Now `Showable.editorPanel`, and `canvasRecorder.addEditorPanel()` for any component, the library's included.
 * 23, a panel's change wasn't saved.  Now `refreshGUI("properties")` saves, and so does the new `EditorPanelAPI.propertyChanged()`.
 * 25, a click on a timeline block didn't call `selectionChanged()`.
+Fixed in 0.7.4, and removed:  30, a reload during startup saved the TypeScript defaults over your work.
+The page now saves nothing until it has finished loading, and keeps the last session's backup until then.
 What's next for our panels:  the top of `editor-panels.md`.
 The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the same thing.
 
@@ -44,20 +46,6 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
 
 ## Bugs
 
-30. **A reload during startup saves the TypeScript defaults over your work.**  Found 2026-11-11, in 0.7.3.
-   Until `initFromDB()` finishes, the live tree is still the TypeScript defaults, and `_loadSource` is undefined.
-   A reload in that window, from Vite's `vite:beforeFullReload` or from `beforeunload`, calls `saveOnUnload()`.
-   That backs up the TypeScript defaults as a new entry, timestamped now.
-   The next startup finds that backup newer than the newest IndexedDB entry, so it applies it and adds it to the history.
-   Everything the Visual Editor added disappears, while components built in TypeScript look normal.  No warning, and nothing in the console.
-   Almost certainly what happened here:  four quick edits to two .ts files, with the Shorts open, removed every Star Circuit except Scratch 4's eight, which the TypeScript builds.
-   The old state was still in the history, but the load window only restores the selected chapter.
-   Two scenes looked normal at their TypeScript defaults, so they were missed, and found only in the next git diff:
-   Scratch 4 had lost its 90 s length, its circuit (Random 2) and eight voice clips, Portrait Template had lost two Night Skies, and the root had lost its voice clip.
-   Fixed by hand:  a file with the last commit's versions of those three, and today's of the rest, then Open.
-   Recovering means loading with the root selected, which also undoes later work, or finding every changed chapter by hand.
-   Fix:  `saveOnUnload()` does nothing until the restore is done (`_loadSource` is set).
-   `saveState()`, in the same hook, may need the same guard, so it can't save the chapter and time before `restorePlace()` runs.
 21. **The player's sessionStorage isn't kept per video.**
    The keys in `dev/canvas-recorder.ts` are plain names:  `"index"`, `"timeInSeconds"`, `"zoomSelect"`, `"panX"` and so on.
    Open one video, then another in the same tab, and the second opens at the first one's chapter number and time.

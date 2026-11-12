@@ -220,46 +220,62 @@ Current:    [{"time":0,"value":0},{"time":90000,"value":13}]
 → Scratch 5
 → → Min Duration
 TypeScript: 5000
-Current:    50000
+Current:    90000
+→ → Sound Clips
+TypeScript: undefined
+Current:    [{"source":"local:7-pointed-star-shorts 2026-11-11 21-08-15.913.wav","startMsIntoScene":0,"startMsIntoClip":427.938916,"lengthMs":26621.7},{"source":"local:7-pointed-star-shorts 2026-11-11 21-08-15.913.wav","startMsIntoScene":28154.583183,"startMsIntoClip":27049.638916,"lengthMs":12019.2},{"source":"local:7-pointed-star-shorts 2026-11-11 21-11-12.196.wav","startMsIntoScene":40850.976909,"startMsIntoClip":433.68262,"lengthMs":10240},{"source":"local:7-pointed-star-shorts 2026-11-11 21-12-01.163.wav","startMsIntoScene":51197.9115,"startMsIntoClip":436.390644,"lengthMs":4539.1},{"source":"local:7-pointed-star-shorts 2026-11-11 21-13-32.633.wav","startMsIntoScene":56600.642912,"startMsIntoClip":433.627842,"lengthMs":29162.9},{"source":"local:7-pointed-star-shorts 2026-11-11 21-13-32.633.wav","startMsIntoScene":87354.272721,"startMsIntoClip":29596.527842,"lengthMs":3349.1}]
 → → Background
   [deleted]
 → → Night Sky
   [added]
   const nightSky = new NightSky({ description: "Night Sky" });
+  nightSky.bottomColorSchedule.set([{"time":0,"value":"midnightblue"},{"time":90000,"value":"hsl(240deg 64% 19%)"}]);
   nightSky.userEditableDescription = "Night Sky";
   scratch5.replaceableComponents!.push(nightSky);
-→ → Star Circuit #1
+→ → Interleaved B
   [added]
-  const starCircuit2 = new StarCircuit({ description: "Star Circuit" });
-  starCircuit2.fourierRectSchedule.set({"x":4.5,"y":0.5,"width":3,"height":3});
-  starCircuit2.referenceRectSchedule.set({"x":0.5,"y":0.5,"width":3,"height":3});
-  starCircuit2.fillColorSchedule.set("rgb(100% 0% 0% / 33%)");
-  starCircuit2.fourierLineWidthSchedule.set(0.06);
-  starCircuit2.referenceLineWidthSchedule.set(0.06);
-  scratch5.replaceableComponents!.push(starCircuit2);
-→ → Star Circuit #2
+  const interleavedB = new StarCircuit({ description: "Interleaved B" });
+  interleavedB.circuitSchedule.set("Interleaved B");
+  interleavedB.fourierRectSchedule.set({"x":4.5,"y":0.5,"width":3,"height":3});
+  interleavedB.referenceRectSchedule.set({"x":0.5,"y":0.5,"width":3,"height":3});
+  interleavedB.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":11}]);
+  interleavedB.fillColorSchedule.set("rgb(100% 0% 0% / 33%)");
+  interleavedB.fourierLineWidthSchedule.set(0.06);
+  interleavedB.referenceLineWidthSchedule.set(0.06);
+  interleavedB.userEditableDescription = "Interleaved B";
+  scratch5.replaceableComponents!.push(interleavedB);
+→ → Forward Forward Backward
   [added]
-  const starCircuit3 = new StarCircuit({ description: "Star Circuit" });
-  starCircuit3.fourierRectSchedule.set({"x":1.5,"y":4.5,"width":3,"height":3});
-  starCircuit3.referenceRectSchedule.set({"x":5.5,"y":4.5,"width":3,"height":3});
-  starCircuit3.fillColorSchedule.set("rgb(100% 100% 100% / 33%)");
-  starCircuit3.fourierLineWidthSchedule.set(0.06);
-  starCircuit3.referenceLineWidthSchedule.set(0.06);
-  scratch5.replaceableComponents!.push(starCircuit3);
-→ → Star Circuit #3
+  const forwardForwardBackward = new StarCircuit({ description: "Forward Forward Backward" });
+  forwardForwardBackward.circuitSchedule.set("Forward Forward Backward");
+  forwardForwardBackward.fourierRectSchedule.set({"x":1.5,"y":4.5,"width":3,"height":3});
+  forwardForwardBackward.referenceRectSchedule.set({"x":5.5,"y":4.5,"width":3,"height":3});
+  forwardForwardBackward.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":11}]);
+  forwardForwardBackward.fillColorSchedule.set("rgb(100% 100% 100% / 33%)");
+  forwardForwardBackward.fourierLineWidthSchedule.set(0.06);
+  forwardForwardBackward.referenceLineWidthSchedule.set(0.06);
+  forwardForwardBackward.userEditableDescription = "Forward Forward Backward";
+  scratch5.replaceableComponents!.push(forwardForwardBackward);
+→ → Interleaved C
   [added]
-  const starCircuit4 = new StarCircuit({ description: "Star Circuit" });
-  starCircuit4.fourierRectSchedule.set({"x":4.5,"y":8.5,"width":3,"height":3});
-  starCircuit4.referenceRectSchedule.set({"x":0.5,"y":8.5,"width":3,"height":3});
-  starCircuit4.fillColorSchedule.set("rgb(0% 50.2% 100% / 33%)");
-  starCircuit4.fourierLineWidthSchedule.set(0.06);
-  starCircuit4.referenceLineWidthSchedule.set(0.06);
-  scratch5.replaceableComponents!.push(starCircuit4);
-→ → Star Circuit #4
+  const interleavedC = new StarCircuit({ description: "Interleaved C" });
+  interleavedC.circuitSchedule.set("Interleaved C");
+  interleavedC.fourierRectSchedule.set({"x":4.5,"y":8.5,"width":3,"height":3});
+  interleavedC.referenceRectSchedule.set({"x":0.5,"y":8.5,"width":3,"height":3});
+  interleavedC.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":11}]);
+  interleavedC.fillColorSchedule.set("rgb(0% 50.2% 100% / 33%)");
+  interleavedC.fourierLineWidthSchedule.set(0.06);
+  interleavedC.referenceLineWidthSchedule.set(0.06);
+  interleavedC.userEditableDescription = "Interleaved C";
+  scratch5.replaceableComponents!.push(interleavedC);
+→ → Forward Backward Backward
   [added]
-  const starCircuit5 = new StarCircuit({ description: "Star Circuit" });
-  starCircuit5.fourierRectSchedule.set({"x":1.5,"y":12.5,"width":3,"height":3});
-  starCircuit5.referenceRectSchedule.set({"x":5.5,"y":12.5,"width":3,"height":3});
-  starCircuit5.fourierLineWidthSchedule.set(0.06);
-  starCircuit5.referenceLineWidthSchedule.set(0.06);
-  scratch5.replaceableComponents!.push(starCircuit5);
+  const forwardBackwardBackward = new StarCircuit({ description: "Forward Backward Backward" });
+  forwardBackwardBackward.circuitSchedule.set("Forward Backward Backward");
+  forwardBackwardBackward.fourierRectSchedule.set({"x":1.5,"y":12.5,"width":3,"height":3});
+  forwardBackwardBackward.referenceRectSchedule.set({"x":5.5,"y":12.5,"width":3,"height":3});
+  forwardBackwardBackward.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":11}]);
+  forwardBackwardBackward.fourierLineWidthSchedule.set(0.06);
+  forwardBackwardBackward.referenceLineWidthSchedule.set(0.06);
+  forwardBackwardBackward.userEditableDescription = "Forward Backward Backward";
+  scratch5.replaceableComponents!.push(forwardBackwardBackward);

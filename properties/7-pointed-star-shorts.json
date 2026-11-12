@@ -1516,17 +1516,38 @@
           {
             "description": "Min Duration",
             "type": "number",
-            "value": 50000
+            "value": 90000
           }
         ],
         "components": [
           {
             "registryKey": "Night Sky",
+            "schedules": [
+              {
+                "description": "Bottom Color",
+                "type": "color",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": "midnightblue"
+                  },
+                  {
+                    "time": 90000,
+                    "value": "hsl(240deg 64% 19%)"
+                  }
+                ]
+              }
+            ],
             "userEditableDescription": "Night Sky"
           },
           {
             "registryKey": "Star Circuit",
             "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Interleaved B"
+              },
               {
                 "description": "Fourier Rect",
                 "type": "rectangle",
@@ -1546,6 +1567,20 @@
                   "width": 3,
                   "height": 3
                 }
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 90000,
+                    "value": 11
+                  }
+                ]
               },
               {
                 "description": "Fill Color",
@@ -1562,11 +1597,17 @@
                 "type": "number",
                 "value": 0.06
               }
-            ]
+            ],
+            "userEditableDescription": "Interleaved B"
           },
           {
             "registryKey": "Star Circuit",
             "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Forward Forward Backward"
+              },
               {
                 "description": "Fourier Rect",
                 "type": "rectangle",
@@ -1588,6 +1629,20 @@
                 }
               },
               {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 90000,
+                    "value": 11
+                  }
+                ]
+              },
+              {
                 "description": "Fill Color",
                 "type": "color",
                 "value": "rgb(100% 100% 100% / 33%)"
@@ -1602,11 +1657,17 @@
                 "type": "number",
                 "value": 0.06
               }
-            ]
+            ],
+            "userEditableDescription": "Forward Forward Backward"
           },
           {
             "registryKey": "Star Circuit",
             "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Interleaved C"
+              },
               {
                 "description": "Fourier Rect",
                 "type": "rectangle",
@@ -1628,6 +1689,20 @@
                 }
               },
               {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 90000,
+                    "value": 11
+                  }
+                ]
+              },
+              {
                 "description": "Fill Color",
                 "type": "color",
                 "value": "rgb(0% 50.2% 100% / 33%)"
@@ -1642,11 +1717,17 @@
                 "type": "number",
                 "value": 0.06
               }
-            ]
+            ],
+            "userEditableDescription": "Interleaved C"
           },
           {
             "registryKey": "Star Circuit",
             "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Forward Backward Backward"
+              },
               {
                 "description": "Fourier Rect",
                 "type": "rectangle",
@@ -1668,6 +1749,20 @@
                 }
               },
               {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 90000,
+                    "value": 11
+                  }
+                ]
+              },
+              {
                 "description": "Fourier Line Width",
                 "type": "number",
                 "value": 0.06
@@ -1677,7 +1772,46 @@
                 "type": "number",
                 "value": 0.06
               }
-            ]
+            ],
+            "userEditableDescription": "Forward Backward Backward"
+          }
+        ],
+        "soundClips": [
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-11 21-08-15.913.wav",
+            "startMsIntoScene": 0,
+            "startMsIntoClip": 427.938916,
+            "lengthMs": 26621.7
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-11 21-08-15.913.wav",
+            "startMsIntoScene": 28154.583183,
+            "startMsIntoClip": 27049.638916,
+            "lengthMs": 12019.2
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-11 21-11-12.196.wav",
+            "startMsIntoScene": 40850.976909,
+            "startMsIntoClip": 433.68262,
+            "lengthMs": 10240
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-11 21-12-01.163.wav",
+            "startMsIntoScene": 51197.9115,
+            "startMsIntoClip": 436.390644,
+            "lengthMs": 4539.1
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-11 21-13-32.633.wav",
+            "startMsIntoScene": 56600.642912,
+            "startMsIntoClip": 433.627842,
+            "lengthMs": 29162.9
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-11 21-13-32.633.wav",
+            "startMsIntoScene": 87354.272721,
+            "startMsIntoClip": 29596.527842,
+            "lengthMs": 3349.1
           }
         ]
       }

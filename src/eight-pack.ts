@@ -29,6 +29,7 @@ import { saveOutsideChanges } from "./editor-messages.ts";
 import { NightSky } from "./night-sky.ts";
 import { named } from "./scenes.ts";
 import { StarCircuit, StarColors } from "./star-circuit.ts";
+import { root } from "./console-support.ts";
 
 /** Draw a term group at the start, or hold it until the end. */
 export type When = "start" | "end";
@@ -189,18 +190,6 @@ export function fillEightPack(
 }
 
 // MARK: Console
-
-/**
- * The Visual Editor's root:  what's chosen in the Edit list.
- * @throws If the Visual Editor isn't open.
- */
-function root(): Showable {
-  const result: Showable | undefined = philDebug.VisualEditor?.rootComponent;
-  if (!result) {
-    throw new Error("Open the Visual Editor first.");
-  }
-  return result;
-}
 
 /**
  * The root's eight Star Circuits, in order, and each one's choices.

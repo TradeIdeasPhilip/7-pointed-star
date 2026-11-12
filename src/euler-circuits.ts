@@ -196,10 +196,22 @@ export const FORWARD_BACKWARD_FORWARD: Circuit = circuitFromSteps(
   [1, 1, 1, 1, 1, 1, 1, -2, -2, -2, -2, -2, -2, -2, 3, 3, 3, 3, 3, 3, 3],
 );
 
+export const FORWARD_FORWARD_BACKWARD: Circuit = circuitFromSteps(
+  7,
+  [1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3],
+);
+
+export const FORWARD_BACKWARD_BACKWARD: Circuit = circuitFromSteps(
+  7,
+  [1, 1, 1, 1, 1, 1, 1, -2, -2, -2, -2, -2, -2, -2, 3, 3, 3, 3, 3, 3, 3],
+);
+
 /** Every hand picked circuit, by the name a person can type to ask for it. */
 export const NAMED_CIRCUITS_7: ReadonlyMap<string, Circuit> = new Map([
   ["All Forward", ALL_FORWARD],
   ["Forward Backward Forward", FORWARD_BACKWARD_FORWARD],
+  ["Forward Forward Backward", FORWARD_FORWARD_BACKWARD],
+  ["Forward Backward Backward", FORWARD_BACKWARD_BACKWARD],
   ["Every kind A", EVERY_KIND_A_7],
   ["Every kind B", EVERY_KIND_B_7],
   ["Grouped", GROUPED_7],
