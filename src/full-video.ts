@@ -47,7 +47,8 @@ addScene(root, "7 Pointed Star").replaceableComponents!.push(
     new FourierComponent({
       source: GROUPED_SOURCE,
       destRect: { x: 0.5, y: 1, width: 7, height: 7 },
-      termGroups: "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023",
+      // 1023 terms, 0 to 1022:  the library's Fourier component leaves out the frequency 0 term (library 0.8.0).
+      termGroups: "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1022",
       step: [
         { time: 0, value: 0 },
         { time: 22_000, value: 11 },

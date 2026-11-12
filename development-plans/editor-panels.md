@@ -2,7 +2,7 @@
 
 Our own tools in the Visual Editor, for Star Circuit and any later component.
 
-## Start here (updated 2026-11-12, for library 0.7.4)
+## Start here (updated 2026-11-12, for library 0.8.0)
 
 ### What exists
 

@@ -97,13 +97,15 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   `samplesWithStarts()` and `getFrameRules()` are copies of the library's `samplesFromPath()` and `getAnimationRules()`, changed to expose that.
   Circle, then fat star, then thin star, with round caps, like the reference images.  Round caps leave no notch at the sharp corners of the last steps.
   `ColoredAnimations` is the animation cache each component keeps:  by circuit, thrown away when Term Groups changes.
+  `coloredSource()` passes `{ keepCenter: true }` to `samplesToFourier()`, so the stars keep their frequency 0 term and the numbering from before library 0.8.0:  up to 1024 terms.
+  That term is only sampling error, under a pixel, but it ranks between 98 and 502.  Leaving it out changes nothing you'd see, only the numbers after it, and many saved Term Groups in the Shorts end at 1023.
+  The library's own Fourier component (slide 1's Star Fourier) leaves it out:  1023 terms.
 - `src/bridged-fourier.ts`:  a prototype, quick and dirty on purpose.  The multi-color Fourier for any path:  the lines that close the gaps are **bridges**, in their own color.  Registered as "Bridged Fourier".
   One hard-coded path:  "Like / share / and / subscribe" in the cursive font, lines 2 and 4 backwards so the jumps between lines are short.
   Fields like the library's Fourier, with Content Color (`myRainbow.yellow`) and Bridge Color (`"transparent"`) in place of Stroke Color.  A visible Bridge Color shows every bridge.
   `samplesWithBridges()` and `drawBridgedFrame()` are copies of `samplesWithStarts()` and `drawColoredFrame()`; `getFrameRules()` is shared.
   A gap under 1e-6 is welded:  touching letters can be a rounding error apart, and a bridge there would leave a hole.
-  The path is moved so its samples average to (0, 0), not to the middle of its bounding box.  Otherwise the frequency 0 term is term 3, and "0, 1, 2, 3, …" gives it a group of its own, which can't be drawn (`library-issues.md`, item 31).
-  So the frequency 0 term is 0, and `samplesToFourier()` drops it:  1023 terms, 0 to 1022.
+  `samplesToFourier()` leaves out the frequency 0 term (library 0.8.0):  1023 terms, 0 to 1022, and the curve is centered on the average of the samples.  Bounds are moved the same way, as in the library's Fourier component.
   The first component on the library's new panel hooks:  `fourier-panel.ts` for the step panel, and the messages bottom right.
   Only `full-video.ts` imports it, not `all-components.ts`, to keep it out of the Shorts for now.
 - `src/fourier-panel.ts`:  Visual Editor tools for anything with Term Groups and Step, a `SteppedFourier`.  General, unlike `star-circuit-panel.ts`, which it will replace.
@@ -148,7 +150,7 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
 - `scripts/find-vertex-types.ts`:  every pairing is equally common (K7 minus a vertex is K6, so the graph can't tell the pairings apart).
   At most 7 kinds fit in one circuit.  `EVERY_KIND_A_7` and `EVERY_KIND_B_7` are the first pair it found that shows all 11.
 - `scripts/pick-circuits.ts`:  random circuits, with a fixed seed.  `RANDOM_7` came from here.
-- `scripts/fourier-analysis.ts`:  the author's research script, in plain Node, no tsx.  It uses the library's own `samplesFromPath()` and `samplesToFourier()`, so each term's `rank` is the number Term Groups takes.
+- `scripts/fourier-analysis.ts`:  the author's research script, in plain Node, no tsx.  It uses the library's own `samplesFromPath()` and `samplesToFourier()`, with `keepCenter` like Star Circuit, so each term's `rank` is the number Term Groups takes.
   Term Groups only picks terms by rank, biggest amplitude first.  This research is about choosing them by frequency too.
 - `scripts/node-dom.ts`:  import it first, and the library loads in Node.  `glib/transforms` needs `DOMMatrix` when it loads (`library-issues.md`, item 24).
   `src/star-path.ts` runs in Node too, so it imports types with `type`.  Node only strips types, so a plain import of a type fails there.

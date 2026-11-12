@@ -63,8 +63,10 @@ type RankedTerm = FourierTerm & { readonly rank: number };
  * The same as Star Circuit's, so the ranks match the editor's.
  */
 function decompose(circuit: Circuit): RankedTerm[] {
+  // Keep the frequency 0 term, as Star Circuit does (`coloredSource()`), so the ranks still match.
   const terms = samplesToFourier(
     samplesFromPath(circuitToPath(7, circuit).pathShape),
+    { keepCenter: true },
   );
   return terms.map((term, rank) => ({ ...term, rank }));
 }

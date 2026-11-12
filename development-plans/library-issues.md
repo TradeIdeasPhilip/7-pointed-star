@@ -1,6 +1,6 @@
 # canvas-recorder-lib issues
 
-Things this project ran into with canvas-recorder-lib.  It's on 0.7.4 now.
+Things this project ran into with canvas-recorder-lib.  It's on 0.8.0 now.
 None of them block this project.  We'll go through them together when the video is done.
 
 Fixed in 0.6.0, and removed from this list:  1, 2, 4, 5, 6, 9, 12, 14, 16, 17, 18 and 19.
@@ -11,6 +11,10 @@ Fixed in 0.7.3, and removed:
 * 25, a click on a timeline block didn't call `selectionChanged()`.
 Fixed in 0.7.4, and removed:  30, a reload during startup saved the TypeScript defaults over your work.
 The page now saves nothing until it has finished loading, and keeps the last session's backup until then.
+Fixed in 0.8.0, and removed:  31, a group that's only the frequency 0 term threw on every frame.
+`samplesToFourier()` now leaves that term out unless asked with `{ keepCenter: true }`, and a step with only that term slides the curve over.
+Here:  Bridged Fourier dropped its own centering, and Star Circuit keeps the term (`coloredSource()`), so its numbering and saved Term Groups don't change.
+`getFrameRules()` got the same one-line fix as `getAnimationRules()`, so a Star Circuit can't throw there either.
 What's next for our panels:  the top of `editor-panels.md`.
 The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the same thing.
 
@@ -32,6 +36,8 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    * Where each command's samples start.  `samplesFromPath()` knows, but only returns the samples.  The copy is `samplesWithStarts()`.
    * Each frame as a function of `t`, not a finished PathShape.  `getAnimationRules()` builds that function and turns it into a path right away.  The copy is `getFrameRules()`.
    Both copies are faithful, so the curves, timing and segment counts match the library's.
+   Keep them that way when the library changes:  0.8.0's fix for a step with only the frequency 0 term (`|| 1`) is in `getFrameRules()` too.
+   `src/bridged-fourier.ts` has two more copies, of these and of `drawColoredFrame()`, on purpose for now.
    `makeEasing()` is private in fourier-shared.ts, so it's copied too.
    If the library returned these, `FourierComponent.drawPath()` could offer a hook for coloring by `t`.
 20. **A project with more than one video has to write its own menu.**
@@ -44,19 +50,15 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    Once the messages move to `addEditorPanel()` (`editor-panels.md`), that's the only reason left for the root panels.
    The planned button panels for these scripts won't need it:  they save through their own `EditorPanelAPI`.  Only typing on the console will.
    Fix:  add `refreshGUI()` to `philDebug.VisualEditor`.
+32. **Term Groups can't say "the rest."**  Low priority.  Found 2026-11-12, in 0.8.0.
+   A range like `300-1023` means "to the end", but where the end is depends on the source.
+   1024 samples give at most 1024 terms.  `keepNonZeroTerms()` drops a few (3 of this project's 16 named circuits have 1022 or 1023), and 0.8.0 drops the center by default.
+   So one Term Groups reused across circuits, as the author does all the time, warns about terms that aren't there:  `checkTermGroups()`, and "Not in this source" in our step panel.
+   The author's idea:  an open-ended range, like `0, 1, 2-3, 4-7, 8-`, where the last group is every term from 8 on.
+   `term-ordering.md`'s tricks would read better too:  `25-1023`, `16-1023`, `6-1023`.
+   Saved values that end at 1023 would still need editing to use it.
 
 ## Bugs
-
-31. **A group that's only the frequency 0 term throws on every frame.**  Found 2026-11-12, in 0.7.4.  Corrected the same day.
-   The library already handles that term inside a group:  `orderTerms()` moves it to the end, after the terms that move.
-   And `checkTermGroups()` warns about a group that's only that term, after the first:  "Group N is only the center (frequency 0), which can't animate on its own."
-   But the animation doesn't skip it.  `getAnimationRules()` in `peano-fourier/fourier-shared.ts` sets `r = 0.2 / firstInterestingFrequency`, which is `0.2 / 0`,
-   so every point of that step is NaN, and `assertFinite()` throws "wtf" on every frame.  The canvas shows nothing, and the console fills up.
-   Found with "Like share and subscribe" (`src/bridged-fourier.ts`):  centered on its bounding box, its frequency 0 term was term 3, and "0, 1, 2, 3, …" made it a group of its own.
-   `colored-fourier.ts`'s `getFrameRules()` is a copy, with the same line.
-   The star circuits are safe with the usual Term Groups:  their frequency 0 term is tiny, from term 98 to term 502 in `NAMED_CIRCUITS_7`, never a group of its own.
-   Fix:  draw that step as a plain move from the old curve to the new one, or hold the old curve.  The warning can stay.
-   Bridged Fourier now moves its path so the samples average to (0, 0), so that term is gone, and it catches a throw while drawing and shows it in Dest Rect.
 
 21. **The player's sessionStorage isn't kept per video.**
    The keys in `dev/canvas-recorder.ts` are plain names:  `"index"`, `"timeInSeconds"`, `"zoomSelect"`, `"panX"` and so on.

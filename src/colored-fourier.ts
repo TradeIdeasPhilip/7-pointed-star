@@ -176,7 +176,11 @@ export function coloredSource(circuit: Circuit): ColoredSource {
     const starPath = circuitToPath(7, circuit);
     const { samples, starts } = samplesWithStarts(starPath.pathShape);
     source = {
-      terms: samplesToFourier(samples),
+      // Keep the frequency 0 term, as before library 0.8.0, only so the terms keep their numbers.
+      // It's sampling error:  the whole circuit's average is exactly the center of the circle, and 1024 samples miss it by 0.0001 to 0.0004 of the radius, under a pixel.
+      // But a polygon's corners leave hundreds of terms smaller still, so it ranks between term 98 and term 502.
+      // Leaving it out would move every term after it down one, and every saved Term Groups ending at 1023 would warn about a term that isn't there.
+      terms: samplesToFourier(samples, { keepCenter: true }),
       runs: colorRuns(starPath, starts),
     };
     sourceCache.set(key, source);
@@ -268,9 +272,10 @@ export function getFrameRules(
       };
       return () => frame;
     } else {
-      const firstInterestingFrequency = Math.abs(
-        terms[startingTermCount].frequency,
-      );
+      // As in library 0.8.0:  a step that adds only the frequency 0 term has no frequency to time it by,
+      // and 0.2 / 0 would make every point NaN.  Time it like frequency 1:  it slides the curve over.
+      const firstInterestingFrequency =
+        Math.abs(terms[startingTermCount].frequency) || 1;
       /** How much of `t` is changing at once, on each side of the center of the change. */
       const r = 0.2 / firstInterestingFrequency;
       const tToCenter = makeBoundedLinear(0, -r, 1, 1 + r);

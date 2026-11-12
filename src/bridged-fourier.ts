@@ -40,7 +40,6 @@ import {
   PathShape,
 } from "canvas-recorder-lib/src/glib/path-shape";
 import { panAndZoom } from "canvas-recorder-lib/src/glib/transforms";
-import { showError } from "canvas-recorder-lib/src/slide-components/show-error";
 import {
   Complex,
   FourierTerm,
@@ -211,26 +210,20 @@ let source: BridgedSource | undefined;
 /**
  * The one hard-coded path, computed the first time it's drawn.
  *
- * Moved so the average of its samples is at (0, 0).  That makes the frequency 0 term about 10⁻¹⁷,
- * and `samplesToFourier()` drops any term under 10⁻⁷ of the total, so there are 1023 terms, not 1024.
- * Step 0's dot starts there, in the middle of the text.
- *
- * Why not the middle of the bounding box, like the library's `recenter()`?  Then this path's frequency 0 term is big, term 3.
- * The usual Term Groups, "0, 1, 2, 3, …", would give it a group of its own, and that step can't be drawn:  `library-issues.md`, item 31.
- * The checks warn about that, but there's no reason to start with it.
+ * `samplesToFourier()` leaves out the frequency 0 term (library 0.8.0), so the terms add up to the path
+ * moved so the average of its samples is at (0, 0).  Step 0's dot starts there, in the middle of the text.
+ * `bounds` is moved the same way, as the library's Fourier component does.
  */
 function bridgedSource(): BridgedSource {
   if (!source) {
     const path = likeShareSubscribePath();
     const { samples, runs } = samplesWithBridges(path);
-    const centerX = sum(samples.map(([x]) => x)) / samples.length;
-    const centerY = sum(samples.map(([, y]) => y)) / samples.length;
+    const averageX = sum(samples.map(([x]) => x)) / samples.length;
+    const averageY = sum(samples.map(([, y]) => y)) / samples.length;
     source = {
-      terms: samplesToFourier(
-        samples.map(([x, y]): Complex => [x - centerX, y - centerY]),
-      ),
+      terms: samplesToFourier(samples),
       runs,
-      bounds: path.translate(-centerX, -centerY).getBBoxRect(),
+      bounds: path.translate(-averageX, -averageY).getBBoxRect(),
     };
   }
   return source;
@@ -320,7 +313,7 @@ export class BridgedFourier
   readonly registryKey = "Bridged Fourier";
   /**
    * The same as the Fourier component's Term Groups.
-   * Ends at 1022, not 1023:  this path has 1023 terms.  Its frequency 0 term is 0, so `samplesToFourier()` drops it.
+   * Ends at 1022, not 1023:  1024 samples give 1024 terms, and `samplesToFourier()` leaves out the frequency 0 term.
    */
   readonly termGroupsSchedule = new StringScheduleInfo(
     "Term Groups",
@@ -432,38 +425,24 @@ export class BridgedFourier
     if (!(lineWidth > 0) || !(step >= 0)) {
       return;
     }
-    const destRect = this.destRectSchedule.at(timeInMs);
-    try {
-      const rules = this.#rulesFor(this.termGroupsSchedule.at(timeInMs));
-      if (rules.length == 0) {
-        return;
-      }
-      // The same arithmetic as the Fourier component and ColoredAnimations.frameAt().
-      const index = Math.min(Math.floor(step), rules.length - 1);
-      const frame = rules[index](Math.min(1, step - index));
-      const { runs, bounds } = bridgedSource();
-      const fit = panAndZoom(bounds, destRect, "meet");
-      context.lineWidth = lineWidth;
-      drawBridgedFrame(
-        context,
-        frame,
-        runs,
-        fit,
-        this.contentColorSchedule.at(timeInMs),
-        this.bridgeColorSchedule.at(timeInMs),
-      );
-    } catch (reason) {
-      // A group that's only the frequency 0 term, for one (library-issues.md, item 31).  The checks say which.
-      // In Dest Rect, so it's easy to place.
-      context.save();
-      context.translate(destRect.x, destRect.y);
-      context.scale(destRect.width / 16, destRect.width / 16);
-      showError(
-        context,
-        `This step can't be drawn.  See the checks.\n${String(reason)}`,
-      );
-      context.restore();
+    const rules = this.#rulesFor(this.termGroupsSchedule.at(timeInMs));
+    if (rules.length == 0) {
+      return;
     }
+    // The same arithmetic as the Fourier component and ColoredAnimations.frameAt().
+    const index = Math.min(Math.floor(step), rules.length - 1);
+    const frame = rules[index](Math.min(1, step - index));
+    const { runs, bounds } = bridgedSource();
+    const fit = panAndZoom(bounds, this.destRectSchedule.at(timeInMs), "meet");
+    context.lineWidth = lineWidth;
+    drawBridgedFrame(
+      context,
+      frame,
+      runs,
+      fit,
+      this.contentColorSchedule.at(timeInMs),
+      this.bridgeColorSchedule.at(timeInMs),
+    );
   }
 }
 
