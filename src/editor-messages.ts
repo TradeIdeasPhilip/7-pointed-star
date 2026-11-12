@@ -1,26 +1,28 @@
 /**
  * Messages from this project's components, shown in the Visual Editor:  what's wrong, and what's fine.
- *
- * A stopgap.  The library has no way yet for a component to add a panel next to its own properties
- * (`development-plans/library-issues.md`, item 15).
- * The hook it does have is `Showable.rootComponentEditor`, for whatever is chosen in the Edit list:
- * the whole video, one scene, or anything else with a duration.  `addScene()` gives the video and each scene one of these panels,
- * and each Star Circuit gives itself one.
- * It sits at the top of the component list, top right, and shows the messages of the selected component.
- * When the library has a panel hook for any component, the messages move there, unchanged.
- *
  * A component opts in with an `editorMessages()` method.  See {@link HasEditorMessages}.
  *
- * The same hook gives console commands a way to save what they change:  {@link saveOutsideChanges}.
+ * Moving from the old hook to the new one, one component at a time:
+ * * **The new hook,** library 0.7.3's `canvasRecorder.addEditorPanel()`:  bottom right, with the selected component's properties.
+ *   A component moves here by calling {@link showMessagesWithProperties} from its constructor.  Bridged Fourier does.
+ * * **The old hook,** `Showable.rootComponentEditor`, for whatever is chosen in the Edit list.
+ *   `addScene()` gives the video and each scene one of these panels, and each Star Circuit gives itself one.
+ *   It sits at the top of the component list, top right, and shows the messages of the selected component,
+ *   unless that component has moved to the new hook.
+ *
+ * When every component has moved, the old panel only has {@link saveOutsideChanges} left to do,
+ * and that needs it until the console can save without a panel (`library-issues.md`, item 28).
  *
  * Nothing here touches the DOM until the Visual Editor calls `start()`.
  * @module
  */
 
-import type {
-  RootComponentEditor,
-  Showable,
-  VisualEditorAPI,
+import {
+  canvasRecorder,
+  type EditorPanel,
+  type RootComponentEditor,
+  type Showable,
+  type VisualEditorAPI,
 } from "canvas-recorder-lib";
 
 /** One line in the panel. */
@@ -48,6 +50,107 @@ function hasEditorMessages(
     "function"
   );
 }
+
+/** The component's messages.  A bug in a component mustn't break the editor, so a throw becomes one more message. */
+function readMessages(component: HasEditorMessages): readonly EditorMessage[] {
+  try {
+    return component.editorMessages();
+  } catch (reason) {
+    return [
+      { level: "error", text: `editorMessages() threw:  ${String(reason)}` },
+    ];
+  }
+}
+
+/** One line for each message, styled like the library's Fourier panel. */
+function messageLines(messages: readonly EditorMessage[]): HTMLDivElement[] {
+  return messages.map(({ level, text }) => {
+    const line = document.createElement("div");
+    switch (level) {
+      case "ok":
+        line.textContent = `${text}  ✓`;
+        line.style.color = "#070";
+        break;
+      case "error":
+        line.textContent = `✗ ${text}`;
+        line.style.color = "#b00";
+        break;
+      case "warning":
+        line.textContent = `⚠ ${text}`;
+        line.style.color = "#a06000";
+        break;
+      case "note":
+        line.textContent = text;
+        line.style.color = "#555";
+        break;
+    }
+    return line;
+  });
+}
+
+// MARK: The new hook
+
+/** Components whose messages are on the new hook.  The old panel leaves them alone. */
+const withProperties = new WeakSet<Showable>();
+
+/**
+ * Show this component's messages bottom right, with its properties, on the library's new hook, instead of top right.
+ * Call it from the constructor, so it's set before the Visual Editor first asks.
+ */
+export function showMessagesWithProperties(
+  component: Showable & HasEditorMessages,
+) {
+  withProperties.add(component);
+}
+
+/** One panel object for the life of `component`.  No DOM until `start()`. */
+function propertiesMessagesPanel(
+  component: Showable & HasEditorMessages,
+): EditorPanel {
+  let lines: HTMLDivElement | undefined;
+  /** What the panel shows now, so an update that changes nothing doesn't touch it. */
+  let shown = "";
+  function refresh() {
+    if (!lines) {
+      return;
+    }
+    const messages = readMessages(component);
+    const key = JSON.stringify(messages);
+    if (key == shown) {
+      return;
+    }
+    shown = key;
+    lines.replaceChildren(...messageLines(messages));
+  }
+  return {
+    start() {
+      shown = "";
+      const panel = document.createElement("fieldset");
+      panel.style.cssText = "border-color:#6a7fae;margin-bottom:0.4em";
+      const legend = document.createElement("legend");
+      legend.textContent = "Checks";
+      lines = document.createElement("div");
+      lines.style.cssText = "font-size:0.9em;line-height:1.4";
+      panel.append(legend, lines);
+      refresh();
+      return panel;
+    },
+    suspend() {
+      lines = undefined;
+    },
+    // After every keystroke.  The messages don't depend on the playhead.
+    update: refresh,
+  };
+}
+
+// The library asks once for each component, the first time it shows that component's properties.
+canvasRecorder.addEditorPanel((component) =>
+  withProperties.has(component) && hasEditorMessages(component)
+    ? propertiesMessagesPanel(component)
+    : undefined,
+);
+
+// MARK: The old hook
 
 /** What the Visual Editor gave the panel showing now.  `undefined` when the root has no panel, or the editor isn't open. */
 let activeEditor: VisualEditorAPI | undefined;
@@ -81,46 +184,15 @@ function messagesPanel(owner: Showable): RootComponentEditor {
     if (!panel || !legend || !lines) {
       return;
     }
-    if (!hasEditorMessages(selected)) {
+    // A component on the new hook shows its messages with its properties instead.
+    if (!hasEditorMessages(selected) || withProperties.has(selected)) {
       panel.hidden = true;
       return;
-    }
-    let messages: readonly EditorMessage[];
-    try {
-      messages = selected.editorMessages();
-    } catch (reason) {
-      // A bug in a component mustn't break the editor.
-      messages = [
-        { level: "error", text: `editorMessages() threw:  ${String(reason)}` },
-      ];
     }
     panel.hidden = false;
     legend.textContent =
       selected.userEditableDescription ?? selected.description;
-    lines.replaceChildren(
-      ...messages.map(({ level, text }) => {
-        const line = document.createElement("div");
-        switch (level) {
-          case "ok":
-            line.textContent = `${text}  ✓`;
-            line.style.color = "#070";
-            break;
-          case "error":
-            line.textContent = `✗ ${text}`;
-            line.style.color = "#b00";
-            break;
-          case "warning":
-            line.textContent = `⚠ ${text}`;
-            line.style.color = "#a06000";
-            break;
-          case "note":
-            line.textContent = text;
-            line.style.color = "#555";
-            break;
-        }
-        return line;
-      }),
-    );
+    lines.replaceChildren(...messageLines(readMessages(selected)));
   }
   function refresh() {
     if (editor) {

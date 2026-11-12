@@ -72,8 +72,10 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   3. "Scratch 1" to "Scratch 13":  only a background.  Except Scratch 4:  eight copies of one circuit, from `fillEightPack()`.
 - `src/scenes.ts`:  `addScene()` and `named()`, shared by the videos.  Set `canvasRecorder.size` before `addScene()`, because the background fills the canvas.
   `addScene()` also gives the root and the scene the messages panel.
-- `src/editor-messages.ts`:  a panel in the Visual Editor, top right, that shows the selected component's warnings.  A component opts in with an `editorMessages()` method; Star Circuit has one.
-  It uses the library's `rootComponentEditor` hook, as a stopgap.  Library 0.7.3 has the real hooks, `Showable.editorPanel` and `canvasRecorder.addEditorPanel()`, and moving to them is next.
+- `src/editor-messages.ts`:  shows the selected component's warnings in the Visual Editor.  A component opts in with an `editorMessages()` method.
+  Moving from the old hook to the new one, one component at a time.
+  The new hook:  bottom right, with the component's properties, through `canvasRecorder.addEditorPanel()`.  A component moves by calling `showMessagesWithProperties(this)` in its constructor.  Bridged Fourier has.
+  The old hook:  top right, through the library's `rootComponentEditor`, for every other component with messages.  Star Circuit is still there.
   Priorities and reasons:  the top of `development-plans/editor-panels.md`.
   `saveOutsideChanges()` uses the same hook to save fields changed from the console.  It uses `refreshGUI("structure")`, which sends the selection back to the root.
   From 0.7.3, `"properties"` saves too, and keeps the selection.
@@ -100,8 +102,15 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   Fields like the library's Fourier, with Content Color (`myRainbow.yellow`) and Bridge Color (`"transparent"`) in place of Stroke Color.  A visible Bridge Color shows every bridge.
   `samplesWithBridges()` and `drawBridgedFrame()` are copies of `samplesWithStarts()` and `drawColoredFrame()`; `getFrameRules()` is shared.
   A gap under 1e-6 is welded:  touching letters can be a rounding error apart, and a bridge there would leave a hole.
-  The path is moved so its samples average to (0, 0), not to the middle of its bounding box.  Otherwise the frequency 0 term starts a group, and that step is NaN (`library-issues.md`, item 31).
+  The path is moved so its samples average to (0, 0), not to the middle of its bounding box.  Otherwise the frequency 0 term is term 3, and "0, 1, 2, 3, …" gives it a group of its own, which can't be drawn (`library-issues.md`, item 31).
+  So the frequency 0 term is 0, and `samplesToFourier()` drops it:  1023 terms, 0 to 1022.
+  The first component on the library's new panel hooks:  `fourier-panel.ts` for the step panel, and the messages bottom right.
   Only `full-video.ts` imports it, not `all-components.ts`, to keep it out of the Shorts for now.
+- `src/fourier-panel.ts`:  Visual Editor tools for anything with Term Groups and Step, a `SteppedFourier`.  General, unlike `star-circuit-panel.ts`, which it will replace.
+  `fourierStepPanel()`, a component's own `editorPanel`:  at the playhead, Step, the terms in and coming in, and a table of how many terms and how much of the amplitude are in, adding and left, like "Will it Fourier?".
+  When Step's last keyframe isn't the number of groups, a button fixes it, with `propertyChanged()`, so it saves and undoes like any edit.
+  `fourierMessages()`:  the library's `checkTermGroups()` and `checkStepRange()`, for `editorMessages()`.
+  `analyzeStep()`, `describeStep()`, `formatTerms()` and `stepFix()` are pure.
 - `src/circuit-grid.ts`:  a Lattice of circles:  Fourier, reference, Fourier, reference, in reading order.  Registered as "Circuit Grid".
   A quick tool for trying layouts.  New work goes into Star Circuit instead.
 - `src/star-circuit.ts`:  one circuit, as a Fourier animation and a reference image, each in its own rectangle, in one set of colors.  Registered as "Star Circuit".

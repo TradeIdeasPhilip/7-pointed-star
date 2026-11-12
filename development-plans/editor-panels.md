@@ -2,19 +2,26 @@
 
 Our own tools in the Visual Editor, for Star Circuit and any later component.
 
-## Start here (updated 2026-11-11, for library 0.7.4)
+## Start here (updated 2026-11-12, for library 0.7.4)
 
 ### What exists
 
 - **Built:  the messages panel,** `src/editor-messages.ts`.
-  - Select a Star Circuit and it says whether the circuit is valid, and whether Term Groups and Step match.
+  - Select a Star Circuit or a Bridged Fourier and it says whether Term Groups and Step match, and anything else wrong, like a circuit that won't parse.
   - The Term Groups and Step checks are the library's own (`checkTermGroups()`, `checkStepRange()`), the same ones the library's Fourier panel shows for a Fourier component.
   - It updates on every keystroke, and hides itself when the selected component has nothing to say.
   - Any component can join:  give it an `editorMessages()` method.
-  - It still uses the old hook, `Showable.rootComponentEditor`, a panel for whatever is chosen in the Edit list.
-    `addScene()` attaches one to the video's root and to every scene.  So it sits top right, above the component list, and only where we attached it.
+  - **Half moved to the new hook (2026-11-12).**  One `canvasRecorder.addEditorPanel()` factory shows the messages bottom right, with the component's properties.
+    A component moves by calling `showMessagesWithProperties(this)` from its constructor.  Only Bridged Fourier has, as practice.
+    The rest still use the old hook, `Showable.rootComponentEditor`:  `addScene()` attaches one to the video's root and to every scene, top right, above the component list.
+    The old panel skips any component that has moved, so nothing shows twice.
+- **Built:  the general Fourier panel,** `src/fourier-panel.ts`, on the new hook (2026-11-12).  For anything with Term Groups and Step (`SteppedFourier`).  Bridged Fourier is the first user.
+  - At the playhead:  Step to 2 places, the terms all the way in, and the ones coming in, in the Term Groups format.  It warns about terms the source doesn't have.
+  - A table like "Will it Fourier?":  how many terms are in, adding and left, and each one's share of the total amplitude.
+  - When Step's last keyframe isn't the number of groups, a button fixes it, through `propertyChanged()`.
+  - `fourierMessages()`:  the Term Groups and Step checks, for any `SteppedFourier`'s `editorMessages()`.
 - **Built:  Star Circuit's own panel,** `src/star-circuit-panel.ts`, on the new hook (2026-11-10).
-  At the playhead:  Step to 2 places, the terms all the way in, and the ones coming in, in the Term Groups format.  It warns about terms the circuit doesn't have.
+  The older, star-only version of the general panel, without the table or the button.  It goes when Star Circuit moves (below).
 - **Built:  `saveOutsideChanges()`,** in `editor-messages.ts`.  It saves what the console commands in `eight-pack.ts` and `four-plus-four.ts` change.
   It borrows a root panel's `VisualEditorAPI`, and uses `refreshGUI("structure")`, which sends the selection back to the root.
 - **New in the library, 0.7.3** (installed here 2026-11-10):
@@ -37,13 +44,16 @@ Our own tools in the Visual Editor, for Star Circuit and any later component.
 2. **Use 0.7.3's saving in `saveOutsideChanges()`.**  Trivial.  Do it in the same sitting as 1:  the buttons save the same way, so it's the same check.
    `refreshGUI("properties")` saves now, and keeps the selection.
    The console commands only change values, so `"structure"` was only for its saving.  Check that the canvas redraws.
-3. **Move the messages to the new hook.**  Small:  only the wiring in `editor-messages.ts` changes.
-   One `canvasRecorder.addEditorPanel()` call covers every component with `editorMessages()`.  Star Circuit doesn't change.
+3. **Move Star Circuit to the new tools.**  Small.  The pieces exist and were practiced on Bridged Fourier (2026-11-12).
+   * Messages:  call `showMessagesWithProperties(this)` in Star Circuit's constructor.  Then nothing uses the old panel's messages, so drop the factory's opt-in and the old panel's message display.
+     Keep the root panels only for `saveOutsideChanges()`, until the console can save without one (`library-issues.md`, item 28).
+   * Step panel:  make Star Circuit a `SteppedFourier` (`fourierTermsAt()` is `coloredSource(circuit).terms`, or the parse error), set `editorPanel = fourierStepPanel(this)`, and delete `star-circuit-panel.ts`.
+   * Its `editorMessages()` keeps the Circuit section, and gets the rest from `fourierMessages()`.
    *Why next:*  the vertex editor goes beside the messages, so it should start out on the new API, in the component's own time.
    It also lifts the stopgap's limits.  The messages show next to the component's properties, as soon as it's selected, wherever it is:  a pasted Slide, either video, any chapter.
-   Keep the root panels only for `saveOutsideChanges()`, until the console can save without one (`library-issues.md`, item 28).
+   *Maybe:*  the same step panel and checks for the library's own Fourier component, through `addEditorPanel()`.  It has Term Groups, Step and `termsFor()`, so it's a small adapter.
 4. **The vertex editor.**  `circuit-editor.md`.  Big.  Nothing blocks it now.
-   It goes in Star Circuit's own `editorPanel`, which exists now (`star-circuit-panel.ts`), as a second section.  It changes Circuit with `propertyChanged()`, edits the keyframe in effect at `getTimeMs()`, and follows the playhead with `timeChanged()`.
+   It goes in Star Circuit's own `editorPanel` (the step panel, after 3), as a second section.  It changes Circuit with `propertyChanged()`, edits the keyframe in effect at `getTimeMs()`, and follows the playhead with `timeChanged()`.
    A panel object lasts as long as its component, so it can remember which vertex was picked.
    Its first step (the pairings spelling, the drawing table, the X) needs no panel and can start any time.
 5. **New, optional:  a terms panel.**  Small:  copy the showcase's.

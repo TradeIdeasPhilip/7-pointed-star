@@ -2,7 +2,7 @@
 → Like Share Subscribe
 → → Like Share Subscribe
 → → → Term Groups
-TypeScript: "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023"
+TypeScript: "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1022"
 Current:    "0, 1, 2, 3, 4, 5,6,7,8,9, 10-19, 20-39, 40-99, 100-299, 300-1023"
 → → → Step
 TypeScript: [{"time":0,"value":0},{"time":22000,"value":11}]

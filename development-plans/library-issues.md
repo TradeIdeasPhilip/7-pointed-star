@@ -47,15 +47,16 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
 
 ## Bugs
 
-31. **A term group that starts with the frequency 0 term draws NaN.**  Found 2026-11-12, in 0.7.4.
-   `getAnimationRules()` in `peano-fourier/fourier-shared.ts` sets `r = 0.2 / firstInterestingFrequency`, from the first term the step adds.
-   For the frequency 0 term that's `0.2 / 0`, so every frame of that step is NaN, and `assertFinite()` throws "wtf" on every frame.
-   It's handled only when that term is term 0 and comes first (the dot moving to the center).
-   Found with "Like share and subscribe" (`src/bridged-fourier.ts`):  centered on its bounding box, its frequency 0 term is term 3, so the default "0, 1, 2, 3, …" breaks at step 4.
-   The library's Fourier component would do the same with that path.  `colored-fourier.ts`'s `getFrameRules()` is a copy, with the same bug.
-   The star circuits are safe with the usual Term Groups:  their frequency 0 term is tiny, from term 98 to term 502 in `NAMED_CIRCUITS_7`, and never starts a group.  A Term Groups that starts a group with it would still break.
-   Fix:  use the step's first term with a frequency that isn't 0, or 1 if there's none.
-   Bridged Fourier avoids it by moving its path so the samples average to (0, 0).
+31. **A group that's only the frequency 0 term throws on every frame.**  Found 2026-11-12, in 0.7.4.  Corrected the same day.
+   The library already handles that term inside a group:  `orderTerms()` moves it to the end, after the terms that move.
+   And `checkTermGroups()` warns about a group that's only that term, after the first:  "Group N is only the center (frequency 0), which can't animate on its own."
+   But the animation doesn't skip it.  `getAnimationRules()` in `peano-fourier/fourier-shared.ts` sets `r = 0.2 / firstInterestingFrequency`, which is `0.2 / 0`,
+   so every point of that step is NaN, and `assertFinite()` throws "wtf" on every frame.  The canvas shows nothing, and the console fills up.
+   Found with "Like share and subscribe" (`src/bridged-fourier.ts`):  centered on its bounding box, its frequency 0 term was term 3, and "0, 1, 2, 3, …" made it a group of its own.
+   `colored-fourier.ts`'s `getFrameRules()` is a copy, with the same line.
+   The star circuits are safe with the usual Term Groups:  their frequency 0 term is tiny, from term 98 to term 502 in `NAMED_CIRCUITS_7`, never a group of its own.
+   Fix:  draw that step as a plain move from the old curve to the new one, or hold the old curve.  The warning can stay.
+   Bridged Fourier now moves its path so the samples average to (0, 0), so that term is gone, and it catches a throw while drawing and shows it in Dest Rect.
 
 21. **The player's sessionStorage isn't kept per video.**
    The keys in `dev/canvas-recorder.ts` are plain names:  `"index"`, `"timeInSeconds"`, `"zoomSelect"`, `"panX"` and so on.

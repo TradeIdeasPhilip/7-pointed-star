@@ -21,6 +21,7 @@ import {
   ColorScheduleInfo,
   componentRegistry,
   DurationAgnosticComponent,
+  type EditorPanel,
   Keyframe,
   NumberScheduleInfo,
   orderTerms,
@@ -39,6 +40,7 @@ import {
   PathShape,
 } from "canvas-recorder-lib/src/glib/path-shape";
 import { panAndZoom } from "canvas-recorder-lib/src/glib/transforms";
+import { showError } from "canvas-recorder-lib/src/slide-components/show-error";
 import {
   Complex,
   FourierTerm,
@@ -46,6 +48,16 @@ import {
   samplesToFourier,
 } from "canvas-recorder-lib/src/peano-fourier/fourier-shared";
 import { Frame, getFrameRules } from "./colored-fourier.ts";
+import {
+  EditorMessage,
+  HasEditorMessages,
+  showMessagesWithProperties,
+} from "./editor-messages.ts";
+import {
+  fourierMessages,
+  fourierStepPanel,
+  SteppedFourier,
+} from "./fourier-panel.ts";
 
 // MARK: The path
 
@@ -199,12 +211,13 @@ let source: BridgedSource | undefined;
 /**
  * The one hard-coded path, computed the first time it's drawn.
  *
- * Moved so the average of its samples is at (0, 0).  That makes the frequency 0 term about 0, so it's the last term.
+ * Moved so the average of its samples is at (0, 0).  That makes the frequency 0 term about 10⁻¹⁷,
+ * and `samplesToFourier()` drops any term under 10⁻⁷ of the total, so there are 1023 terms, not 1024.
  * Step 0's dot starts there, in the middle of the text.
  *
- * Why not the middle of the bounding box, like the library's `recenter()`?  Then this path's frequency 0 term is term 3.
- * A group that starts with a frequency 0 term makes `getFrameRules()` divide by 0, and every frame of that step is NaN.
- * The library's `getAnimationRules()` does the same:  `library-issues.md`, item 31.
+ * Why not the middle of the bounding box, like the library's `recenter()`?  Then this path's frequency 0 term is big, term 3.
+ * The usual Term Groups, "0, 1, 2, 3, …", would give it a group of its own, and that step can't be drawn:  `library-issues.md`, item 31.
+ * The checks warn about that, but there's no reason to start with it.
  */
 function bridgedSource(): BridgedSource {
   if (!source) {
@@ -296,13 +309,22 @@ export function drawBridgedFrame(
  * Any visible color shows where the bridges are, for debugging.
  *
  * A DurationAgnosticComponent, like Star Circuit:  Min Duration is 0 by default, so the scene sets the length.
+ *
+ * In the Visual Editor, with its properties:  what Step means at the playhead, and the checks that Term Groups and Step agree.
+ * See `fourier-panel.ts`.  The first component on the library's new panel hooks, for both.
  */
-export class BridgedFourier extends DurationAgnosticComponent {
+export class BridgedFourier
+  extends DurationAgnosticComponent
+  implements SteppedFourier, HasEditorMessages
+{
   readonly registryKey = "Bridged Fourier";
-  /** The same as the Fourier component's Term Groups. */
+  /**
+   * The same as the Fourier component's Term Groups.
+   * Ends at 1022, not 1023:  this path has 1023 terms.  Its frequency 0 term is 0, so `samplesToFourier()` drops it.
+   */
   readonly termGroupsSchedule = new StringScheduleInfo(
     "Term Groups",
-    "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1023",
+    "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1022",
   );
   /** The same as the Fourier component's Step:  negative hides it, 0 is a dot, the number of groups is the finished curve. */
   readonly stepSchedule = new NumberScheduleInfo("Step", [
@@ -328,6 +350,8 @@ export class BridgedFourier extends DurationAgnosticComponent {
   );
   /** In units, so it doesn't grow or shrink with Dest Rect.  0 draws nothing. */
   readonly lineWidthSchedule = new NumberScheduleInfo("Line Width", 0.05);
+  /** Its own panel in the Visual Editor:  Step at the playhead, the terms that means, and a fix when Step and Term Groups disagree. */
+  readonly editorPanel: EditorPanel = fourierStepPanel(this);
   constructor(
     initialValues: {
       description?: string;
@@ -363,6 +387,17 @@ export class BridgedFourier extends DurationAgnosticComponent {
       this.bridgeColorSchedule,
       this.lineWidthSchedule,
     );
+    showMessagesWithProperties(this);
+  }
+
+  /** One hard-coded path, so the same terms at any time. */
+  fourierTermsAt(_timeInMs: number) {
+    return bridgedSource().terms;
+  }
+
+  /** For the Visual Editor:  do Term Groups and Step agree?  See `editor-messages.ts`. */
+  editorMessages(): EditorMessage[] {
+    return fourierMessages(this);
   }
 
   /** The animation for the last Term Groups text.  Never more than one entry. */
@@ -397,24 +432,38 @@ export class BridgedFourier extends DurationAgnosticComponent {
     if (!(lineWidth > 0) || !(step >= 0)) {
       return;
     }
-    const rules = this.#rulesFor(this.termGroupsSchedule.at(timeInMs));
-    if (rules.length == 0) {
-      return;
+    const destRect = this.destRectSchedule.at(timeInMs);
+    try {
+      const rules = this.#rulesFor(this.termGroupsSchedule.at(timeInMs));
+      if (rules.length == 0) {
+        return;
+      }
+      // The same arithmetic as the Fourier component and ColoredAnimations.frameAt().
+      const index = Math.min(Math.floor(step), rules.length - 1);
+      const frame = rules[index](Math.min(1, step - index));
+      const { runs, bounds } = bridgedSource();
+      const fit = panAndZoom(bounds, destRect, "meet");
+      context.lineWidth = lineWidth;
+      drawBridgedFrame(
+        context,
+        frame,
+        runs,
+        fit,
+        this.contentColorSchedule.at(timeInMs),
+        this.bridgeColorSchedule.at(timeInMs),
+      );
+    } catch (reason) {
+      // A group that's only the frequency 0 term, for one (library-issues.md, item 31).  The checks say which.
+      // In Dest Rect, so it's easy to place.
+      context.save();
+      context.translate(destRect.x, destRect.y);
+      context.scale(destRect.width / 16, destRect.width / 16);
+      showError(
+        context,
+        `This step can't be drawn.  See the checks.\n${String(reason)}`,
+      );
+      context.restore();
     }
-    // The same arithmetic as the Fourier component and ColoredAnimations.frameAt().
-    const index = Math.min(Math.floor(step), rules.length - 1);
-    const frame = rules[index](Math.min(1, step - index));
-    const { runs, bounds } = bridgedSource();
-    const fit = panAndZoom(bounds, this.destRectSchedule.at(timeInMs), "meet");
-    context.lineWidth = lineWidth;
-    drawBridgedFrame(
-      context,
-      frame,
-      runs,
-      fit,
-      this.contentColorSchedule.at(timeInMs),
-      this.bridgeColorSchedule.at(timeInMs),
-    );
   }
 }
 
