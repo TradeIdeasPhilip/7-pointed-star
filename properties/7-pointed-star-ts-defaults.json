@@ -1368,6 +1368,187 @@
         ]
       },
       {
+        "description": "Love Reason Balance",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 23000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 16,
+                  "height": 9
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Bridged Morph",
+            "schedules": [
+              {
+                "description": "Before",
+                "type": "string",
+                "value": "Love"
+              },
+              {
+                "description": "After",
+                "type": "string",
+                "value": "Reason"
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 1000,
+                    "value": 0
+                  },
+                  {
+                    "time": 9000,
+                    "value": 10
+                  },
+                  {
+                    "time": 11999,
+                    "value": 10
+                  },
+                  {
+                    "time": 12000,
+                    "value": -1
+                  }
+                ]
+              },
+              {
+                "description": "Dest Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0.5,
+                  "y": 2.75,
+                  "width": 15,
+                  "height": 4.5
+                }
+              },
+              {
+                "description": "Content Color",
+                "type": "color",
+                "value": "#d8d800"
+              },
+              {
+                "description": "Bridge Color",
+                "type": "color",
+                "value": "transparent"
+              },
+              {
+                "description": "Line Width",
+                "type": "number",
+                "value": 0.12
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [],
+            "userEditableDescription": "Love to Reason"
+          },
+          {
+            "registryKey": "Bridged Morph",
+            "schedules": [
+              {
+                "description": "Before",
+                "type": "string",
+                "value": "Reason"
+              },
+              {
+                "description": "After",
+                "type": "string",
+                "value": "Balance"
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 11999,
+                    "value": -1
+                  },
+                  {
+                    "time": 12000,
+                    "value": 0
+                  },
+                  {
+                    "time": 20000,
+                    "value": 10
+                  }
+                ]
+              },
+              {
+                "description": "Dest Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0.5,
+                  "y": 2.75,
+                  "width": 15,
+                  "height": 4.5
+                }
+              },
+              {
+                "description": "Content Color",
+                "type": "color",
+                "value": "#d8d800"
+              },
+              {
+                "description": "Bridge Color",
+                "type": "color",
+                "value": "transparent"
+              },
+              {
+                "description": "Line Width",
+                "type": "number",
+                "value": 0.12
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [],
+            "userEditableDescription": "Reason to Balance"
+          }
+        ]
+      },
+      {
         "description": "Scratch 1",
         "scalars": [
           {

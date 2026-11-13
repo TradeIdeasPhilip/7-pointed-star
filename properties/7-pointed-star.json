@@ -68,6 +68,106 @@
             "userEditableDescription": "Like Share Subscribe"
           }
         ]
+      },
+      {
+        "description": "Love Reason Balance",
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 16,
+                  "height": 9
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Bridged Morph",
+            "schedules": [
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 1000,
+                    "value": 0
+                  },
+                  {
+                    "time": 9000,
+                    "value": 10
+                  },
+                  {
+                    "time": 11999,
+                    "value": 10
+                  },
+                  {
+                    "time": 12000,
+                    "value": -1
+                  }
+                ]
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text",
+                "schedules": [
+                  {
+                    "description": "Text",
+                    "type": "string",
+                    "value": "Kk"
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Love to Reason"
+          },
+          {
+            "registryKey": "Bridged Morph",
+            "schedules": [
+              {
+                "description": "Before",
+                "type": "string",
+                "value": "Reason"
+              },
+              {
+                "description": "After",
+                "type": "string",
+                "value": "Balance"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 11999,
+                    "value": -1
+                  },
+                  {
+                    "time": 12000,
+                    "value": 0
+                  },
+                  {
+                    "time": 20000,
+                    "value": 10
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Reason to Balance"
+          }
+        ]
       }
     ]
   }

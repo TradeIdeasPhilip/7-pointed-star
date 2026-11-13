@@ -203,8 +203,11 @@ export type Frame = {
   readonly segments: number;
 };
 
-/** A copy of the private `makeEasing()` in the library's fourier-shared.ts. */
-function makeEasing(x1: number, x2: number) {
+/**
+ * A copy of the private `makeEasing()` in the library's fourier-shared.ts.
+ * 0 before `x1`, 1 after `x2`, and eased in between.
+ */
+export function makeEasing(x1: number, x2: number) {
   if (x1 >= x2) {
     throw new Error("wtf");
   }

@@ -61,7 +61,9 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   4. "Circuit Grid":  a Circuit Grid component, for trying layouts.
   5. "Three Circuits":  three Star Circuits, laid out like Peano vs Fourier, each in its own colors, plus a Multi Text label for each.
   6. "Like Share Subscribe":  a prototype Bridged Fourier, cursive text where the lines between strokes fade away.  Only in this video.
-  7. "Scratch 1" to "Scratch 13":  only a background.  The author fills these from the Visual Editor.
+  7. "Love Reason Balance":  two prototype Bridged Morphs, Love to Reason, a pause, then Reason to Balance.  Only in this video.
+     They take turns:  at 12 s the first one's Step goes to -1, hiding it, as the second one's goes from -1 to 0.  The 1 ms between those keyframes is never a frame.
+  8. "Scratch 1" to "Scratch 13":  only a background.  The author fills these from the Visual Editor.
   The editor matches saved state by description, starting at the root.  Renaming or wrapping the root drops the saved state.
   The author prefers components added as replaceable children, so the Visual Editor can change, copy or delete them, and labels separate from what they label.
   The author's plan:  a few template slides that always match the TypeScript defaults, so the diff file says nothing about them.  Copy a template, or part of one, from the GUI to a blank slide, in either video.
@@ -108,6 +110,14 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   `samplesToFourier()` leaves out the frequency 0 term (library 0.8.0):  1023 terms, 0 to 1022, and the curve is centered on the average of the samples.  Bounds are moved the same way, as in the library's Fourier component.
   The first component on the library's new panel hooks:  `fourier-panel.ts` for the step panel, and the messages bottom right.
   Only `full-video.ts` imports it, not `all-components.ts`, to keep it out of the Shorts for now.
+- `src/bridged-morph.ts`:  a prototype, quick and dirty on purpose.  A Fourier morph from one word to another, in the cursive font, typed into Before and After.  Registered as "Bridged Morph".
+  Each word is sampled by `samplesWithBridges()`, 1024 samples, so sample i of one goes to sample i of the other:  matched by length, bridges included.
+  The morph is Before plus the terms of After − Before (`keepCenter`, so it ends exactly at After), with the Fourier component's sweep.  The showcase's Fourier Morph does the same with closed shapes.
+  Each piece between two samples is one of four kinds:  content, bridge, fade out (content in Before only), fade in (content in After only).  Corners are samples, so the kind only changes at a sample.
+  The fades follow the RMS distance still to go (Parseval, from the terms' amplitudes), not Step, so most of the fading happens in the first steps, with the big terms.
+  It draws straight lines between samples, not a smooth curve:  the ends are then exactly the words.
+  Dest Rect's height is one line of the font, and the words are centered side to side, so two morphs with the same Dest Rect put a word in the same place.
+  Only `full-video.ts` imports it, like Bridged Fourier.
 - `src/fourier-panel.ts`:  Visual Editor tools for anything with Term Groups and Step, a `SteppedFourier`.  General, unlike `star-circuit-panel.ts`, which it will replace.
   `fourierStepPanel()`, a component's own `editorPanel`:  at the playhead, Step, the terms in and coming in, and a table of how many terms and how much of the amplitude are in, adding and left, like "Will it Fourier?".
   When Step's last keyframe isn't the number of groups, a button fixes it, with `propertyChanged()`, so it saves and undoes like any edit.
@@ -182,6 +192,9 @@ Working in Circuit Grid and Star Circuit (`src/colored-fourier.ts`).  Slide 1's 
   The author wants this for things like Peano vs Fourier's long diagonal:  thinner or less opaque, starting normal and fading as the animation goes on.
   The first try is `src/bridged-fourier.ts`, on cursive text.  Bridge Color starts the same as the text, so the first circles look closed, then fades to transparent.
   So keep `colored-fourier.ts` general enough to reuse.  If the prototype holds up, its copies and `colored-fourier.ts` become one version, colored by ranges of `t`.
+- The second try is `src/bridged-morph.ts`, a morph between two paths.  Each has its own bridges, so a piece can be content in one and a bridge in the other, and fade.
+  Matching the pieces by length is the simple start.  Ideas for later, from the author:  nudge the samples so nearby bridges line up exactly, and avoid a fade when a small change would match the content.
+  Careful with big changes to the spacing:  bridges of only two samples once made a horrible (and fun) ringing.
 
 ## The library
 

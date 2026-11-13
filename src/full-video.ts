@@ -12,7 +12,8 @@
  * 5. Three Circuits:  three Star Circuit components, each in its own colors, with labels.
  *    Laid out like Peano vs Fourier:  the Fourier animations as big as possible, the reference images a little smaller.
  * 6. Like Share Subscribe:  a prototype.  A Fourier of cursive text, where the lines that close the gaps fade away.
- * 7. Scratch 1 to 13:  just a background, to add anything to.
+ * 7. Love Reason Balance:  a prototype.  A Fourier morph from one cursive word to the next, twice.
+ * 8. Scratch 1 to 13:  just a background, to add anything to.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  * @module
@@ -29,6 +30,7 @@ import {
 import { myRainbow } from "canvas-recorder-lib/src/glib/my-rainbow";
 import "./all-components.ts";
 import { BridgedFourier } from "./bridged-fourier.ts";
+import { BridgedMorph } from "./bridged-morph.ts";
 import { CircuitGrid } from "./circuit-grid.ts";
 import { ColorfulStar } from "./colorful-star.ts";
 import { RoundedStar } from "./rounded-star.ts";
@@ -190,6 +192,41 @@ addScene(root, "Like Share Subscribe", 24_000).replaceableComponents!.push(
       bridgeColor: [
         { time: 4_000, value: myRainbow.yellow },
         { time: 10_000, value: "transparent" },
+      ],
+    }),
+  ),
+);
+
+// MARK: Love Reason Balance
+
+// Love to Reason, a pause, then Reason to Balance.  An homage to Rush's Hemispheres.
+// Two morphs, in the same Dest Rect, so Reason is in the same place in both.
+// They take turns:  at 12 s the first one hides (Step -1) and the second one starts, both showing Reason.
+// The 1 ms between keyframes is never a frame.
+const LEG_GROUPS = 10;
+addScene(root, "Love Reason Balance", 23_000).replaceableComponents!.push(
+  named(
+    "Love to Reason",
+    new BridgedMorph({
+      before: "Love",
+      after: "Reason",
+      step: [
+        { time: 1_000, value: 0 },
+        { time: 9_000, value: LEG_GROUPS },
+        { time: 11_999, value: LEG_GROUPS },
+        { time: 12_000, value: -1 },
+      ],
+    }),
+  ),
+  named(
+    "Reason to Balance",
+    new BridgedMorph({
+      before: "Reason",
+      after: "Balance",
+      step: [
+        { time: 11_999, value: -1 },
+        { time: 12_000, value: 0 },
+        { time: 20_000, value: LEG_GROUPS },
       ],
     }),
   ),
