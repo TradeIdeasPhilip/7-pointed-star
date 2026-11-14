@@ -5,7 +5,10 @@ import {
   RectangleComponent,
   Showable,
 } from "canvas-recorder-lib";
-import { addEditorMessages } from "./editor-messages.ts";
+import { allowConsoleSaving } from "./console-support.ts";
+// For its side effect:  the "Checks" box, for any component with editorMessages().
+// The components only import its types, and the build leaves out a module imported only for types.
+import "./editor-messages.ts";
 
 /**
  * Give a replaceable child a name that lasts.
@@ -24,7 +27,7 @@ export function named<T extends Showable>(name: string, component: T): T {
  * The scenes are fixed children, so the Visual Editor saves their contents by description.
  * Each scene has its own background, so each one can stand alone.
  *
- * The scene and the root both get the panel that shows a component's warnings.  See `editor-messages.ts`.
+ * Console commands can save while the scene, or the whole video, is chosen in the Edit list.  See `console-support.ts`.
  * @param minDuration How long the scene lasts, unless something in it asks for longer.
  */
 export function addScene(
@@ -32,9 +35,9 @@ export function addScene(
   description: string,
   minDuration = 0,
 ) {
-  addEditorMessages(root);
+  allowConsoleSaving(root);
   const scene = new DurationAgnosticComponent(description);
-  addEditorMessages(scene);
+  allowConsoleSaving(scene);
   scene.minDurationScalar.value = minDuration;
   scene.replaceableComponents!.push(
     named(

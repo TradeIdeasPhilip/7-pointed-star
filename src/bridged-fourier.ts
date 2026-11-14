@@ -47,11 +47,7 @@ import {
   samplesToFourier,
 } from "canvas-recorder-lib/src/peano-fourier/fourier-shared";
 import { Frame, getFrameRules } from "./colored-fourier.ts";
-import {
-  EditorMessage,
-  HasEditorMessages,
-  showMessagesWithProperties,
-} from "./editor-messages.ts";
+import { EditorMessage, HasEditorMessages } from "./editor-messages.ts";
 import {
   fourierMessages,
   fourierStepPanel,
@@ -417,7 +413,6 @@ export class BridgedFourier
       this.bridgeColorSchedule,
       this.lineWidthSchedule,
     );
-    showMessagesWithProperties(this);
   }
 
   /** The source for the last Text.  Never more than one entry. */

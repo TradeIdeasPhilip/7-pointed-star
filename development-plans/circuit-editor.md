@@ -102,12 +102,12 @@ Today that message is drawn in the Fourier Rect with `showError()`.  The change 
 
 ## The panel
 
-Updated 2026-11-10, for library 0.7.3.  The priorities and reasons are at the top of `editor-panels.md`.
+Updated 2026-11-14.  The priorities and reasons are at the top of `editor-panels.md`.
 
-- **The messages are built:**  `src/editor-messages.ts`.  Star Circuit's `editorMessages()` says whether the circuit parses, and checks Term Groups and Step.  The messages above go there too, as more lines.
-  They still use the old `rootComponentEditor` hook, top right.  Next, they move to `canvasRecorder.addEditorPanel()`, next to Star Circuit's properties.
-- **The vertex editor is Star Circuit's own `editorPanel`,** also next to its properties.  A subclass can replace it, or wrap it.
-  The library's own panels come first, then the component's own, then the `addEditorPanel()` ones.  So it would sit above the messages.
+- **The messages are built:**  `src/editor-messages.ts`, the Checks box, next to Star Circuit's properties.  Star Circuit's `editorMessages()` says whether the circuit parses, and checks Term Groups and Step.  The messages above go there too, as more lines.
+- **The vertex editor goes in Star Circuit's own `editorPanel`,** also next to its properties.  A subclass can replace it, or wrap it.
+  That's the step panel now (`fourierStepPanel()`), so the two need a small wrapper that shows both.
+  The component's own panel comes first, then the `addEditorPanel()` ones.  So it would sit above the Checks.
 - **No library change needed now.**  0.7.3 fixed item 23 (a panel's change is saved, and is an undo step) and item 15 (a panel for any component).
 
 The vertex editor itself:

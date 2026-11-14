@@ -1,6 +1,7 @@
 # canvas-recorder-lib issues
 
-Things this project ran into with canvas-recorder-lib.  It's on 0.8.0 now.
+Things this project ran into with canvas-recorder-lib.  It's on 0.8.1 now.
+0.8.1 (installed 2026-11-14) was fonts and Multi Text, and fixed none of these.
 None of them block this project.  We'll go through them together when the video is done.
 
 Fixed in 0.6.0, and removed from this list:  1, 2, 4, 5, 6, 9, 12, 14, 16, 17, 18 and 19.
@@ -46,9 +47,9 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    The player has no link back to the menu.  This project's menu opens each video in a new tab instead.
 28. **A console command can't save without a panel.**  Wanted, small.  Found 2026-11-10, in 0.7.3.
    `philDebug.VisualEditor` has the root, the selection and the time, but no way to save.
-   So `saveOutsideChanges()` in `editor-messages.ts` borrows a root panel's `VisualEditorAPI`, and only works in a chapter where `addScene()` attached one.
-   Once the messages move to `addEditorPanel()` (`editor-panels.md`), that's the only reason left for the root panels.
-   The planned button panels for these scripts won't need it:  they save through their own `EditorPanelAPI`.  Only typing on the console will.
+   So `saveOutsideChanges()` in `console-support.ts` borrows a root panel's `VisualEditorAPI`, and only works in a chapter where `addScene()` attached one.
+   Since 2026-11-14 that's the only reason for the root panels:  they show nothing.  The messages moved to `addEditorPanel()`.
+   The button panels for these scripts don't need it:  they save through their own `EditorPanelAPI`.  Only typing on the console does.
    Fix:  add `refreshGUI()` to `philDebug.VisualEditor`.
 32. **Term Groups can't say "the rest."**  Low priority.  Found 2026-11-12, in 0.8.0.
    A range like `300-1023` means "to the end", but where the end is depends on the source.

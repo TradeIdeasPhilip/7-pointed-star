@@ -5,8 +5,7 @@
  *   and how much of the curve they are.  When Step's last keyframe doesn't match the number of groups, a button fixes it.
  * * {@link fourierMessages}:  the checks that Term Groups and Step agree.  `editor-messages.ts` shows them.
  *
- * A component gets both by being a {@link SteppedFourier}.  Bridged Fourier is the first.
- * `star-circuit-panel.ts` is the older, star-only version of the panel.  Star Circuit moves here next, and that file goes.
+ * A component gets both by being a {@link SteppedFourier}.  Star Circuit, Bridged Fourier and Bridged Morph are.
  *
  * Built on library 0.7.3's hooks.  See `development-plans/editor-panels.md`.
  * Nothing here touches the DOM until the Visual Editor calls `start()`.
@@ -280,8 +279,13 @@ export function stepFix(
  * The library's own checks, `checkTermGroups()` and `checkStepRange()`, the same ones its Fourier panel shows.
  * Each Term Groups keyframe is checked against the terms at that keyframe's time.
  * For `HasEditorMessages.editorMessages()`.
+ * @param options.sourceErrors false when the component already says why there are no terms,
+ * like Star Circuit's line about a circuit that doesn't parse.  Then it isn't said twice.
  */
-export function fourierMessages(component: SteppedFourier): EditorMessage[] {
+export function fourierMessages(
+  component: SteppedFourier,
+  { sourceErrors = true }: { readonly sourceErrors?: boolean } = {},
+): EditorMessage[] {
   const messages: EditorMessage[] = [];
   /** Says which keyframe, when a field has more than one. */
   const at = (keyframes: readonly Keyframe<unknown>[], time: number) =>
@@ -299,10 +303,12 @@ export function fourierMessages(component: SteppedFourier): EditorMessage[] {
     const terms = component.fourierTermsAt(time);
     const problems = [...parsed.warnings];
     if (typeof terms == "string") {
-      messages.push({
-        level: "error",
-        text: `${at(termKeyframes, time)}${terms}`,
-      });
+      if (sourceErrors) {
+        messages.push({
+          level: "error",
+          text: `${at(termKeyframes, time)}${terms}`,
+        });
+      }
     } else {
       problems.push(...checkTermGroups(parsed.groups, terms));
     }

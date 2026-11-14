@@ -49,11 +49,7 @@ import {
 } from "canvas-recorder-lib/src/peano-fourier/fourier-shared";
 import { RunKind, samplesWithBridges } from "./bridged-fourier.ts";
 import { makeEasing } from "./colored-fourier.ts";
-import {
-  EditorMessage,
-  HasEditorMessages,
-  showMessagesWithProperties,
-} from "./editor-messages.ts";
+import { EditorMessage, HasEditorMessages } from "./editor-messages.ts";
 import {
   fourierMessages,
   fourierStepPanel,
@@ -492,7 +488,6 @@ export class BridgedMorph
       this.bridgeColorSchedule,
       this.lineWidthSchedule,
     );
-    showMessagesWithProperties(this);
   }
 
   /** The source for the last Before and After.  Never more than one entry. */

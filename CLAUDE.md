@@ -76,15 +76,14 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   1. "Portrait Template":  one Star Circuit and a label, laid out for a phone.
   2. "Pan and Scan Template":  an empty Slide that moves slowly across a 16 × 9 picture.  Paste a whole slide from the main video into it.
   3. "Scratch 1" to "Scratch 13":  only a background.  Except Scratch 4:  eight copies of one circuit, from `fillEightPack()`.
+     Scratch 4 and 5 have buttons for their scripts, with the scene's properties:  choose the scene in the Edit list.
 - `src/scenes.ts`:  `addScene()` and `named()`, shared by the videos.  Set `canvasRecorder.size` before `addScene()`, because the background fills the canvas.
-  `addScene()` also gives the root and the scene the messages panel.
-- `src/editor-messages.ts`:  shows the selected component's warnings in the Visual Editor.  A component opts in with an `editorMessages()` method.
-  Moving from the old hook to the new one, one component at a time.
-  The new hook:  bottom right, with the component's properties, through `canvasRecorder.addEditorPanel()`.  A component moves by calling `showMessagesWithProperties(this)` in its constructor.  Bridged Fourier has.
-  The old hook:  top right, through the library's `rootComponentEditor`, for every other component with messages.  Star Circuit is still there.
-  Priorities and reasons:  the top of `development-plans/editor-panels.md`.
-  `saveOutsideChanges()` uses the same hook to save fields changed from the console.  It uses `refreshGUI("structure")`, which sends the selection back to the root.
-  From 0.7.3, `"properties"` saves too, and keeps the selection.
+  `addScene()` also lets console commands save while the root or the scene is chosen in the Edit list.  See `console-support.ts`.
+  It imports `editor-messages.ts` for its side effect.
+- `src/editor-messages.ts`:  the selected component's warnings, in a box called "Checks", bottom right with its properties (`canvasRecorder.addEditorPanel()`).
+  Any component with an `editorMessages()` method gets one.  After the component's own panel, if it has one.
+  The components only import its types, and the build leaves out a module imported only for types.  So `scenes.ts` imports it for its side effect.
+  Our panels, their priorities and the reasons:  the top of `development-plans/editor-panels.md`.
 - `src/all-components.ts`:  imports every custom component, so any video can insert or paste any of them.  Add each new component here.
 - `src/euler-circuits.ts`:  graph math only, no imports, so Node can run it.  Hand picked circuits (`GROUPED_7`, `INTERLEAVED_7`), the search, the duplicate filter.
   Node only strips types, so this file (and `scripts/`) can't use enums or constructor parameter properties.  `erasableSyntaxOnly` in tsconfig enforces that.
@@ -113,7 +112,7 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   `samplesWithBridges()` and `drawBridgedFrame()` are copies of `samplesWithStarts()` and `drawColoredFrame()`; `getFrameRules()` is shared.
   A gap under 1e-6 is welded:  touching letters can be a rounding error apart, and a bridge there would leave a hole.
   `samplesToFourier()` leaves out the frequency 0 term (library 0.8.0):  1023 terms, 0 to 1022, and the curve is centered on the average of the samples.  Bounds are moved the same way, as in the library's Fourier component.
-  The first component on the library's new panel hooks:  `fourier-panel.ts` for the step panel, and the messages bottom right.
+  In the Visual Editor, the step panel from `fourier-panel.ts`, then Checks.
   Only `full-video.ts` imports it, not `all-components.ts`, to keep it out of the Shorts for now.
 - `src/bridged-morph.ts`:  a prototype, quick and dirty on purpose.  A Fourier morph from one word to another, in the cursive font, typed into Before and After.  Registered as "Bridged Morph".
   Each word is sampled by `samplesWithBridges()`, 1024 samples, so sample i of one goes to sample i of the other:  matched by length, bridges included.
@@ -123,10 +122,11 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   It draws straight lines between samples, not a smooth curve:  the ends are then exactly the words.
   Dest Rect's height is one line of the font, and the words are centered side to side, so two morphs with the same Dest Rect put a word in the same place.
   Only `full-video.ts` imports it, like Bridged Fourier.
-- `src/fourier-panel.ts`:  Visual Editor tools for anything with Term Groups and Step, a `SteppedFourier`.  General, unlike `star-circuit-panel.ts`, which it will replace.
+- `src/fourier-panel.ts`:  Visual Editor tools for anything with Term Groups and Step, a `SteppedFourier`.  Star Circuit, Bridged Fourier and Bridged Morph are.
   `fourierStepPanel()`, a component's own `editorPanel`:  at the playhead, Step, the terms in and coming in, and a table of how many terms and how much of the amplitude are in, adding and left, like "Will it Fourier?".
   When Step's last keyframe isn't the number of groups, a button fixes it, with `propertyChanged()`, so it saves and undoes like any edit.
   `fourierMessages()`:  the library's `checkTermGroups()` and `checkStepRange()`, for `editorMessages()`.
+  `{ sourceErrors: false }` when the component already says why there are no terms, as Star Circuit's Circuit line does.
   `analyzeStep()`, `describeStep()`, `formatTerms()` and `stepFix()` are pure.
 - `src/circuit-grid.ts`:  a Lattice of circles:  Fourier, reference, Fourier, reference, in reading order.  Registered as "Circuit Grid".
   A quick tool for trying layouts.  New work goes into Star Circuit instead.
@@ -134,20 +134,27 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   It extends `DurationAgnosticComponent`, like the library's FourierComponent.  That gives it Min Duration, 0 by default.
   So by default it takes no room on the timeline, and the scene sets the length.  The default Step ends at 22 s, so the scene needs at least that.
   Above 0, it gets a block on the timeline.  The timeline only shows children that are a `DurationAgnosticComponent`, a `PaddingComponent`, or have `setDuration()`.  A plain `implements Showable` gets no block.
-  With a duration, it's also in the Edit list on its own, so it gets its own messages panel.
+  With a duration, it's also in the Edit list on its own.
+  In the Visual Editor, the step panel from `fourier-panel.ts`, then Checks:  whether each Circuit keyframe parses, then `fourierMessages()`.
   A class meant to be extended:  override `drawFourier()` or `drawReference()` for variations, like the 3D reference image in `development-plans/3d-euler-circuits.md`.
   The Circuit field takes a name from `NAMED_CIRCUITS_7` (offered as suggestions) or the vertices in order, read by `parseCircuit7()`.
   A line width of 0 turns that part off, at no cost, unless Fill Color is set.  (The canvas ignores a `lineWidth` of 0, so it's handled in `setLineWidth()`.)
-- `src/star-circuit-panel.ts`:  Star Circuit's own `editorPanel` (library 0.7.3), bottom right with its properties.
-  At the playhead:  Step to 2 places, the terms all the way in, and the ones coming in, in the Term Groups format ("2 7-11", or "none").  Warns about terms the circuit doesn't have.
-  `describeStep()` and `formatTerms()` are pure, and would work for the library's FourierComponent too, through `addEditorPanel()`.
+- `src/script-panel.ts`:  quick and dirty panels:  plain buttons that run a script on one scene, HyperCard style.  `addScriptPanel(scene, { title, status, buttons })`.
+  Shown with that scene's properties, and only that scene's:  a pasted copy doesn't get the panel.  A button may throw; the message goes on the result line.
+  After a button, `refreshGUI("properties")`:  it saves, redraws, keeps the selection, and makes one undo step.  So buttons change values only, never add or remove components.
+  That rebuild restarts the panel, so the result line and the text boxes' values live in the panel object.
 - `src/eight-pack.ts`:  eight copies of one circuit, like ✶37.  Each holds its first, second and third term groups for the end, or not:  2 × 2 × 2.
   Bright or dark circle, fat star and thin star show the three choices.  Empty term groups keep them in step, so all eight share one plain Step.
-  `fillEightPack()` builds one in a scene (Scratch 4 in the Shorts).  The console commands are `philDebug.eightPack`:  `find()`, `setTermGroups()`, `setSteps()`, `setCircuit()`.
-  The author copies and pastes this layout, so the commands find the eight by position among the chosen scene's Star Circuits, not by name.
-- `src/four-plus-four.ts`:  a console command for Scratch 5 in the Shorts.  `philDebug.fourPlusFour.setEndTime()` moves the last Step keyframe of the scene's four Star Circuits, and a two-keyframe Night Sky's Bottom Color, to the end of the scene.
-  This file and `eight-pack.ts` are quick, rough scripts for one template each.  The plan is to give each a panel of plain buttons:  "Quick and dirty panels" in `development-plans/editor-panels.md`.
-- `src/console-support.ts`:  `root()`, what's chosen in the Edit list, for console commands.
+  `fillEightPack()` builds one in a scene (Scratch 4 in the Shorts), and `addEightPackPanel()` gives it buttons:  Set Term Groups, Set Steps, Set Circuit.
+  The console commands are the same functions, on whatever is chosen in the Edit list:  `philDebug.eightPack`:  `find()`, `setTermGroups()`, `setSteps()`, `setCircuit()`.
+  The author copies and pastes this layout, so the commands find the eight by position among the scene's Star Circuits, not by name.
+- `src/four-plus-four.ts`:  scripts for Scratch 5 in the Shorts, four Star Circuits.  Buttons from `addFourPlusFourPanel()`, and `philDebug.fourPlusFour` on the console.
+  Set End Time (`setEndTime()`) moves the last Step keyframe of the four, and a two-keyframe Night Sky's Bottom Color, to the end of the scene.
+  Show Intro (`showIntro()`) rounds the corners from 2 s to 13 s and starts every Step at 15 s.
+  This file and `eight-pack.ts` are quick, rough scripts for one template each.
+- `src/console-support.ts`:  for console commands.  `root()`, what's chosen in the Edit list, and `saveOutsideChanges()`, which saves what a command changed.
+  The console has no way to save (`library-issues.md`, item 28), so `addScene()` gives each scene, and the root, an invisible root panel, only to hold the `VisualEditorAPI`.
+  It saves with `refreshGUI("properties")`, which keeps the selection.  Buttons don't need this:  they save through their own panel.
 - `src/tessellating-triangles.ts`:  a background of equilateral triangles in two colors.  Registered as "Tessellating Triangles".
   The fields say "▲ Color" and "▼ Color"; the code says `upColor` and `downColor`.
 - `src/night-sky.ts`:  a background, a gradient from Top Color to Bottom Color with glowing stars.  Registered as "Night Sky".

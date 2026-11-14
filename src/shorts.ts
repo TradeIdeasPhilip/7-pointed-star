@@ -8,6 +8,7 @@
  *    Copy a whole slide from the main video, and paste it into the Slide.
  * 3. Scratch 1 to 13:  just a background, to add anything to.
  *    Except Scratch 4, which starts as eight copies of one circuit, like ✶37.  See `eight-pack.ts`.
+ *    Scratch 4 and 5 have buttons for their scripts, with the scene's properties.  See `script-panel.ts`.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  * @module
@@ -23,7 +24,8 @@ import {
 } from "canvas-recorder-lib";
 import { myRainbow } from "canvas-recorder-lib/src/glib/my-rainbow";
 import "./all-components.ts";
-import { fillEightPack } from "./eight-pack.ts";
+import { addEightPackPanel, fillEightPack } from "./eight-pack.ts";
+import { addFourPlusFourPanel } from "./four-plus-four.ts";
 import { addScene, named } from "./scenes.ts";
 import { StarCircuit } from "./star-circuit.ts";
 
@@ -99,8 +101,13 @@ const scratch = Array.from({ length: 13 }, (_, index) =>
 );
 
 // Eight copies of Random 5:  its first three terms are almost the same size, so each choice matters about as much.
+// Its buttons are with its properties:  choose it in the Edit list.
 const eightPack = scratch[3];
 eightPack.minDurationScalar.value = 30_000;
 fillEightPack(eightPack, "Random 5");
+addEightPackPanel(eightPack);
+
+// Four Star Circuits, filled in from the Visual Editor.  Buttons for its scripts, like the Eight Pack's.
+addFourPlusFourPanel(scratch[4]);
 
 export const shorts = root;

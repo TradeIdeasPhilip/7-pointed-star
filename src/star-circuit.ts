@@ -1,23 +1,22 @@
 import { ReadOnlyRect } from "phil-lib/misc";
 import {
-  checkStepRange,
-  checkTermGroups,
   ColorScheduleInfo,
   componentRegistry,
   DurationAgnosticComponent,
   type EditorPanel,
   Keyframe,
   NumberScheduleInfo,
-  parseTermGroups,
   RectangleScheduleInfo,
   ShowOptions,
   StringScheduleInfo,
 } from "canvas-recorder-lib";
+import type { FourierTerm } from "canvas-recorder-lib/src/peano-fourier/fourier-shared";
+import { EditorMessage, HasEditorMessages } from "./editor-messages.ts";
 import {
-  addEditorMessages,
-  EditorMessage,
-  HasEditorMessages,
-} from "./editor-messages.ts";
+  fourierMessages,
+  fourierStepPanel,
+  SteppedFourier,
+} from "./fourier-panel.ts";
 import { myRainbow } from "canvas-recorder-lib/src/glib/my-rainbow";
 import { panAndZoom } from "canvas-recorder-lib/src/glib/transforms";
 import { showError } from "canvas-recorder-lib/src/slide-components/show-error";
@@ -28,7 +27,6 @@ import {
   drawColoredFrame,
 } from "./colored-fourier.ts";
 import { drawRoundedCircuit, STAR_BOUNDS } from "./rounded-star.ts";
-import { starCircuitPanel } from "./star-circuit-panel.ts";
 import { RoundingSettings } from "./vertex-corners.ts";
 
 /** The circle, the fat star and the thin star. */
@@ -48,13 +46,14 @@ export type StarColors = readonly [string, string, string];
  * It's 0 by default, so it takes no room on the Visual Editor's timeline, and the parent sets the length.
  * Above 0, it gets a block on the timeline, with a handle to drag it, and can make the parent longer.
  *
- * In the Visual Editor, its own panel says what Step means at the playhead.  See {@link starCircuitPanel}.
+ * In the Visual Editor, with its properties:  what Step means at the playhead (`fourier-panel.ts`),
+ * and the checks that the circuit parses and that Term Groups and Step agree (`editor-messages.ts`).
  *
  * In the component registry as "Star Circuit".
  */
 export class StarCircuit
   extends DurationAgnosticComponent
-  implements HasEditorMessages
+  implements SteppedFourier, HasEditorMessages
 {
   readonly registryKey = "Star Circuit";
   /** A name from the suggestions, or the vertices in order. */
@@ -126,8 +125,11 @@ export class StarCircuit
     "Reference Line Width",
     0.05,
   );
-  /** Its own panel in the Visual Editor:  Step at the playhead, and the terms that means.  A subclass can replace it, or wrap it. */
-  readonly editorPanel: EditorPanel = starCircuitPanel(this);
+  /**
+   * Its own panel in the Visual Editor:  Step at the playhead, the terms that means, and a fix when Step and Term Groups disagree.
+   * A subclass can replace it, or wrap it.
+   */
+  readonly editorPanel: EditorPanel = fourierStepPanel(this);
   constructor(
     initialValues: {
       description?: string;
@@ -187,8 +189,6 @@ export class StarCircuit
       this.fourierLineWidthSchedule,
       this.referenceLineWidthSchedule,
     );
-    // With a duration, it's also in the Edit list, on its own.  This shows its messages there too.
-    addEditorMessages(this);
   }
 
   /** The last Circuit text read, and what it meant.  Never more than one entry. */
@@ -203,87 +203,36 @@ export class StarCircuit
     return this.#parsed.result;
   }
 
+  /** The terms Term Groups numbers, or why there aren't any.  For the Visual Editor's step panel and checks. */
+  fourierTermsAt(timeInMs: number): readonly FourierTerm[] | string {
+    const circuit = this.circuitAt(timeInMs);
+    return typeof circuit == "string" ? circuit : coloredSource(circuit).terms;
+  }
+
   /**
    * For the Visual Editor:  is the circuit valid, and do Term Groups and Step make sense together?
-   * The Term Groups and Step checks are the library's, the same ones its Fourier panel shows.
-   * See `editor-messages.ts`.
+   * The Term Groups and Step checks are the library's, the same ones its Fourier panel shows.  See `fourier-panel.ts`.
    */
   editorMessages(): EditorMessage[] {
     const messages: EditorMessage[] = [];
-    /** Says which keyframe, when a field has more than one. */
-    const at = (keyframes: readonly Keyframe<unknown>[], time: number) =>
-      keyframes.length > 1 ? `At ${time} ms:  ` : "";
-    const plural = (count: number, noun: string) =>
-      `${count} ${noun}${count == 1 ? "" : "s"}`;
-
-    // MARK: Circuit
     const circuitKeyframes = this.circuitSchedule.schedule;
+    /** Says which keyframe, when Circuit has more than one. */
+    const at = (time: number) =>
+      circuitKeyframes.length > 1 ? `At ${time} ms:  ` : "";
     for (const { time, value } of circuitKeyframes) {
       const circuit = parseCircuit7(value);
       messages.push(
         typeof circuit == "string"
           ? // The message already starts with "Circuit:".
-            { level: "error", text: `${at(circuitKeyframes, time)}${circuit}` }
+            { level: "error", text: `${at(time)}${circuit}` }
           : {
               level: "ok",
-              text: `${at(circuitKeyframes, time)}Circuit:  every edge exactly once`,
+              text: `${at(time)}Circuit:  every edge exactly once`,
             },
       );
     }
-
-    // MARK: Term Groups
-    const termKeyframes = this.termGroupsSchedule.schedule;
-    const groupCounts = new Set<number>();
-    for (const { time, value } of termKeyframes) {
-      const parsed = parseTermGroups(value);
-      groupCounts.add(parsed.groups.length);
-      const termCount = parsed.groups.reduce(
-        (sum, group) => sum + group.length,
-        0,
-      );
-      const problems = [...parsed.warnings];
-      // Checked against the circuit in effect at the same time.
-      // Without a valid circuit there are no terms to check against, so no ✓.
-      const circuit = parseCircuit7(this.circuitSchedule.at(time));
-      const checked = typeof circuit != "string";
-      if (checked) {
-        problems.push(
-          ...checkTermGroups(parsed.groups, coloredSource(circuit).terms),
-        );
-      }
-      const clean =
-        checked && parsed.errors.length == 0 && problems.length == 0;
-      messages.push({
-        level: clean ? "ok" : "note",
-        text: `${at(termKeyframes, time)}Term Groups:  ${plural(parsed.groups.length, "group")}, ${plural(termCount, "term")}`,
-      });
-      for (const error of parsed.errors) {
-        messages.push({ level: "error", text: error });
-      }
-      for (const problem of problems) {
-        messages.push({ level: "warning", text: problem });
-      }
-    }
-
-    // MARK: Step
-    if (groupCounts.size == 1) {
-      const [groupCount] = groupCounts;
-      const problems = checkStepRange(this.stepSchedule.schedule, groupCount);
-      if (problems.length == 0) {
-        messages.push({
-          level: "ok",
-          text: `Step runs from 0 to ${groupCount}`,
-        });
-      }
-      for (const problem of problems) {
-        messages.push({ level: "warning", text: problem });
-      }
-    } else {
-      messages.push({
-        level: "note",
-        text: "Term Groups changes over time, so Step can't be checked against one number of groups.",
-      });
-    }
+    // Without a valid circuit there are no terms to check against, so no ✓, and the line above already says why.
+    messages.push(...fourierMessages(this, { sourceErrors: false }));
     return messages;
   }
 

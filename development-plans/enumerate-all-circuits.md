@@ -49,6 +49,16 @@ Update, later the same day:  Star Circuit's Circuit field now takes a pasted lis
 
 The 3,000 circuits I timed also give a first peek at the first term's |frequency|. 1 is most common, then 7 and 2, but every value from 1 to 9 shows up. Those 3,000 come from one corner of the search, so treat that as a hint, not a result.
 
+## Search for the best symmetries
+
+Wanted by the author, 2026-11-14.  Run `scripts/fourier-analysis.ts`'s symmetry test on every circuit, and find the ones with the best symmetries.
+- That script scores each circuit for each n from 2 to 9, and each `start` of 1 or −1:  `getSymmetryInfo()`, and `termGroups` to paste into Term Groups.
+  So far it has only run on the 16 named circuits.  Random 5, the best of them, shows three:  2-fold, 3-fold and 7-fold.  That became video #6 in the Shorts series.
+- The script's amplitudes are each term's share of the circuit's total, like the step panel's percentages.  The cutoff for a "big" term is 5% of the total.
+  Store the scores in the same units, or store the total so they can be computed.
+- Worth a column for each n:  the score, and how many big terms.  Then "the best 3-fold circuits" or "circuits with three symmetries, like Random 5" are simple queries.
+- The scoring is a first try.  The author wants the best terms *and* the most terms, and the score only counts terms.  Expect to change it once there are more examples to look at.
+
 ## Suggested first step
 
 A script that writes SQLite using all 8 cores, plus a way to paste circuits into a component. Install DuckDB only if SQLite feels slow.

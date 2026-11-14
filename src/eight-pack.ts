@@ -9,7 +9,8 @@
  * They go into three empty groups at the end, which the copies that didn't wait spend paused.
  * So every copy has the same number of steps, and they all draw step N at the same time.
  *
- * `fillEightPack()` builds one in a scene, from TypeScript.  On the console, choose that scene in the Edit list, then:
+ * `fillEightPack()` builds one in a scene, from TypeScript.  `addEightPackPanel()` gives that scene buttons for the commands below.
+ * On the console, choose a scene with eight in the Edit list, then:
  * * `philDebug.eightPack.find()`:  the eight, and each one's choices.
  * * `philDebug.eightPack.setTermGroups()`:  copy the last one's Term Groups to the others, with their own choices.
  * * `philDebug.eightPack.setSteps()`:  every Step from 0, at the start of the scene, to the last group, at its end.
@@ -25,11 +26,12 @@ import {
 } from "canvas-recorder-lib";
 import { myRainbow } from "canvas-recorder-lib/src/glib/my-rainbow";
 import { philDebug } from "canvas-recorder-lib/src/utility";
-import { saveOutsideChanges } from "./editor-messages.ts";
+import { root, saveOutsideChanges } from "./console-support.ts";
+import { parseCircuit7 } from "./euler-circuits.ts";
 import { NightSky } from "./night-sky.ts";
 import { named } from "./scenes.ts";
+import { addScriptPanel } from "./script-panel.ts";
 import { StarCircuit, StarColors } from "./star-circuit.ts";
-import { root } from "./console-support.ts";
 
 /** Draw a term group at the start, or hold it until the end. */
 export type When = "start" | "end";
@@ -189,21 +191,22 @@ export function fillEightPack(
   applySteps(items, scene.duration);
 }
 
-// MARK: Console
+// MARK: Commands
 
 /**
- * The root's eight Star Circuits, in order, and each one's choices.
- * @throws Unless the root has exactly 8 Star Circuits.
+ * A scene's eight Star Circuits, in order, and each one's choices.
+ * @param scene What's chosen in the Edit list, by default, for the console.
+ * @throws Unless the scene has exactly 8 Star Circuits.
  */
-function find(): EightPackItem[] {
-  const scene = root();
-  const circuits = (scene.replaceableComponents?.get() ?? []).filter(
+function find(scene?: Showable): EightPackItem[] {
+  const chosen = scene ?? root();
+  const circuits = (chosen.replaceableComponents?.get() ?? []).filter(
     (child) => child instanceof StarCircuit,
   );
   if (circuits.length != 8) {
     throw new Error(
-      `"${scene.userEditableDescription ?? scene.description}" has ${circuits.length} Star Circuits, not 8.  ` +
-        "Choose the scene with the eight in the Edit list.",
+      `"${chosen.userEditableDescription ?? chosen.description}" has ${circuits.length} Star Circuits, not 8.` +
+        (scene ? "" : "  Choose the scene with the eight in the Edit list."),
     );
   }
   return circuits.map((component, index) => ({
@@ -212,13 +215,96 @@ function find(): EightPackItem[] {
   }));
 }
 
+/**
+ * Copy the last one's Term Groups to all eight, each with its own choices.  Then {@link setSteps}.
+ * @returns The Term Groups copied.
+ */
+function setTermGroups(scene?: Showable): string {
+  const items = find(scene);
+  applyTermGroups(items);
+  return items[items.length - 1].component.termGroupsSchedule.at(0);
+}
+
+/**
+ * Every Step from 0, at the start of the scene, to the last group, at its end.  Do this after changing either one.
+ * @returns The scene's length, in ms.
+ */
+function setSteps(scene?: Showable): number {
+  const items = find(scene);
+  const duration = (scene ?? root()).duration;
+  if (!(duration > 0)) {
+    throw new Error(`The scene is ${duration} ms long.`);
+  }
+  applySteps(items, duration);
+  return duration;
+}
+
+/**
+ * The same circuit in all eight.
+ * @param circuit A name from the Circuit field's suggestions, or the vertices in order.
+ * @throws If it doesn't parse, and changes nothing.
+ */
+function setCircuit(scene: Showable | undefined, circuit: string) {
+  const parsed = parseCircuit7(circuit);
+  if (typeof parsed == "string") {
+    throw new Error(parsed);
+  }
+  for (const { component } of find(scene)) {
+    component.circuitSchedule.set(circuit);
+  }
+}
+
+// MARK: Buttons
+
+/** Buttons for the commands, with `scene`'s properties in the Visual Editor.  The same functions as the console commands. */
+export function addEightPackPanel(scene: Showable) {
+  addScriptPanel(scene, {
+    title: "Eight Pack",
+    status(scene) {
+      find(scene);
+      return "8 Star Circuits  ✓";
+    },
+    buttons: [
+      {
+        label: "Set Term Groups",
+        title:
+          "Copy the last Star Circuit's Term Groups to all eight, each with its own choices.  Then Set Steps.",
+        run(scene) {
+          const termGroups = setTermGroups(scene);
+          return `Term Groups:  “${termGroups}”, with each one's choices.  Now Set Steps.`;
+        },
+      },
+      {
+        label: "Set Steps",
+        title:
+          "Every Step from 0, at the start of the scene, to its last group, at the end.",
+        run(scene) {
+          const duration = setSteps(scene);
+          return `Step:  0 at 0 s to the last group at ${duration / 1000} s, in all eight.`;
+        },
+      },
+      {
+        label: "Set Circuit",
+        title: "The same circuit in all eight.",
+        argument: { placeholder: "Random 1, or 0 1 2 0 3 …" },
+        run(scene, circuit) {
+          setCircuit(scene, circuit);
+          return `Circuit:  “${circuit}” in all eight.`;
+        },
+      },
+    ],
+  });
+}
+
+// MARK: Console
+
 /** Save what the console changed, and show it. */
-function finish(items: readonly EightPackItem[]) {
+function finish(scene?: Showable) {
   if (!saveOutsideChanges()) {
     console.warn("Not saved yet.  Any edit in the Visual Editor will save it.");
   }
   console.table(
-    items.map(({ when, component }) => ({
+    find(scene).map(({ when, component }) => ({
       name: component.userEditableDescription ?? component.description,
       when: when.join(" "),
       termGroups: component.termGroupsSchedule.at(0),
@@ -228,29 +314,20 @@ function finish(items: readonly EightPackItem[]) {
 }
 
 philDebug.eightPack = {
-  find,
+  find: () => find(),
   /** Copy the last one's Term Groups to all eight, each with its own choices.  Then call setSteps(). */
   setTermGroups() {
-    const items = find();
-    applyTermGroups(items);
-    finish(items);
+    setTermGroups();
+    finish();
   },
   /** Every Step from 0, at the start of the scene, to the last group, at its end.  Call this after changing either one. */
   setSteps() {
-    const items = find();
-    const duration = root().duration;
-    if (!(duration > 0)) {
-      throw new Error(`The scene is ${duration} ms long.`);
-    }
-    applySteps(items, duration);
-    finish(items);
+    setSteps();
+    finish();
   },
   /** The same circuit in all eight:  a name from the Circuit field's suggestions, or the vertices in order. */
   setCircuit(circuit: string) {
-    const items = find();
-    for (const { component } of items) {
-      component.circuitSchedule.set(circuit);
-    }
-    finish(items);
+    setCircuit(undefined, circuit);
+    finish();
   },
 };
