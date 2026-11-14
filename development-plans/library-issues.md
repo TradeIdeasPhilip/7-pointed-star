@@ -85,6 +85,12 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    * Its three layers are three different sets of random dots.  The circles only appear when they're the same dots, turned a little against each other, as the SVG version's three copies of one filter were.
    * It calls `path.ellipse()` with no `moveTo()` first, so each ellipse joins the last one with a straight line.  Each layer is filled as one huge self-crossing polygon.  That's the CPU cost, too.
    This project's `src/freaky-dots.ts` works, at about 1.5 ms a frame in 4K.  The showcase could copy it, or drop the slide.
+33. **Step 0's dot never shows.**  Found 2026-11-12, in 0.8.0.
+   The comments say Step 0 is a single dot.  `getAnimationRules()` (`fourier-shared.ts`, about line 599) draws it as `M p L p`, a line of length 0, with round caps.
+   Chrome skips a line that short, round caps or not.  Tested:  nothing at length 0 or 1e-9 pixels, a whole dot at 1e-4.
+   So the screen is empty at Step 0, and the dot appears on the first frame after.  The author's workaround:  start Step at 0.001.
+   Fix:  draw the dot as a filled circle, Line Width across, in the stroke color.
+   Bridged Fourier does that now (`drawBridgedFrame()`).  Star Circuit still has the bug (`drawColoredFrame()`, the same `M p L p`), left alone because the Shorts use it.
 22. **The Paste button's tooltip uses the wrong name.**
    A child row's button says `Paste into "Slide"`, from `child.description`, while the row itself says "Pan and Scan", from `userEditableDescription`.
 

@@ -1302,6 +1302,11 @@
             "registryKey": "Bridged Fourier",
             "schedules": [
               {
+                "description": "Text",
+                "type": "string",
+                "value": "Like\nshare\nand\nsubscribe"
+              },
+              {
                 "description": "Term Groups",
                 "type": "string",
                 "value": "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1022"
@@ -1545,6 +1550,255 @@
             ],
             "components": [],
             "userEditableDescription": "Reason to Balance"
+          }
+        ]
+      },
+      {
+        "description": "Something Lead Gold",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 0
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 16,
+                  "height": 9
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ],
+        "fixedComponents": [
+          {
+            "description": "Triangles",
+            "schedules": [
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 16,
+                  "height": 16
+                }
+              },
+              {
+                "description": "▲ Color",
+                "type": "color",
+                "value": "rgb(0% 0% 0%)"
+              },
+              {
+                "description": "▼ Color",
+                "type": "color",
+                "value": "#1c1c1c"
+              },
+              {
+                "description": "Side Length",
+                "type": "number",
+                "value": 1.5
+              }
+            ]
+          },
+          {
+            "description": "Halves",
+            "components": [],
+            "fixedComponents": [
+              {
+                "description": "Nothing to Something",
+                "scalars": [
+                  {
+                    "description": "Min Duration",
+                    "type": "number",
+                    "value": 19000
+                  }
+                ],
+                "components": [],
+                "fixedComponents": [
+                  {
+                    "description": "Something",
+                    "schedules": [
+                      {
+                        "description": "Text",
+                        "type": "string",
+                        "value": "Something"
+                      },
+                      {
+                        "description": "Term Groups",
+                        "type": "string",
+                        "value": "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-299, 300-1022"
+                      },
+                      {
+                        "description": "Step",
+                        "type": "number",
+                        "keyframes": [
+                          {
+                            "time": 1000,
+                            "value": 0
+                          },
+                          {
+                            "time": 17000,
+                            "value": 11
+                          }
+                        ]
+                      },
+                      {
+                        "description": "Dest Rect",
+                        "type": "rectangle",
+                        "value": {
+                          "x": 1,
+                          "y": 2.75,
+                          "width": 14,
+                          "height": 3.5
+                        }
+                      },
+                      {
+                        "description": "Content Color",
+                        "type": "color",
+                        "value": "#c084fc"
+                      },
+                      {
+                        "description": "Bridge Color",
+                        "type": "color",
+                        "keyframes": [
+                          {
+                            "time": 4000,
+                            "value": "#c084fc"
+                          },
+                          {
+                            "time": 8500,
+                            "value": "transparent"
+                          }
+                        ]
+                      },
+                      {
+                        "description": "Line Width",
+                        "type": "number",
+                        "value": 0.11
+                      }
+                    ],
+                    "scalars": [
+                      {
+                        "description": "Min Duration",
+                        "type": "number",
+                        "value": 0
+                      }
+                    ],
+                    "components": []
+                  }
+                ]
+              },
+              {
+                "description": "Slide Left",
+                "components": [],
+                "duration": 1000
+              },
+              {
+                "description": "Lead to Gold",
+                "scalars": [
+                  {
+                    "description": "Min Duration",
+                    "type": "number",
+                    "value": 12000
+                  }
+                ],
+                "components": [],
+                "fixedComponents": [
+                  {
+                    "description": "Morph",
+                    "schedules": [
+                      {
+                        "description": "Before",
+                        "type": "string",
+                        "value": "Lead"
+                      },
+                      {
+                        "description": "After",
+                        "type": "string",
+                        "value": "Gold"
+                      },
+                      {
+                        "description": "Term Groups",
+                        "type": "string",
+                        "value": "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-1022"
+                      },
+                      {
+                        "description": "Step",
+                        "type": "number",
+                        "keyframes": [
+                          {
+                            "time": 1500,
+                            "value": 0
+                          },
+                          {
+                            "time": 9500,
+                            "value": 10
+                          }
+                        ]
+                      },
+                      {
+                        "description": "Dest Rect",
+                        "type": "rectangle",
+                        "value": {
+                          "x": 0.5,
+                          "y": 1.25,
+                          "width": 15,
+                          "height": 7.75
+                        }
+                      },
+                      {
+                        "description": "Content Color",
+                        "type": "color",
+                        "keyframes": [
+                          {
+                            "time": 1500,
+                            "value": "#94a3b8"
+                          },
+                          {
+                            "time": 9500,
+                            "value": "#fbbf24"
+                          }
+                        ]
+                      },
+                      {
+                        "description": "Bridge Color",
+                        "type": "color",
+                        "value": "transparent"
+                      },
+                      {
+                        "description": "Line Width",
+                        "type": "number",
+                        "value": 0.2
+                      }
+                    ],
+                    "scalars": [
+                      {
+                        "description": "Min Duration",
+                        "type": "number",
+                        "value": 0
+                      }
+                    ],
+                    "components": []
+                  }
+                ]
+              }
+            ]
           }
         ]
       },

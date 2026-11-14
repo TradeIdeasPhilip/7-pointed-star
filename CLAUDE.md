@@ -63,7 +63,11 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   6. "Like Share Subscribe":  a prototype Bridged Fourier, cursive text where the lines between strokes fade away.  Only in this video.
   7. "Love Reason Balance":  two prototype Bridged Morphs, Love to Reason, a pause, then Reason to Balance.  Only in this video.
      They take turns:  at 12 s the first one's Step goes to -1, hiding it, as the second one's goes from -1 to 0.  The 1 ms between those keyframes is never a frame.
-  8. "Scratch 1" to "Scratch 13":  only a background.  The author fills these from the Visual Editor.
+  8. "Something Lead Gold":  a short demo of the progress so far, for a voiceover.  Fixed children only, at the author's request.
+     Tessellating Triangles that stay still, under an In Series of two halves with a Slide Left between them.
+     "Nothing to Something":  a Bridged Fourier of "Something" from a dot.  "Lead to Gold":  a Bridged Morph, gray to gold.
+     Each half is a Duration Agnostic with a Min Duration, and its children's keyframes start at the start of that half.
+  9. "Scratch 1" to "Scratch 13":  only a background.  The author fills these from the Visual Editor.
   The editor matches saved state by description, starting at the root.  Renaming or wrapping the root drops the saved state.
   The author prefers components added as replaceable children, so the Visual Editor can change, copy or delete them, and labels separate from what they label.
   The author's plan:  a few template slides that always match the TypeScript defaults, so the diff file says nothing about them.  Copy a template, or part of one, from the GUI to a blank slide, in either video.
@@ -103,7 +107,8 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   That term is only sampling error, under a pixel, but it ranks between 98 and 502.  Leaving it out changes nothing you'd see, only the numbers after it, and many saved Term Groups in the Shorts end at 1023.
   The library's own Fourier component (slide 1's Star Fourier) leaves it out:  1023 terms.
 - `src/bridged-fourier.ts`:  a prototype, quick and dirty on purpose.  The multi-color Fourier for any path:  the lines that close the gaps are **bridges**, in their own color.  Registered as "Bridged Fourier".
-  One hard-coded path:  "Like / share / and / subscribe" in the cursive font, lines 2 and 4 backwards so the jumps between lines are short.
+  The path is the Text field, in the cursive font.  The default is "Like / share / and / subscribe", every other line backwards so the jumps between lines are short.
+  Step 0's dot is a filled circle.  The library draws it as a line of length 0, which the canvas skips (`library-issues.md`, item 33).
   Fields like the library's Fourier, with Content Color (`myRainbow.yellow`) and Bridge Color (`"transparent"`) in place of Stroke Color.  A visible Bridge Color shows every bridge.
   `samplesWithBridges()` and `drawBridgedFrame()` are copies of `samplesWithStarts()` and `drawColoredFrame()`; `getFrameRules()` is shared.
   A gap under 1e-6 is welded:  touching letters can be a rounding error apart, and a bridge there would leave a hole.

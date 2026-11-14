@@ -13,13 +13,15 @@
  *    Laid out like Peano vs Fourier:  the Fourier animations as big as possible, the reference images a little smaller.
  * 6. Like Share Subscribe:  a prototype.  A Fourier of cursive text, where the lines that close the gaps fade away.
  * 7. Love Reason Balance:  a prototype.  A Fourier morph from one cursive word to the next, twice.
- * 8. Scratch 1 to 13:  just a background, to add anything to.
+ * 8. Something Lead Gold:  a short demo for a voiceover.  A dot grows into "Something", then slides away for a morph from Lead to Gold.
+ * 9. Scratch 1 to 13:  just a background, to add anything to.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  * @module
  */
 
 import {
+  DurationAgnosticComponent,
   ease,
   FourierComponent,
   InSeriesComponent,
@@ -28,6 +30,7 @@ import {
   TextSpanComponent,
 } from "canvas-recorder-lib";
 import { myRainbow } from "canvas-recorder-lib/src/glib/my-rainbow";
+import { SlideLeftTransition } from "canvas-recorder-lib/src/slide-components/slide-left";
 import "./all-components.ts";
 import { BridgedFourier } from "./bridged-fourier.ts";
 import { BridgedMorph } from "./bridged-morph.ts";
@@ -37,6 +40,7 @@ import { RoundedStar } from "./rounded-star.ts";
 import { addScene, named } from "./scenes.ts";
 import { StarCircuit } from "./star-circuit.ts";
 import { GROUPED_SOURCE } from "./star-sources.ts";
+import { TessellatingTriangles } from "./tessellating-triangles.ts";
 import { VertexPairings } from "./vertex-pairings.ts";
 
 const root = new InSeriesComponent({ description: "7 Pointed Star Video" });
@@ -231,6 +235,87 @@ addScene(root, "Love Reason Balance", 23_000).replaceableComponents!.push(
     }),
   ),
 );
+
+// MARK: Something Lead Gold
+
+// A short demo of the progress so far, for a voiceover.
+// "You can't make something out of nothing":  the usual Fourier, a dot that grows into "Something".
+// "The real magic is about morphing one thing into another":  a Fourier morph from Lead to Gold.
+// Two halves in an In Series, the second sliding in from the right.  The background stays still.
+// Fixed children, all of them, at the author's request.
+// To stretch a half, raise its Min Duration, then move its Step keyframes.  Their times start at the start of that half.
+{
+  const scene = addScene(root, "Something Lead Gold");
+  // As in Scratch 2 of the Shorts.
+  scene.add(
+    new TessellatingTriangles({
+      description: "Triangles",
+      upColor: "rgb(0% 0% 0%)",
+      downColor: "#1c1c1c",
+      sideLength: 1.5,
+    }),
+  );
+  const halves = new InSeriesComponent({ description: "Halves" });
+  scene.add(halves);
+
+  const nothingToSomething = new DurationAgnosticComponent(
+    "Nothing to Something",
+  );
+  nothingToSomething.minDurationScalar.value = 19_000;
+  // The dot sits still for a second, then grows into the word.  11 groups, the default Term Groups.
+  const somethingColor = "#c084fc";
+  nothingToSomething.add(
+    new BridgedFourier({
+      description: "Something",
+      text: "Something",
+      step: [
+        { time: 1_000, value: 0 },
+        { time: 17_000, value: 11 },
+      ],
+      // The word is 4 times as wide as it is tall, so this is 14 wide.
+      destRect: { x: 1, y: 2.75, width: 14, height: 3.5 },
+      contentColor: somethingColor,
+      // As in Like Share Subscribe:  the first circles look closed, and the bridges fade during steps 2 to 5.
+      bridgeColor: [
+        { time: 4_000, value: somethingColor },
+        { time: 8_500, value: "transparent" },
+      ],
+      // The font's own weight at this size.
+      lineWidth: 0.11,
+    }),
+  );
+  halves.add(nothingToSomething);
+
+  // Neither half moves while it slides:  the last frame of the first, the first frame of the second.
+  halves.add(new SlideLeftTransition());
+
+  const leadToGold = new DurationAgnosticComponent("Lead to Gold");
+  leadToGold.minDurationScalar.value = 12_000;
+  // Lead to Gold, in color too:  lead gray to gold, at the same pace as Step.
+  leadToGold.add(
+    new BridgedMorph({
+      description: "Morph",
+      before: "Lead",
+      after: "Gold",
+      // The difference between Lead and Gold has 1023 terms, not 1024.
+      termGroups: "0, 1, 2, 3, 4, 5-9, 10-19, 20-39, 40-99, 100-1022",
+      step: [
+        { time: 1_500, value: 0 },
+        { time: 9_500, value: 10 },
+      ],
+      // Dest Rect's height is one line of the font, descenders included.  Lead and Gold have none,
+      // so their ink is in the top 2/3, a little above the middle of the screen.  Each word is 12.8 wide.
+      destRect: { x: 0.5, y: 1.25, width: 15, height: 7.75 },
+      contentColor: [
+        { time: 1_500, value: "#94a3b8" },
+        { time: 9_500, value: "#fbbf24" },
+      ],
+      // The font's own weight at this size.
+      lineWidth: 0.2,
+    }),
+  );
+  halves.add(leadToGold);
+}
 
 // MARK: Scratch
 

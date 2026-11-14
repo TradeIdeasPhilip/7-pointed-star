@@ -14,3 +14,15 @@ Current:    [{"time":0,"value":0},{"time":22000,"value":15}]
   const text = new TextComponent({ description: "Text" });
   text.textSchedule.set("Kk");
   loveToReason.replaceableComponents!.push(text);
+→ Something Lead Gold
+→ → Multi Text
+  [added]
+  const multiText = new MultiTextComponent({ description: "Multi Text" });
+  const textFormat = new TextFormatComponent({ description: "Text Format" });
+  multiText.replaceableComponents!.push(textFormat);
+  somethingLeadGold.replaceableComponents!.push(multiText);
+→ Scratch 1
+→ → Fourier
+  [added]
+  const fourier = new FourierComponent({ description: "Fourier" });
+  scratch1.replaceableComponents!.push(fourier);
