@@ -89,7 +89,9 @@ On their own, those terms make a curve with n-fold rotational symmetry, so the f
 Then everything else, in rank order.
 
 - **Its cutoff:**  matching terms smaller than 5% of the biggest matching term go to the back with the rest.
-  `fourier-analysis.ts` uses a fixed 0.05 instead:  5% of the star's radius.
+  `fourier-analysis.ts` uses a fixed 5% of the circuit's total amplitude instead, like the step panel.
+- **The corners came in too soon in video №6** (Random 5, 2026-11-14), which put the small matching terms in with the symmetry groups.
+  Next time, try what often worked best here:  save a few big terms for the very end, with the small terms (the corners) just before them, as in Forward and back.
 - **Its `direction` is −s:**  `reorderForSymmetry(terms, 4, -1)` keeps the frequencies that are 1 mod 4.
   In `fourier-analysis.ts` the same thing is `start`, which is s itself.
 - **The comments at ✶30 to ✶32 record what was tried for each circuit,** like "3,-1.  better 4,+1 or 4,-1".  `npm run fourier-analysis` now does that search.

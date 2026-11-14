@@ -31,6 +31,7 @@ npm run count-circuits  # Count the Euler circuits for 5, 6 and 7 points.  Plain
 npm run find-vertex-types  # How common each vertex pairing is, and pairs of circuits that show every kind.  About 25 seconds.
 npm run pick-circuits   # Some circuits picked at random, the same ones each time.  About 25 seconds.
 npm run fourier-analysis  # Research:  which Fourier terms could be grouped by symmetry.  Under a second.
+npm run sample-circuits  # 10,000 random circuits and their top 40 terms → data/circuit-sample.json (gitignored).  About 35 seconds.
 ```
 
 No test runner, no linter.  TypeScript errors surface in the IDE and on `npm run build`.
@@ -172,8 +173,14 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
 - `scripts/find-vertex-types.ts`:  every pairing is equally common (K7 minus a vertex is K6, so the graph can't tell the pairings apart).
   At most 7 kinds fit in one circuit.  `EVERY_KIND_A_7` and `EVERY_KIND_B_7` are the first pair it found that shows all 11.
 - `scripts/pick-circuits.ts`:  random circuits, with a fixed seed.  `RANDOM_7` came from here.
-- `scripts/fourier-analysis.ts`:  the author's research script, in plain Node, no tsx.  It uses the library's own `samplesFromPath()` and `samplesToFourier()`, with `keepCenter` like Star Circuit, so each term's `rank` is the number Term Groups takes.
+- `scripts/fourier-analysis.ts`:  the author's research script, in plain Node, no tsx.  Its terms come from `circuit-terms.ts`, so each term's `rank` is the number Term Groups takes.
   Term Groups only picks terms by rank, biggest amplitude first.  This research is about choosing them by frequency too.
+- `scripts/circuit-terms.ts`:  `decompose()`, a circuit's terms as Star Circuit animates them (the library's `samplesFromPath()` and `samplesToFourier()`, with `keepCenter`).
+  Each amplitude is its share of the circuit's total, like the step panel, not a radius.  `decomposeWithTotal()` also returns the total.  It imports `node-dom.ts`.
+- `scripts/sample-circuits.ts`:  10,000 circuits picked at random (reservoir sampling, like `pick-circuits.ts`, fixed seed), as one JSON file, one circuit per line.
+  Each has its `index` in search order (a stable ID), its vertices (they paste into the Circuit field), its pairing numbers, its total amplitude, and its top 40 terms as `[frequency, share]`.
+  JSON goes to stdout and progress to stderr:  `scripts/` has no Node types, so no `node:fs`.  The npm script writes to a temporary file first, so a crash keeps the last good one.
+  A first step toward `enumerate-all-circuits.md`.  Read it with a dynamic `import()`, never a static one:  `data/` isn't in git, so `tsc` would fail on GitHub.
 - `scripts/node-dom.ts`:  import it first, and the library loads in Node.  `glib/transforms` needs `DOMMatrix` when it loads (`library-issues.md`, item 24).
   `src/star-path.ts` runs in Node too, so it imports types with `type`.  Node only strips types, so a plain import of a type fails there.
 - `properties/`:  the editor's saved state, written there so it's in git.  See `properties/README.md`.

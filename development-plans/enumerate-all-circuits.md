@@ -61,6 +61,13 @@ Wanted by the author, 2026-11-14.  Run `scripts/fourier-analysis.ts`'s symmetry 
 
 ## Suggested first step
 
+**First step, done (2026-11-14):  a sample of 10,000.**  `npm run sample-circuits` writes `data/circuit-sample.json` in about 35 seconds.  It's gitignored, and the same every run.
+Picked at random from all 4,642,014, kept in memory, one JSON file, about 6.5 MB.  Each circuit:  `index` (its place in search order), `circuit`, `pairings`, `total`, and its top 40 `terms` as `[frequency, share of the total]`.
+First use:  finding 3 or 4 circuits that start with the same frequencies (term-ordering.md, "Shared frequencies").
+The full run should keep the same fields and the same `index`, so anything learned from the sample carries over.
+
+The plan from before the sample:
+
 A script that writes SQLite using all 8 cores, plus a way to paste circuits into a component. Install DuckDB only if SQLite feels slow.
 
 ## Notes for whoever builds it
