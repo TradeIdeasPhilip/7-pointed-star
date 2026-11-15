@@ -2408,6 +2408,871 @@
             "lengthMs": 19305.799837
           }
         ]
+      },
+      {
+        "description": "Scratch 7",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 150000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Tessellating Triangles",
+            "schedules": [
+              {
+                "description": "▲ Color",
+                "type": "color",
+                "value": "rgb(0% 0% 0%)"
+              },
+              {
+                "description": "▼ Color",
+                "type": "color",
+                "value": "hsl(0deg 0% 14%)"
+              },
+              {
+                "description": "Side Length",
+                "type": "number",
+                "value": 1.5
+              }
+            ]
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "0 3 5 4 6 3 4 2 5 6 2 3 1 5 0 6 1 4 0 2 1 0"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 5,
+                  "height": 5
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 6.3,
+                  "y": 2.8,
+                  "width": 2,
+                  "height": 2
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": " 0, 5, 1, 7, 20, 18, 9, 15, 2, 10, 12, 4, 3, 8, 14, 6, 19, 11, 32, 23, 13, 17, 16, 26, 21, 28, 22, 25, 24 33, 27 30, 29 31, , 34-99, 100-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 150000,
+                    "value": 34
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 14000,
+                    "value": 0
+                  },
+                  {
+                    "time": 20000,
+                    "value": 0.4
+                  }
+                ]
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "rgb(32, 64, 255)"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "#0e0"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "rgb(255, 0, 0)"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.075
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "value": 0.04
+              }
+            ],
+            "userEditableDescription": "Top Fourier"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "0 1 2 0 3 6 2 3 4 5 0 6 1 5 3 1 4 6 5 2 4 0"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 3.5,
+                  "y": 5.5,
+                  "width": 5,
+                  "height": 5
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0.8,
+                  "y": 8.1,
+                  "width": 2,
+                  "height": 2
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "6, 4, 2, 9, 10, 0, 1, 17, 12, 7, 3, 20, 19, 15, 13, 18, 5, 8, 14, 11, 16, 23, 21, 22, 33, 26, 25, 24, 30 27, 31  28, 29  32, , 34-99, 100-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 150000,
+                    "value": 34
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 14000,
+                    "value": 0
+                  },
+                  {
+                    "time": 20000,
+                    "value": 0.4
+                  }
+                ]
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "#d8d800"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "#00d8d8"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "rgb(255, 0, 255)"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.075
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "value": 0.04
+              }
+            ],
+            "userEditableDescription": "Middle Fourier"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "0 5 1 6 3 0 6 4 2 5 3 4 1 3 2 6 5 4 0 2 1 0"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0.5,
+                  "y": 10.5,
+                  "width": 5,
+                  "height": 5
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 6.3,
+                  "y": 13.3,
+                  "width": 2,
+                  "height": 2
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "3, 5, 10, 2, 0, 19, 16, 1, 12, 4, 11, 8, 13, 14, 7, 23, 15, 18, 6, 9, 20, 17, 21, 22, 25, 27, 33, 29, 34 24, 28 26, 30 31, , 32 35-99, 100-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 150000,
+                    "value": 34
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 14000,
+                    "value": 0
+                  },
+                  {
+                    "time": 20000,
+                    "value": 0.4
+                  }
+                ]
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "rgb(128, 0, 255)"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "rgb(255, 128, 0)"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.075
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "value": 0.04
+              }
+            ],
+            "userEditableDescription": "Bottom Fourier"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 7.25,
+                  "y": 0.5
+                }
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 2.5
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 5
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Width Mode",
+                "type": "select",
+                "value": "scale"
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "#0e0"
+                  }
+                ],
+                "scalars": [
+                  {
+                    "description": "Name",
+                    "type": "string",
+                    "value": "2x"
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "#627622\nbackward\n88% in sync"
+                  },
+                  {
+                    "description": "Style",
+                    "type": "string",
+                    "value": "2x"
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Top Label"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 1.75,
+                  "y": 5.9
+                }
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 2.5
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 5
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Width Mode",
+                "type": "select",
+                "value": "scale"
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "rgb(255, 0, 255)"
+                  }
+                ],
+                "scalars": [
+                  {
+                    "description": "Name",
+                    "type": "string",
+                    "value": "3x"
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "#516078\nforward\n87% in sync"
+                  },
+                  {
+                    "description": "Style",
+                    "type": "string",
+                    "value": "3x"
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Middle Label"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 7.25,
+                  "y": 11
+                }
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 2.5
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 5
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Width Mode",
+                "type": "select",
+                "value": "scale"
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "rgb(255, 128, 0)"
+                  }
+                ],
+                "scalars": [
+                  {
+                    "description": "Name",
+                    "type": "string",
+                    "value": "7x"
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "#887995\nbackward\n86% in sync"
+                  },
+                  {
+                    "description": "Style",
+                    "type": "string",
+                    "value": "7x"
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Bottom Label"
+          }
+        ],
+        "soundClips": [
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-14 20-09-54.592.wav",
+            "startMsIntoScene": 0,
+            "startMsIntoClip": 426.321931,
+            "lengthMs": 37893.9
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-14 20-11-39.795.wav",
+            "startMsIntoScene": 37893.9,
+            "startMsIntoClip": 467.313157,
+            "lengthMs": 25327.8
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-14 20-13-44.048.wav",
+            "startMsIntoScene": 66596.501569,
+            "startMsIntoClip": 436.457307,
+            "lengthMs": 27410.2
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-14 20-17-18.131.wav",
+            "startMsIntoScene": 95136,
+            "startMsIntoClip": 466.730628,
+            "lengthMs": 46746
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-14 20-18-35.575.wav",
+            "startMsIntoScene": 145029.7,
+            "startMsIntoClip": 460.1401,
+            "lengthMs": 3694.5
+          }
+        ]
+      },
+      {
+        "description": "Scratch 9",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 120000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "Forward Backward Forward"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1,
+                  "y": 0.5,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": {
+                      "x": 0.5,
+                      "y": 7,
+                      "width": 2,
+                      "height": 2
+                    }
+                  },
+                  {
+                    "time": 1500,
+                    "value": {
+                      "x": 1,
+                      "y": 0.5,
+                      "width": 7,
+                      "height": 7
+                    }
+                  },
+                  {
+                    "time": 10000,
+                    "value": {
+                      "x": 1,
+                      "y": 0.5,
+                      "width": 7,
+                      "height": 7
+                    },
+                    "easeAfter": "easeOut"
+                  },
+                  {
+                    "time": 16000,
+                    "value": {
+                      "x": 0.5,
+                      "y": 7,
+                      "width": 2,
+                      "height": 2
+                    }
+                  }
+                ]
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10-19, 20-39, 40-99, 100-299, 300-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 12300,
+                    "value": 0
+                  },
+                  {
+                    "time": 120000,
+                    "value": 15
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 1000,
+                    "value": 0
+                  },
+                  {
+                    "time": 5150,
+                    "value": 0.4
+                  }
+                ]
+              },
+              {
+                "description": "Rounding",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 1000,
+                    "value": 0
+                  },
+                  {
+                    "time": 5150,
+                    "value": 0.6
+                  }
+                ]
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "#8b5cf6"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "#ede9fe"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "#f472b6"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.15
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0.05
+                  },
+                  {
+                    "time": 1500,
+                    "value": 0.15
+                  },
+                  {
+                    "time": 10000,
+                    "value": 0.15
+                  },
+                  {
+                    "time": 16000,
+                    "value": 0.05
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Top"
+          },
+          {
+            "registryKey": "Slide",
+            "components": [
+              {
+                "registryKey": "Star Circuit",
+                "schedules": [
+                  {
+                    "description": "Circuit",
+                    "type": "string",
+                    "value": "Forward Backward Forward"
+                  },
+                  {
+                    "description": "Fourier Rect",
+                    "type": "rectangle",
+                    "value": {
+                      "x": 1,
+                      "y": 8.5,
+                      "width": 7,
+                      "height": 7
+                    }
+                  },
+                  {
+                    "description": "Reference Rect",
+                    "type": "rectangle",
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": {
+                          "x": 6.5,
+                          "y": 7,
+                          "width": 2,
+                          "height": 2
+                        }
+                      },
+                      {
+                        "time": 1500,
+                        "value": {
+                          "x": 1,
+                          "y": 8.5,
+                          "width": 7,
+                          "height": 7
+                        }
+                      },
+                      {
+                        "time": 10000,
+                        "value": {
+                          "x": 1,
+                          "y": 8.5,
+                          "width": 7,
+                          "height": 7
+                        },
+                        "easeAfter": "easeOut"
+                      },
+                      {
+                        "time": 16000,
+                        "value": {
+                          "x": 6.5,
+                          "y": 7,
+                          "width": 2,
+                          "height": 2
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Term Groups",
+                    "type": "string",
+                    "value": "300-1023, 100-299, 40-99, 20-39, 10-19, 9, 8, 7, 6, 5 ,4, 3,2,1,0"
+                  },
+                  {
+                    "description": "Step",
+                    "type": "number",
+                    "keyframes": [
+                      {
+                        "time": 12300,
+                        "value": 0
+                      },
+                      {
+                        "time": 120000,
+                        "value": 15
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Corner Size",
+                    "type": "number",
+                    "keyframes": [
+                      {
+                        "time": 1000,
+                        "value": 0
+                      },
+                      {
+                        "time": 5150,
+                        "value": 0.4
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Rounding",
+                    "type": "number",
+                    "keyframes": [
+                      {
+                        "time": 1000,
+                        "value": 0
+                      },
+                      {
+                        "time": 5150,
+                        "value": 0.6
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Circle Color",
+                    "type": "color",
+                    "value": "#16a34a"
+                  },
+                  {
+                    "description": "Thin Star Color",
+                    "type": "color",
+                    "value": "#ccfbf1"
+                  },
+                  {
+                    "description": "Fat Star Color",
+                    "type": "color",
+                    "value": "#22d3ee"
+                  },
+                  {
+                    "description": "Fourier Line Width",
+                    "type": "number",
+                    "value": 0.15
+                  },
+                  {
+                    "description": "Reference Line Width",
+                    "type": "number",
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0.05
+                      },
+                      {
+                        "time": 1500,
+                        "value": 0.15
+                      },
+                      {
+                        "time": 10000,
+                        "value": 0.15
+                      },
+                      {
+                        "time": 16000,
+                        "value": 0.05
+                      }
+                    ]
+                  }
+                ],
+                "userEditableDescription": "Bottom"
+              }
+            ]
+          }
+        ]
       }
     ],
     "soundClips": [

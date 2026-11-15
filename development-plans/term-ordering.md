@@ -175,6 +175,7 @@ From the commit messages.  ✶N with no link means the commit names only the cir
 ### Next, in `scripts/fourier-analysis.ts`
 
 - **Print Term Groups strings.**  For each symmetry, the ranks of the matching big terms, as a string ready to paste.  That makes forced symmetry usable today.
+- **Done, as a search (2026-11-14):**  "Shared frequencies" finds groups of 3 or 4 sampled circuits, and prints each one's Term Groups.
 - **Shared frequencies for a set of circuits.**  Score each frequency across the set, and print one Term Groups string per circuit:  the same frequencies, each at that circuit's own ranks.
   Try both old scores:  the plain total, and the 3rd smallest.
 - **Try each circuit backwards too.**  It's the same loop with every frequency negated, and the Circuit field takes the vertices in reverse order.
@@ -192,4 +193,6 @@ From the commit messages.  ✶N with no link means the commit names only the cir
 See `enumerate-all-circuits.md`.
 The amplitude at each frequency doesn't change with the starting vertex, or with rotating the star:  those only change the phases.
 Tracing a loop backwards, or taking its mirror image, moves each amplitude from frequency f to −f, apart from tiny differences in sampling.
+Measured on 200 sampled circuits:  at most 0.0017 of the total.  That's still enough to swap nearly equal terms:  14% of the top 20 ranks moved.
+So take the ranks for Term Groups from the circuit as it will be drawn, never from the other direction.
 So one table per loop covers both directions.  When looking for shared frequencies, compare each circuit forwards and backwards.

@@ -30,7 +30,7 @@ npm run build           # tsc + vite build → dist/ (gitignored)
 npm run count-circuits  # Count the Euler circuits for 5, 6 and 7 points.  Plain Node, no browser.
 npm run find-vertex-types  # How common each vertex pairing is, and pairs of circuits that show every kind.  About 25 seconds.
 npm run pick-circuits   # Some circuits picked at random, the same ones each time.  About 25 seconds.
-npm run fourier-analysis  # Research:  which Fourier terms could be grouped by symmetry.  Under a second.
+npm run fourier-analysis  # Research:  symmetries of the named circuits, then groups of 3 or 4 sampled circuits that start with the same frequencies.  About 1.5 minutes.
 npm run sample-circuits  # 10,000 random circuits and their top 40 terms → data/circuit-sample.json (gitignored).  About 35 seconds.
 ```
 
@@ -175,6 +175,8 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
 - `scripts/pick-circuits.ts`:  random circuits, with a fixed seed.  `RANDOM_7` came from here.
 - `scripts/fourier-analysis.ts`:  the author's research script, in plain Node, no tsx.  Its terms come from `circuit-terms.ts`, so each term's `rank` is the number Term Groups takes.
   Term Groups only picks terms by rank, biggest amplitude first.  This research is about choosing them by frequency too.
+  "Shared frequencies" reads `data/circuit-sample.json` and prints the best few groups from three searches, each circuit with its Circuit and Term Groups, ready to type in.
+  Constants at the top turn each part off.
 - `scripts/circuit-terms.ts`:  `decompose()`, a circuit's terms as Star Circuit animates them (the library's `samplesFromPath()` and `samplesToFourier()`, with `keepCenter`).
   Each amplitude is its share of the circuit's total, like the step panel, not a radius.  `decomposeWithTotal()` also returns the total.  It imports `node-dom.ts`.
 - `scripts/sample-circuits.ts`:  10,000 circuits picked at random (reservoir sampling, like `pick-circuits.ts`, fixed seed), as one JSON file, one circuit per line.

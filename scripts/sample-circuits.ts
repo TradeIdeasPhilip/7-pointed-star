@@ -79,8 +79,11 @@ console.error(`${seen.toLocaleString()} circuits searched, ${elapsed()}.`);
 
 // MARK: Decompose
 
-/** One line of the file. */
-type SampleRecord = {
+/**
+ * One line of the file.
+ * `import type` this, never a plain import:  importing this file runs it.
+ */
+export type SampleRecord = {
   /** This circuit's place among all of them, in search order.  A stable ID. */
   readonly index: number;
   /** The 22 vertices.  Pastes straight into Star Circuit's Circuit field. */
@@ -112,6 +115,11 @@ const records: SampleRecord[] = picks.map(({ index, circuit }) => {
 console.error(`Decomposed, ${elapsed()}.`);
 
 // MARK: Write
+
+/** The whole file:  the header, and `circuits`. */
+export type SampleFile = typeof header & {
+  readonly circuits: readonly SampleRecord[];
+};
 
 const header = {
   about:
