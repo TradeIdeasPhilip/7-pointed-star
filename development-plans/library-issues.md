@@ -16,6 +16,8 @@ Fixed in 0.8.0, and removed:  31, a group that's only the frequency 0 term threw
 `samplesToFourier()` now leaves that term out unless asked with `{ keepCenter: true }`, and a step with only that term slides the curve over.
 Here:  Bridged Fourier dropped its own centering, and Star Circuit keeps the term (`coloredSource()`), so its numbering and saved Term Groups don't change.
 `getFrameRules()` got the same one-line fix as `getAnimationRules()`, so a Star Circuit can't throw there either.
+Fixed in the library after 0.8.1 (commit 2edfe99, 2026-11-14), not published yet, and removed:  27, a warning for every empty term group.
+Empty groups are still a warning, but one line now covers them all:  "Groups 2, 3, 4, 5, 6, 7 and 4 more are empty, so those steps add nothing."
 What's next for our panels:  the top of `editor-panels.md`.
 The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the same thing.
 
@@ -76,11 +78,6 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    `FourierComponent.drawPath()` (`src/slide-components/fourier.ts`, about line 506) sets it from Line Width and always strokes, so 0 draws at whatever width came before.
    Fix:  skip the stroke when Line Width isn't above 0, and skip everything when the fill is also `"transparent"`.  Then 0 is a free way to turn one off.
    Star Circuit does this now (`setLineWidth()` in `star-circuit.ts`).
-27. **An empty term group is a warning, but it's a technique.**  Found 2026-11-10.
-   `parseTermGroups()` warns "Group N is empty, so that step adds nothing."
-   Empty groups are how several Fourier animations stay in step while one waits (`term-ordering.md`, Hold back three).
-   Each of Scratch 4's eight Star Circuits shows two or three of these warnings.
-   Fix:  make it a note, or say nothing.  An empty *first* group might still deserve a note.
 29. **The showcase's Freaky Dots never worked, for two reasons.**  Found 2026-11-11.
    `test-project/src/showcase/freaky-dots.ts`, commented out as "NOT READY FOR PRIME TIME".
    * Its three layers are three different sets of random dots.  The circles only appear when they're the same dots, turned a little against each other, as the SVG version's three copies of one filter were.

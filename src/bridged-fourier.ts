@@ -196,7 +196,7 @@ export function samplesWithBridges(
 }
 
 /** What the animation needs to know about the path. */
-type BridgedSource = {
+export type BridgedSource = {
   /** Largest first, straight from `samplesToFourier()`. */
   readonly terms: readonly FourierTerm[];
   readonly runs: readonly BridgedRun[];
@@ -206,10 +206,6 @@ type BridgedSource = {
 
 /**
  * Some text, ready to animate.  Slow:  each component caches the last one.
- *
- * `samplesToFourier()` leaves out the frequency 0 term (library 0.8.0), so the terms add up to the path
- * moved so the average of its samples is at (0, 0).  Step 0's dot starts there, in the middle of the text.
- * `bounds` is moved the same way, as the library's Fourier component does.
  * @returns Or why there's nothing to animate.  A user error, for the editor's Checks.
  */
 function bridgedSource(text: string): BridgedSource | string {
@@ -217,11 +213,31 @@ function bridgedSource(text: string): BridgedSource | string {
   if (path.commands.length == 0) {
     return "Text has nothing the font can draw.";
   }
+  return pathToBridgedSource(path);
+}
+
+/**
+ * Any path, ready to animate.  Slow:  each component caches the last one.
+ * Shared by Bridged Fourier (cursive text) and Bridged Path (a named source).
+ *
+ * `samplesToFourier()` leaves out the frequency 0 term (library 0.8.0), so the terms add up to the path
+ * moved so the average of its samples is at (0, 0).  Step 0's dot starts there, in the middle of the path.
+ * `bounds` is moved the same way, as the library's Fourier component does.
+ * @param numberOfSamples A power of 2, like a Fourier source's `sampleCount`.
+ * @returns Or why there's nothing to animate.  A user error, for the editor's Checks.
+ */
+export function pathToBridgedSource(
+  path: PathShape,
+  numberOfSamples = numberOfFourierSamples,
+): BridgedSource | string {
+  if (path.commands.length == 0) {
+    return "The path is empty.";
+  }
   let sampled: ReturnType<typeof samplesWithBridges>;
   try {
-    sampled = samplesWithBridges(path);
+    sampled = samplesWithBridges(path, numberOfSamples);
   } catch (reason) {
-    return `Couldn't sample the text:  ${reason instanceof Error ? reason.message : reason}`;
+    return `Couldn't sample the path:  ${reason instanceof Error ? reason.message : reason}`;
   }
   const { samples, runs } = sampled;
   const averageX = sum(samples.map(([x]) => x)) / samples.length;

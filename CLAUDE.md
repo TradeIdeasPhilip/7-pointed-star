@@ -114,7 +114,13 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   A gap under 1e-6 is welded:  touching letters can be a rounding error apart, and a bridge there would leave a hole.
   `samplesToFourier()` leaves out the frequency 0 term (library 0.8.0):  1023 terms, 0 to 1022, and the curve is centered on the average of the samples.  Bounds are moved the same way, as in the library's Fourier component.
   In the Visual Editor, the step panel from `fourier-panel.ts`, then Checks.
-  Only `full-video.ts` imports it, not `all-components.ts`, to keep it out of the Shorts for now.
+  `pathToBridgedSource()` turns any PathShape into terms, runs and bounds.  `bridgedSource()` is the cursive text on top of it.
+  It was kept out of the Shorts at first.  Since Bridged Path imports it, it's registered in both videos.
+- `src/bridged-path.ts`:  a prototype, quick and dirty on purpose.  Bridged Fourier for any path, picked by name.  Registered as "Bridged Path".
+  Source is a name from `FourierComponent.sources`, the library Fourier's registry, so one registration serves both.  Its suggestions are the sources with a `path`.
+  The default is "Blank Stare", a face registered in `all-components.ts`.  A parametric or `terms` source has no gaps, so Checks says to use the Fourier component.
+  The class is a copy of `BridgedFourier`, with Source in place of Text.  The sampling and drawing come from `bridged-fourier.ts`.
+  The default Dest Rect, 8 × 8 at (0.5, 0.5), fits on both videos.
 - `src/bridged-morph.ts`:  a prototype, quick and dirty on purpose.  A Fourier morph from one word to another, in the cursive font, typed into Before and After.  Registered as "Bridged Morph".
   Each word is sampled by `samplesWithBridges()`, 1024 samples, so sample i of one goes to sample i of the other:  matched by length, bridges included.
   The morph is Before plus the terms of After − Before (`keepCenter`, so it ends exactly at After), with the Fourier component's sweep.  The showcase's Fourier Morph does the same with closed shapes.
