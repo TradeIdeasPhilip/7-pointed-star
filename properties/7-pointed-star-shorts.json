@@ -3629,30 +3629,34 @@
           {
             "description": "Min Duration",
             "type": "number",
-            "value": 120000
+            "value": 90000
           }
         ],
         "components": [
           {
-            "registryKey": "Rectangle",
+            "registryKey": "Freaky Dots",
             "schedules": [
               {
-                "description": "Color",
-                "type": "color",
-                "value": "black"
-              },
-              {
-                "description": "Rect",
-                "type": "rectangle",
-                "value": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 9,
-                  "height": 16
-                }
+                "description": "Center",
+                "type": "point",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": {
+                      "x": 9,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "time": 90000,
+                    "value": {
+                      "x": 0,
+                      "y": 16
+                    }
+                  }
+                ]
               }
-            ],
-            "userEditableDescription": "Background"
+            ]
           },
           {
             "registryKey": "Star Circuit",
@@ -3660,77 +3664,124 @@
               {
                 "description": "Circuit",
                 "type": "string",
-                "value": "Forward Backward Forward"
+                "value": "0 1 2 3 5 1 3 4 1 6 5 2 6 3 0 6 4 2 0 4 5 0"
               },
               {
                 "description": "Fourier Rect",
                 "type": "rectangle",
                 "value": {
-                  "x": 1,
+                  "x": 4.5,
                   "y": 0.5,
-                  "width": 7,
-                  "height": 7
+                  "width": 3,
+                  "height": 3
                 }
               },
               {
                 "description": "Reference Rect",
                 "type": "rectangle",
-                "keyframes": [
-                  {
-                    "time": 0,
-                    "value": {
-                      "x": 0.5,
-                      "y": 7,
-                      "width": 2,
-                      "height": 2
-                    }
-                  },
-                  {
-                    "time": 1500,
-                    "value": {
-                      "x": 1,
-                      "y": 0.5,
-                      "width": 7,
-                      "height": 7
-                    }
-                  },
-                  {
-                    "time": 10000,
-                    "value": {
-                      "x": 1,
-                      "y": 0.5,
-                      "width": 7,
-                      "height": 7
-                    },
-                    "easeAfter": "easeOut"
-                  },
-                  {
-                    "time": 16000,
-                    "value": {
-                      "x": 0.5,
-                      "y": 7,
-                      "width": 2,
-                      "height": 2
-                    }
-                  }
-                ]
+                "value": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 3,
+                  "height": 3
+                }
               },
               {
                 "description": "Term Groups",
                 "type": "string",
-                "value": "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10-19, 20-39, 40-99, 100-299, 300-1023"
+                "value": "0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 10, 9, , 11 13-19, 20-39, 40-99, 100-299, 300-1023"
               },
               {
                 "description": "Step",
                 "type": "number",
                 "keyframes": [
                   {
-                    "time": 12300,
+                    "time": 0,
                     "value": 0
                   },
                   {
-                    "time": 120000,
-                    "value": 15
+                    "time": 3462,
+                    "value": 1
+                  },
+                  {
+                    "time": 6231,
+                    "value": 1
+                  },
+                  {
+                    "time": 9692,
+                    "value": 2
+                  },
+                  {
+                    "time": 12462,
+                    "value": 2
+                  },
+                  {
+                    "time": 15923,
+                    "value": 3
+                  },
+                  {
+                    "time": 18692,
+                    "value": 3
+                  },
+                  {
+                    "time": 22154,
+                    "value": 4
+                  },
+                  {
+                    "time": 24923,
+                    "value": 4
+                  },
+                  {
+                    "time": 28385,
+                    "value": 5
+                  },
+                  {
+                    "time": 31154,
+                    "value": 5
+                  },
+                  {
+                    "time": 34615,
+                    "value": 6
+                  },
+                  {
+                    "time": 37385,
+                    "value": 6
+                  },
+                  {
+                    "time": 40846,
+                    "value": 7
+                  },
+                  {
+                    "time": 43615,
+                    "value": 7
+                  },
+                  {
+                    "time": 47077,
+                    "value": 8
+                  },
+                  {
+                    "time": 49846,
+                    "value": 8
+                  },
+                  {
+                    "time": 53308,
+                    "value": 9
+                  },
+                  {
+                    "time": 56077,
+                    "value": 9
+                  },
+                  {
+                    "time": 59538,
+                    "value": 10
+                  },
+                  {
+                    "time": 62308,
+                    "value": 10
+                  },
+                  {
+                    "time": 90000,
+                    "value": 18
                   }
                 ]
               },
@@ -3739,231 +3790,568 @@
                 "type": "number",
                 "keyframes": [
                   {
-                    "time": 1000,
+                    "time": 2000,
                     "value": 0
                   },
                   {
-                    "time": 5150,
+                    "time": 8000,
+                    "value": 0.45
+                  },
+                  {
+                    "time": 10000,
+                    "value": 0.45
+                  },
+                  {
+                    "time": 13000,
                     "value": 0.4
                   }
                 ]
               },
               {
-                "description": "Rounding",
-                "type": "number",
-                "keyframes": [
-                  {
-                    "time": 1000,
-                    "value": 0
-                  },
-                  {
-                    "time": 5150,
-                    "value": 0.6
-                  }
-                ]
-              },
-              {
-                "description": "Circle Color",
+                "description": "Fill Color",
                 "type": "color",
-                "value": "#8b5cf6"
-              },
-              {
-                "description": "Thin Star Color",
-                "type": "color",
-                "value": "#ede9fe"
-              },
-              {
-                "description": "Fat Star Color",
-                "type": "color",
-                "value": "#f472b6"
+                "value": "rgb(100% 0% 0% / 33%)"
               },
               {
                 "description": "Fourier Line Width",
                 "type": "number",
-                "value": 0.15
+                "value": 0.06
               },
               {
                 "description": "Reference Line Width",
                 "type": "number",
+                "value": 0.06
+              }
+            ],
+            "userEditableDescription": "#2282298 forward"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "0 4 1 5 2 6 3 4 6 1 3 5 6 0 2 3 0 5 4 2 1 0"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1.5,
+                  "y": 4.5,
+                  "width": 3,
+                  "height": 3
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 5.5,
+                  "y": 4.5,
+                  "width": 3,
+                  "height": 3
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 5, 6, 4, 8, 7, 11, 13, 10, 9, 12 14-19, 20-39, 40-99, 100-299, 300-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
                 "keyframes": [
                   {
                     "time": 0,
-                    "value": 0.05
+                    "value": 0
                   },
                   {
-                    "time": 1500,
-                    "value": 0.15
+                    "time": 692,
+                    "value": 0
+                  },
+                  {
+                    "time": 4154,
+                    "value": 1
+                  },
+                  {
+                    "time": 6923,
+                    "value": 1
+                  },
+                  {
+                    "time": 10385,
+                    "value": 2
+                  },
+                  {
+                    "time": 13154,
+                    "value": 2
+                  },
+                  {
+                    "time": 16615,
+                    "value": 3
+                  },
+                  {
+                    "time": 19385,
+                    "value": 3
+                  },
+                  {
+                    "time": 22846,
+                    "value": 4
+                  },
+                  {
+                    "time": 25615,
+                    "value": 4
+                  },
+                  {
+                    "time": 29077,
+                    "value": 5
+                  },
+                  {
+                    "time": 31846,
+                    "value": 5
+                  },
+                  {
+                    "time": 35308,
+                    "value": 6
+                  },
+                  {
+                    "time": 38077,
+                    "value": 6
+                  },
+                  {
+                    "time": 41538,
+                    "value": 7
+                  },
+                  {
+                    "time": 44308,
+                    "value": 7
+                  },
+                  {
+                    "time": 47769,
+                    "value": 8
+                  },
+                  {
+                    "time": 50538,
+                    "value": 8
+                  },
+                  {
+                    "time": 54000,
+                    "value": 9
+                  },
+                  {
+                    "time": 56769,
+                    "value": 9
+                  },
+                  {
+                    "time": 60231,
+                    "value": 10
+                  },
+                  {
+                    "time": 62308,
+                    "value": 10
+                  },
+                  {
+                    "time": 90000,
+                    "value": 18
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 2000,
+                    "value": 0
+                  },
+                  {
+                    "time": 8000,
+                    "value": 0.45
                   },
                   {
                     "time": 10000,
-                    "value": 0.15
+                    "value": 0.45
                   },
                   {
-                    "time": 16000,
-                    "value": 0.05
+                    "time": 13000,
+                    "value": 0.4
                   }
                 ]
+              },
+              {
+                "description": "Fill Color",
+                "type": "color",
+                "value": "rgb(100% 100% 100% / 33%)"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.06
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "value": 0.06
               }
             ],
-            "userEditableDescription": "Top"
+            "userEditableDescription": "#2800417 backward"
           },
           {
-            "registryKey": "Slide",
-            "components": [
+            "registryKey": "Star Circuit",
+            "schedules": [
               {
-                "registryKey": "Star Circuit",
-                "schedules": [
+                "description": "Circuit",
+                "type": "string",
+                "value": "0 1 2 3 4 0 2 4 5 3 1 6 5 2 6 3 0 6 4 1 5 0"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 4.5,
+                  "y": 8.5,
+                  "width": 3,
+                  "height": 3
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0.5,
+                  "y": 8.5,
+                  "width": 3,
+                  "height": 3
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 3, 2, 5, 4, 7, 9, 11, 6, 8, 10, , 12-19, 20-39, 40-99, 100-299, 300-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
                   {
-                    "description": "Circuit",
-                    "type": "string",
-                    "value": "Forward Backward Forward"
+                    "time": 0,
+                    "value": 0
                   },
                   {
-                    "description": "Fourier Rect",
-                    "type": "rectangle",
-                    "value": {
-                      "x": 1,
-                      "y": 8.5,
-                      "width": 7,
-                      "height": 7
-                    }
+                    "time": 1385,
+                    "value": 0
                   },
                   {
-                    "description": "Reference Rect",
-                    "type": "rectangle",
-                    "keyframes": [
-                      {
-                        "time": 0,
-                        "value": {
-                          "x": 6.5,
-                          "y": 7,
-                          "width": 2,
-                          "height": 2
-                        }
-                      },
-                      {
-                        "time": 1500,
-                        "value": {
-                          "x": 1,
-                          "y": 8.5,
-                          "width": 7,
-                          "height": 7
-                        }
-                      },
-                      {
-                        "time": 10000,
-                        "value": {
-                          "x": 1,
-                          "y": 8.5,
-                          "width": 7,
-                          "height": 7
-                        },
-                        "easeAfter": "easeOut"
-                      },
-                      {
-                        "time": 16000,
-                        "value": {
-                          "x": 6.5,
-                          "y": 7,
-                          "width": 2,
-                          "height": 2
-                        }
-                      }
-                    ]
+                    "time": 4846,
+                    "value": 1
                   },
                   {
-                    "description": "Term Groups",
-                    "type": "string",
-                    "value": "300-1023, 100-299, 40-99, 20-39, 10-19, 9, 8, 7, 6, 5 ,4, 3,2,1,0"
+                    "time": 7615,
+                    "value": 1
                   },
                   {
-                    "description": "Step",
-                    "type": "number",
-                    "keyframes": [
-                      {
-                        "time": 12300,
-                        "value": 0
-                      },
-                      {
-                        "time": 120000,
-                        "value": 15
-                      }
-                    ]
+                    "time": 11077,
+                    "value": 2
                   },
                   {
-                    "description": "Corner Size",
-                    "type": "number",
-                    "keyframes": [
-                      {
-                        "time": 1000,
-                        "value": 0
-                      },
-                      {
-                        "time": 5150,
-                        "value": 0.4
-                      }
-                    ]
+                    "time": 13846,
+                    "value": 2
                   },
                   {
-                    "description": "Rounding",
-                    "type": "number",
-                    "keyframes": [
-                      {
-                        "time": 1000,
-                        "value": 0
-                      },
-                      {
-                        "time": 5150,
-                        "value": 0.6
-                      }
-                    ]
+                    "time": 17308,
+                    "value": 3
                   },
                   {
-                    "description": "Circle Color",
-                    "type": "color",
-                    "value": "#16a34a"
+                    "time": 20077,
+                    "value": 3
                   },
                   {
-                    "description": "Thin Star Color",
-                    "type": "color",
-                    "value": "#ccfbf1"
+                    "time": 23538,
+                    "value": 4
                   },
                   {
-                    "description": "Fat Star Color",
-                    "type": "color",
-                    "value": "#22d3ee"
+                    "time": 26308,
+                    "value": 4
                   },
                   {
-                    "description": "Fourier Line Width",
-                    "type": "number",
-                    "value": 0.15
+                    "time": 29769,
+                    "value": 5
                   },
                   {
-                    "description": "Reference Line Width",
-                    "type": "number",
-                    "keyframes": [
-                      {
-                        "time": 0,
-                        "value": 0.05
-                      },
-                      {
-                        "time": 1500,
-                        "value": 0.15
-                      },
-                      {
-                        "time": 10000,
-                        "value": 0.15
-                      },
-                      {
-                        "time": 16000,
-                        "value": 0.05
-                      }
-                    ]
+                    "time": 32538,
+                    "value": 5
+                  },
+                  {
+                    "time": 36000,
+                    "value": 6
+                  },
+                  {
+                    "time": 38769,
+                    "value": 6
+                  },
+                  {
+                    "time": 42231,
+                    "value": 7
+                  },
+                  {
+                    "time": 45000,
+                    "value": 7
+                  },
+                  {
+                    "time": 48462,
+                    "value": 8
+                  },
+                  {
+                    "time": 51231,
+                    "value": 8
+                  },
+                  {
+                    "time": 54692,
+                    "value": 9
+                  },
+                  {
+                    "time": 57462,
+                    "value": 9
+                  },
+                  {
+                    "time": 60923,
+                    "value": 10
+                  },
+                  {
+                    "time": 62308,
+                    "value": 10
+                  },
+                  {
+                    "time": 90000,
+                    "value": 18
                   }
-                ],
-                "userEditableDescription": "Bottom"
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 2000,
+                    "value": 0
+                  },
+                  {
+                    "time": 8000,
+                    "value": 0.45
+                  },
+                  {
+                    "time": 10000,
+                    "value": 0.45
+                  },
+                  {
+                    "time": 13000,
+                    "value": 0.4
+                  }
+                ]
+              },
+              {
+                "description": "Fill Color",
+                "type": "color",
+                "value": "rgb(0% 50.2% 100% / 33%)"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.06
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "value": 0.06
               }
-            ]
+            ],
+            "userEditableDescription": "#2156149 forward"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "0 1 2 0 6 4 3 1 6 3 0 4 1 5 2 4 5 6 2 3 5 0"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1.5,
+                  "y": 12.5,
+                  "width": 3,
+                  "height": 3
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 5.5,
+                  "y": 12.5,
+                  "width": 3,
+                  "height": 3
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4, 5, 7, 8, 6, 12, 11, 14, 9, 10 13 15-19, 20-39, 40-99, 100-299, 300-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 2077,
+                    "value": 0
+                  },
+                  {
+                    "time": 5538,
+                    "value": 1
+                  },
+                  {
+                    "time": 8308,
+                    "value": 1
+                  },
+                  {
+                    "time": 11769,
+                    "value": 2
+                  },
+                  {
+                    "time": 14538,
+                    "value": 2
+                  },
+                  {
+                    "time": 18000,
+                    "value": 3
+                  },
+                  {
+                    "time": 20769,
+                    "value": 3
+                  },
+                  {
+                    "time": 24231,
+                    "value": 4
+                  },
+                  {
+                    "time": 27000,
+                    "value": 4
+                  },
+                  {
+                    "time": 30462,
+                    "value": 5
+                  },
+                  {
+                    "time": 33231,
+                    "value": 5
+                  },
+                  {
+                    "time": 36692,
+                    "value": 6
+                  },
+                  {
+                    "time": 39462,
+                    "value": 6
+                  },
+                  {
+                    "time": 42923,
+                    "value": 7
+                  },
+                  {
+                    "time": 45692,
+                    "value": 7
+                  },
+                  {
+                    "time": 49154,
+                    "value": 8
+                  },
+                  {
+                    "time": 51923,
+                    "value": 8
+                  },
+                  {
+                    "time": 55385,
+                    "value": 9
+                  },
+                  {
+                    "time": 58154,
+                    "value": 9
+                  },
+                  {
+                    "time": 61615,
+                    "value": 10
+                  },
+                  {
+                    "time": 62308,
+                    "value": 10
+                  },
+                  {
+                    "time": 90000,
+                    "value": 18
+                  }
+                ]
+              },
+              {
+                "description": "Corner Size",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 2000,
+                    "value": 0
+                  },
+                  {
+                    "time": 8000,
+                    "value": 0.45
+                  },
+                  {
+                    "time": 10000,
+                    "value": 0.45
+                  },
+                  {
+                    "time": 13000,
+                    "value": 0.4
+                  }
+                ]
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.06
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "value": 0.06
+              }
+            ],
+            "userEditableDescription": "#1594713 forward"
+          }
+        ],
+        "soundClips": [
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-16 19-58-25.890.wav",
+            "startMsIntoScene": 0,
+            "startMsIntoClip": 428.428473,
+            "lengthMs": 20013.3
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-16 19-59-59.672.wav",
+            "startMsIntoScene": 20013.3,
+            "startMsIntoClip": 439.975772,
+            "lengthMs": 3412.5
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-16 20-00-10.551.wav",
+            "startMsIntoScene": 23922,
+            "startMsIntoClip": 113.975772,
+            "lengthMs": 63161.1
           }
         ]
       }

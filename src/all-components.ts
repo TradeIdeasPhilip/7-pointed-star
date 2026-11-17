@@ -8,7 +8,7 @@
 
 // TODO update file name and comments above.
 // This is just a list of stuff that needed to register itself.
-// Local competents are a subset of that.
+// Local components are a subset of that.
 
 import "./bridged-path.ts";
 import "./circuit-grid.ts";
@@ -24,12 +24,14 @@ import "./vertex-pairings.ts";
 // Not component, but console commands, philDebug.*, work with any video.
 import "./eight-pack.ts";
 import "./four-plus-four.ts";
+import "./delayed-start-each.ts";
 import { FourierComponent } from "canvas-recorder-lib";
 import {
   LCommand,
   PathBuilder,
   PathShape,
 } from "canvas-recorder-lib/src/glib/path-shape";
+import { philDebug } from "canvas-recorder-lib/src/utility";
 
 //
 {

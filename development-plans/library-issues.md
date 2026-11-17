@@ -60,6 +60,13 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    The author's idea:  an open-ended range, like `0, 1, 2-3, 4-7, 8-`, where the last group is every term from 8 on.
    `term-ordering.md`'s tricks would read better too:  `25-1023`, `16-1023`, `6-1023`.
    Saved values that end at 1023 would still need editing to use it.
+34. **PathShape has no ellipse.**  Wanted, small.  Found 2026-11-15, in 0.8.1.
+   Converting an SVG drawing by hand (`face.html`, now the "Blank Stare" source) needed its `<circle>` and `<ellipse>` elements as PathShapes.
+   `makeEllipse()` in `src/all-components.ts` does it:  PathBuilder's unit circle, scaled, then moved.  Its TODO says it belongs in the library as `PathShape.ellipse()`.
+   It takes an options object, `{ cx, cy, r }` or `{ cx, cy, rx, ry }`, because the author expects the list to grow:
+   a starting angle, the direction of travel, a rotation, and cubics for a closer fit.
+   Mind the order:  DOMMatrix applies the last call first, so it's `translateSelf(cx, cy).scaleSelf(rx, ry)`.  The first draft had them reversed.
+   The bigger goal:  converting SVG to a PathShape will be common, so this is the first piece of an importer for `<circle>`, `<ellipse>`, `<line>` and `<path>`.
 
 ## Bugs
 

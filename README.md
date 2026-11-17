@@ -5,8 +5,8 @@ I'm testing a lot of animation ideas.
 These are mostly centered around a Fourier decomposition of every Euler circuit of both types of 7 pointed star inscribed in a circle.
 ![Sample with a reference image and a Fourier decomposition in progress for each of 3 circuits](./Three%20Circuits.png)
 
-These were inspired by some previous work with [5 points stars](https://youtu.be/ykN3wYOBq40?si=7nOXabaagJu1KtLz) and with [6 pointed stars](https://youtube.com/playlist?list=PLJNSFdg--j7frNYLnOyVen1Rb7SjHRd3C&si=pSwW5QVjUE84d0fP).
-My current work in on this project can be found in [this playlist](https://youtube.com/playlist?list=PLdCEqqsXo_DY&si=nZ2F2eHji2JkeRly).
+These were inspired by some previous work with [5 pointed stars](https://youtu.be/ykN3wYOBq40?si=7nOXabaagJu1KtLz) and with [6 pointed stars](https://youtube.com/playlist?list=PLJNSFdg--j7frNYLnOyVen1Rb7SjHRd3C&si=pSwW5QVjUE84d0fP).
+My current work on this project can be found in [this playlist](https://youtube.com/playlist?list=PLdCEqqsXo_DY&si=nZ2F2eHji2JkeRly).
 
 ## Short Term Goals
 

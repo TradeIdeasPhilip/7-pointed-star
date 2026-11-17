@@ -159,6 +159,12 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   Set End Time (`setEndTime()`) moves the last Step keyframe of the four, and a two-keyframe Night Sky's Bottom Color, to the end of the scene.
   Show Intro (`showIntro()`) rounds the corners from 2 s to 13 s and starts every Step at 15 s.
   This file and `eight-pack.ts` are quick, rough scripts for one template each.
+- `src/delayed-start-each.ts`:  console commands for any chapter, no panel yet.
+  `dump()` (`philDebug.ve_dump`) searches the chosen chapter by level, Name and class.  With no arguments it prints ready-to-paste searches.
+  In code, pass the class, `dump({ className: StarCircuit })`, and the result is typed.  On the console, its name as a string.
+  `staggeredWithin(numberOfSteps, staggerInSteps = 0.1)` (`philDebug.staggeredWithin`) rewrites every Star Circuit's Step.
+  Each of the first `numberOfSteps` steps is staggered:  the circuits start it one after another, and all finish it, plus one more delay, before any starts the next.
+  Then the rest run together to the end of the chapter.  Every step takes the same time.  The delay is a fraction of a step.
 - `src/console-support.ts`:  for console commands.  `root()`, what's chosen in the Edit list, and `saveOutsideChanges()`, which saves what a command changed.
   The console has no way to save (`library-issues.md`, item 28), so `addScene()` gives each scene, and the root, an invisible root panel, only to hold the `VisualEditorAPI`.
   It saves with `refreshGUI("properties")`, which keeps the selection.  Buttons don't need this:  they save through their own panel.
