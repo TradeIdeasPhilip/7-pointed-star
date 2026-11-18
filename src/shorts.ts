@@ -23,7 +23,7 @@ import {
   TextSpanComponent,
 } from "canvas-recorder-lib";
 import { myRainbow } from "canvas-recorder-lib/src/glib/my-rainbow";
-import "./all-components.ts";
+import "./setup.ts";
 import { addEightPackPanel, fillEightPack } from "./eight-pack.ts";
 import { addFourPlusFourPanel } from "./four-plus-four.ts";
 import { addScene, named } from "./scenes.ts";

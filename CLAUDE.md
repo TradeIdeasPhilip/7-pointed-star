@@ -85,11 +85,14 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   Any component with an `editorMessages()` method gets one.  After the component's own panel, if it has one.
   The components only import its types, and the build leaves out a module imported only for types.  So `scenes.ts` imports it for its side effect.
   Our panels, their priorities and the reasons:  the top of `development-plans/editor-panels.md`.
-- `src/all-components.ts`:  imports every custom component, so any video can insert or paste any of them.  Add each new component here.
+- `src/setup.ts`:  everything the videos set up when they load, only imports:  components, Fourier sources and console commands.  Like `main.C` in a C++ project.
+  Both videos import it, so any video can insert or paste any component, and the console commands work in both.  Add each new component, source or command here.  It was `all-components.ts`.
 - `src/euler-circuits.ts`:  graph math only, no imports, so Node can run it.  Hand picked circuits (`GROUPED_7`, `INTERLEAVED_7`), the search, the duplicate filter.
   Node only strips types, so this file (and `scripts/`) can't use enums or constructor parameter properties.  `erasableSyntaxOnly` in tsconfig enforces that.
 - `src/star-path.ts`:  circuit → `PathShape`, plus a record of which commands came from which edge.  Those records say where each color starts and stops.
 - `src/star-sources.ts`:  registers the circuits as `FourierComponent.sources`.  Import it before constructing any FourierComponent.
+- `src/svg-sources.ts`:  Fourier sources converted by hand from SVG.  "Blank Stare" is `face.html`, one piece per SVG element, in order.
+  `makeEllipse()` turns a `<circle>` or `<ellipse>` into a PathShape, until the library has one (`library-issues.md`, item 34).
 - `src/colorful-star.ts`:  the finished picture in three colors, not animated.  Registered as "Colorful Star".
 - `src/vertex-corners.ts`:  the rounded corners at one vertex.  Shared by the next two.
   Each pair of edges gets a level:  how many pairs in its way (surrounding it, or crossing it and wider) stay closer to the vertex.
@@ -118,7 +121,7 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   It was kept out of the Shorts at first.  Since Bridged Path imports it, it's registered in both videos.
 - `src/bridged-path.ts`:  a prototype, quick and dirty on purpose.  Bridged Fourier for any path, picked by name.  Registered as "Bridged Path".
   Source is a name from `FourierComponent.sources`, the library Fourier's registry, so one registration serves both.  Its suggestions are the sources with a `path`.
-  The default is "Blank Stare", a face registered in `all-components.ts`.  A parametric or `terms` source has no gaps, so Checks says to use the Fourier component.
+  The default is "Blank Stare", a face registered in `svg-sources.ts`.  A parametric or `terms` source has no gaps, so Checks says to use the Fourier component.
   The class is a copy of `BridgedFourier`, with Source in place of Text.  The sampling and drawing come from `bridged-fourier.ts`.
   The default Dest Rect, 8 × 8 at (0.5, 0.5), fits on both videos.
 - `src/bridged-morph.ts`:  a prototype, quick and dirty on purpose.  A Fourier morph from one word to another, in the cursive font, typed into Before and After.  Registered as "Bridged Morph".
@@ -161,6 +164,8 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   This file and `eight-pack.ts` are quick, rough scripts for one template each.
 - `src/delayed-start-each.ts`:  console commands for any chapter, no panel yet.
   `dump()` (`philDebug.ve_dump`) searches the chosen chapter by level, Name and class.  With no arguments it prints ready-to-paste searches.
+  The author's pattern for scripts aimed at one layout:  search with `assertMin` and `assertMax`, so the wrong chapter fails loudly.
+  A prototype for the library (`library-issues.md`, item 35).
   In code, pass the class, `dump({ className: StarCircuit })`, and the result is typed.  On the console, its name as a string.
   `staggeredWithin(numberOfSteps, staggerInSteps = 0.1)` (`philDebug.staggeredWithin`) rewrites every Star Circuit's Step.
   Each of the first `numberOfSteps` steps is staggered:  the circuits start it one after another, and all finish it, plus one more delay, before any starts the next.

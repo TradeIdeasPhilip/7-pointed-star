@@ -131,6 +131,83 @@
             "registryKey": "Fourier"
           }
         ]
+      },
+      {
+        "description": "Scratch 2",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 90000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 16,
+                  "height": 9
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Bridged Path",
+            "schedules": [
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4,5,6,7,8,9, 10-19, 20-39, 40-99, 100-299, 300-1022"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 10000,
+                    "value": 15
+                  }
+                ]
+              },
+              {
+                "description": "Dest Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 9.914391927774826,
+                  "y": 0.7634653512084593,
+                  "width": 5.370632036643654,
+                  "height": 7.672783421450149
+                }
+              },
+              {
+                "description": "Content Color",
+                "type": "color",
+                "value": "rgb(0, 128, 255)"
+              },
+              {
+                "description": "Line Width",
+                "type": "number",
+                "value": 0.06
+              }
+            ]
+          }
+        ]
       }
     ]
   }

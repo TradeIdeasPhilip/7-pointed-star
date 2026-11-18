@@ -62,11 +62,24 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    Saved values that end at 1023 would still need editing to use it.
 34. **PathShape has no ellipse.**  Wanted, small.  Found 2026-11-15, in 0.8.1.
    Converting an SVG drawing by hand (`face.html`, now the "Blank Stare" source) needed its `<circle>` and `<ellipse>` elements as PathShapes.
-   `makeEllipse()` in `src/all-components.ts` does it:  PathBuilder's unit circle, scaled, then moved.  Its TODO says it belongs in the library as `PathShape.ellipse()`.
+   `makeEllipse()` in `src/svg-sources.ts` does it:  PathBuilder's unit circle, scaled, then moved.  Its TODO says it belongs in the library as `PathShape.ellipse()`.
    It takes an options object, `{ cx, cy, r }` or `{ cx, cy, rx, ry }`, because the author expects the list to grow:
    a starting angle, the direction of travel, a rotation, and cubics for a closer fit.
    Mind the order:  DOMMatrix applies the last call first, so it's `translateSelf(cx, cy).scaleSelf(rx, ry)`.  The first draft had them reversed.
    The bigger goal:  converting SVG to a PathShape will be common, so this is the first piece of an importer for `<circle>`, `<ellipse>`, `<line>` and `<path>`.
+35. **A search for quick scripts.**  Wanted.  A prototype since 2026-11-16:  `dump()` in `src/delayed-start-each.ts`, `philDebug.ve_dump`.
+   Its TODO:  move it into the library as `philDebug.VisualEditor.dump`.
+   Before this, quick and dirty scripts were hard to write:  each one walked the tree by hand.  `dump()` searches by level, Name and class, and asserts how many it found.
+   The author likes `assertMin` and `assertMax` as a pattern:  a script aimed at one layout fails loudly on the wrong chapter.
+   Not ready yet.  Use it in a few more scripts first.  The test:  can it replace `find()` in `eight-pack.ts` and `four-plus-four.ts`?  What's left:
+   * **Where to start.**  It always starts at what's chosen in the Edit list.  A button's script gets its scene as an argument, so it needs an optional starting node.
+     Until then, "works on the console and in code" doesn't cover panels.
+   * **Where each match is.**  It returns the components, but not their parents or their time.
+     `staggeredWithin()` sets keyframes in the chapter's time, and can't check that a Star Circuit isn't inside something that shifts time.
+   * **The names you see.**  The console matches the JavaScript class name, `"StarCircuit"`.  The Insert menu says "Star Circuit", the `registryKey`.  Maybe match either.
+   * **The error says why.**  "Not enough results." goes on a button's result line without the counts, which only went to `console.error()`.
+   * **Two jobs.**  With no arguments it prints a summary; with any, it searches.  Maybe two functions in the library.
+   * It uses `Map.getOrInsertComputed()`, which is very new.  Check that every browser the library supports has it.
 
 ## Bugs
 

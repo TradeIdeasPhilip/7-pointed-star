@@ -3,7 +3,7 @@
  *
  * Source names a path in `FourierComponent.sources`, the registry the library's Fourier component reads.
  * So the saved value is just the name, and one registration serves both components.
- * Register a path with `FourierComponent.sources.set(name, { path })`, as `all-components.ts` does for "Blank Stare".
+ * Register a path with `FourierComponent.sources.set(name, { path })`, as `svg-sources.ts` does for "Blank Stare".
  *
  * Like Bridged Fourier, the lines that close the gaps between the path's pieces are **bridges**, in their own color.
  * Only sources with a `path` work:  a parametric curve or a list of terms has no gaps to bridge.
@@ -47,7 +47,7 @@ import {
 
 // MARK: The source
 
-/** The Source field's default.  Registered in `all-components.ts`. */
+/** The Source field's default.  Registered in `svg-sources.ts`. */
 const BLANK_STARE = "Blank Stare";
 
 /** The names in `FourierComponent.sources` that are paths, for the Source field's suggestions. */

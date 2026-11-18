@@ -747,3 +747,117 @@ Current:    [{"source":"local:7-pointed-star-shorts 2026-11-16 19-58-25.890.wav"
   1594713Forward.referenceLineWidthSchedule.set(0.06);
   1594713Forward.userEditableDescription = "#1594713 forward";
   scratch9.replaceableComponents!.push(1594713Forward);
+→ Scratch 10
+→ → Min Duration
+TypeScript: 5000
+Current:    90000
+→ → Sound Clips
+TypeScript: undefined
+Current:    [{"source":"local:7-pointed-star-shorts 2026-11-17 18-59-43.431.wav","startMsIntoScene":0,"startMsIntoClip":427.350434,"lengthMs":21300.6},{"source":"local:7-pointed-star-shorts 2026-11-17 19-09-48.343.wav","startMsIntoScene":22465.606897,"startMsIntoClip":445.281066,"lengthMs":28073.3},{"source":"local:7-pointed-star-shorts 2026-11-17 19-13-43.115.wav","startMsIntoScene":51913.221401,"startMsIntoClip":451.856853,"lengthMs":32331.4},{"source":"local:7-pointed-star-shorts 2026-11-17 19-18-36.819.wav","startMsIntoScene":85393.291836,"startMsIntoClip":3748.633355,"lengthMs":3829.3,"notes":"When I snap"},{"source":"local:7-pointed-star-shorts 2026-11-17 19-18-36.819.wav","startMsIntoScene":89538.417927,"startMsIntoClip":10722.833355,"lengthMs":413.7,"notes":"Snap"}]
+→ → Background
+  [deleted]
+→ → Tessellating Triangles
+  [added]
+  const tessellatingTriangles5 = new TessellatingTriangles({ description: "Tessellating Triangles" });
+  tessellatingTriangles5.upColorSchedule.set("rgb(0% 0% 0%)");
+  tessellatingTriangles5.downColorSchedule.set("hsl(0deg 0% 17%)");
+  tessellatingTriangles5.sideLengthSchedule.set(3);
+  scratch10.replaceableComponents!.push(tessellatingTriangles5);
+→ → Top Fourier
+  [added]
+  const topFourier2 = new StarCircuit({ description: "Top Fourier" });
+  topFourier2.circuitSchedule.set("0 1 2 3 5 1 3 4 1 6 5 2 6 3 0 6 4 2 0 4 5 0");
+  topFourier2.fourierRectSchedule.set({"x":0.5,"y":0.5,"width":5,"height":5});
+  topFourier2.referenceRectSchedule.set({"x":6.3,"y":2.8,"width":2,"height":2});
+  topFourier2.termGroupsSchedule.set("0, 1, 2, 3, 5, 4, 6, 7, 8, 12, 9, 10, , 11 13-19, 20-39, 40-99, 100-299, 300-1023");
+  topFourier2.stepSchedule.set([{"time":0,"value":0},{"time":4412,"value":1},{"time":5735,"value":1},{"time":10147,"value":2},{"time":11471,"value":2},{"time":15882,"value":3},{"time":17206,"value":3},{"time":21618,"value":4},{"time":22941,"value":4},{"time":27353,"value":5},{"time":28676,"value":5},{"time":33088,"value":6},{"time":34412,"value":6},{"time":38824,"value":7},{"time":40147,"value":7},{"time":44559,"value":8},{"time":45882,"value":8},{"time":90000,"value":18}]);
+  topFourier2.cornerSizeSchedule.set([{"time":14000,"value":0},{"time":20000,"value":0.4}]);
+  topFourier2.circleColorSchedule.set("rgb(32, 64, 255)");
+  topFourier2.thinStarColorSchedule.set("#0e0");
+  topFourier2.fatStarColorSchedule.set("rgb(255, 0, 0)");
+  topFourier2.fourierLineWidthSchedule.set(0.075);
+  topFourier2.referenceLineWidthSchedule.set(0.04);
+  topFourier2.userEditableDescription = "Top Fourier";
+  scratch10.replaceableComponents!.push(topFourier2);
+→ → Middle Fourier
+  [added]
+  const middleFourier2 = new StarCircuit({ description: "Middle Fourier" });
+  middleFourier2.circuitSchedule.set("0 4 1 5 2 6 3 4 6 1 3 5 6 0 2 3 0 5 4 2 1 0");
+  middleFourier2.fourierRectSchedule.set({"x":3.5,"y":5.5,"width":5,"height":5});
+  middleFourier2.referenceRectSchedule.set({"x":0.8,"y":8.1,"width":2,"height":2});
+  middleFourier2.termGroupsSchedule.set(" 0, 1, 2, 3, 6, 5, 4, 8, 7, 11, 10, 13, 9, 12 14-19, 20-39, 40-99, 100-299, 300-1023");
+  middleFourier2.stepSchedule.set([{"time":0,"value":0},{"time":441,"value":0},{"time":4853,"value":1},{"time":6176,"value":1},{"time":10588,"value":2},{"time":11912,"value":2},{"time":16324,"value":3},{"time":17647,"value":3},{"time":22059,"value":4},{"time":23382,"value":4},{"time":27794,"value":5},{"time":29118,"value":5},{"time":33529,"value":6},{"time":34853,"value":6},{"time":39265,"value":7},{"time":40588,"value":7},{"time":45000,"value":8},{"time":45882,"value":8},{"time":90000,"value":18}]);
+  middleFourier2.cornerSizeSchedule.set([{"time":14000,"value":0},{"time":20000,"value":0.4}]);
+  middleFourier2.circleColorSchedule.set("#d8d800");
+  middleFourier2.thinStarColorSchedule.set("#00d8d8");
+  middleFourier2.fatStarColorSchedule.set("rgb(255, 0, 255)");
+  middleFourier2.fourierLineWidthSchedule.set(0.075);
+  middleFourier2.referenceLineWidthSchedule.set(0.04);
+  middleFourier2.userEditableDescription = "Middle Fourier";
+  scratch10.replaceableComponents!.push(middleFourier2);
+→ → Bottom Fourier
+  [added]
+  const bottomFourier2 = new StarCircuit({ description: "Bottom Fourier" });
+  bottomFourier2.circuitSchedule.set("0 1 2 3 4 0 2 4 5 3 1 6 5 2 6 3 0 6 4 1 5 0");
+  bottomFourier2.fourierRectSchedule.set({"x":0.5,"y":10.5,"width":5,"height":5});
+  bottomFourier2.referenceRectSchedule.set({"x":6.3,"y":13.3,"width":2,"height":2});
+  bottomFourier2.termGroupsSchedule.set("0, 1, 3, 2, 4, 5, 7, 9, 11, 6, 10, 8, , 12-19, 20-39, 40-99, 100-299, 300-1023");
+  bottomFourier2.stepSchedule.set([{"time":0,"value":0},{"time":882,"value":0},{"time":5294,"value":1},{"time":6618,"value":1},{"time":11029,"value":2},{"time":12353,"value":2},{"time":16765,"value":3},{"time":18088,"value":3},{"time":22500,"value":4},{"time":23824,"value":4},{"time":28235,"value":5},{"time":29559,"value":5},{"time":33971,"value":6},{"time":35294,"value":6},{"time":39706,"value":7},{"time":41029,"value":7},{"time":45441,"value":8},{"time":45882,"value":8},{"time":90000,"value":18}]);
+  bottomFourier2.cornerSizeSchedule.set([{"time":14000,"value":0},{"time":20000,"value":0.4}]);
+  bottomFourier2.circleColorSchedule.set("rgb(128, 0, 255)");
+  bottomFourier2.thinStarColorSchedule.set("rgb(255, 128, 0)");
+  bottomFourier2.fourierLineWidthSchedule.set(0.075);
+  bottomFourier2.referenceLineWidthSchedule.set(0.04);
+  bottomFourier2.userEditableDescription = "Bottom Fourier";
+  scratch10.replaceableComponents!.push(bottomFourier2);
+→ → Top Label
+  [added]
+  const topLabel2 = new MultiTextComponent({ description: "Top Label" });
+  topLabel2.positionSchedule.set({"x":7.25,"y":0.5});
+  topLabel2.widthSchedule.set(2.5);
+  topLabel2.heightSchedule.set(5);
+  topLabel2.widthModeScalar.value = "scale";
+  topLabel2.userEditableDescription = "Top Label";
+  const textFormat8 = new TextFormatComponent({ description: "Text Format" });
+  textFormat8.colorSchedule.set("#0e0");
+  textFormat8.nameScalar.value = "2x";
+  topLabel2.replaceableComponents!.push(textFormat8);
+  const textSpan10 = new TextSpanComponent({ description: "Text Span" });
+  textSpan10.contentSchedule.set("#2282298\nforward\n65% in sync");
+  textSpan10.styleSchedule.set("2x");
+  topLabel2.replaceableComponents!.push(textSpan10);
+  scratch10.replaceableComponents!.push(topLabel2);
+→ → Middle Label
+  [added]
+  const middleLabel2 = new MultiTextComponent({ description: "Middle Label" });
+  middleLabel2.positionSchedule.set({"x":1.75,"y":5.9});
+  middleLabel2.widthSchedule.set(2.5);
+  middleLabel2.heightSchedule.set(5);
+  middleLabel2.widthModeScalar.value = "scale";
+  middleLabel2.userEditableDescription = "Middle Label";
+  const textFormat9 = new TextFormatComponent({ description: "Text Format" });
+  textFormat9.colorSchedule.set("rgb(255, 0, 255)");
+  textFormat9.nameScalar.value = "3x";
+  middleLabel2.replaceableComponents!.push(textFormat9);
+  const textSpan11 = new TextSpanComponent({ description: "Text Span" });
+  textSpan11.contentSchedule.set("#2800417\nbackward\n69% in sync");
+  textSpan11.styleSchedule.set("3x");
+  middleLabel2.replaceableComponents!.push(textSpan11);
+  scratch10.replaceableComponents!.push(middleLabel2);
+→ → Bottom Label
+  [added]
+  const bottomLabel2 = new MultiTextComponent({ description: "Bottom Label" });
+  bottomLabel2.positionSchedule.set({"x":7.25,"y":11});
+  bottomLabel2.widthSchedule.set(2.5);
+  bottomLabel2.heightSchedule.set(5);
+  bottomLabel2.widthModeScalar.value = "scale";
+  bottomLabel2.userEditableDescription = "Bottom Label";
+  const textFormat10 = new TextFormatComponent({ description: "Text Format" });
+  textFormat10.colorSchedule.set("rgb(255, 128, 0)");
+  textFormat10.nameScalar.value = "7x";
+  bottomLabel2.replaceableComponents!.push(textFormat10);
+  const textSpan12 = new TextSpanComponent({ description: "Text Span" });
+  textSpan12.contentSchedule.set("#2156149\nforward\n68% in sync");
+  textSpan12.styleSchedule.set("7x");
+  bottomLabel2.replaceableComponents!.push(textSpan12);
+  scratch10.replaceableComponents!.push(bottomLabel2);

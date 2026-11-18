@@ -31,7 +31,7 @@ import {
 } from "canvas-recorder-lib";
 import { myRainbow } from "canvas-recorder-lib/src/glib/my-rainbow";
 import { SlideLeftTransition } from "canvas-recorder-lib/src/slide-components/slide-left";
-import "./all-components.ts";
+import "./setup.ts";
 import { BridgedFourier } from "./bridged-fourier.ts";
 import { BridgedMorph } from "./bridged-morph.ts";
 import { CircuitGrid } from "./circuit-grid.ts";
