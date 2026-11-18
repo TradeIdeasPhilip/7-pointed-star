@@ -861,3 +861,96 @@ Current:    [{"source":"local:7-pointed-star-shorts 2026-11-17 18-59-43.431.wav"
   textSpan12.styleSchedule.set("7x");
   bottomLabel2.replaceableComponents!.push(textSpan12);
   scratch10.replaceableComponents!.push(bottomLabel2);
+→ Scratch 11
+→ → Min Duration
+TypeScript: 5000
+Current:    90000
+→ → Sound Clips
+TypeScript: undefined
+Current:    [{"source":"local:7-pointed-star-shorts 2026-11-18 13-45-12.118.wav","startMsIntoScene":0,"startMsIntoClip":417.762243,"lengthMs":89258.666667}]
+→ → Star 2
+  [added]
+  const star2 = new StarCircuit({ description: "Star 2" });
+  star2.circuitSchedule.set("0,1,2,0,4,6,1,4,3,6,5,4,2,3,5,0,6,2,5,1,3,0");
+  star2.fourierRectSchedule.set({"x":0.5,"y":0.5,"width":8,"height":8});
+  star2.termGroupsSchedule.set("0, 1, 2, 5-6,7-8, 9-10, 14-19, 20-39, 40-99, 100-1023,11-13,4,3");
+  star2.stepSchedule.set([{"time":4000,"value":0},{"time":90000,"value":13}]);
+  star2.circleColorSchedule.set("hsl(0deg 100% 20%)");
+  star2.thinStarColorSchedule.set("hsl(0deg 0% 40%)");
+  star2.fatStarColorSchedule.set("hsl(210deg 100% 20%)");
+  star2.fourierLineWidthSchedule.set(0.065);
+  star2.referenceLineWidthSchedule.set(0);
+  star2.userEditableDescription = "Star 2";
+  scratch11.replaceableComponents!.push(star2);
+→ → Star 1
+  [added]
+  const star1 = new StarCircuit({ description: "Star 1" });
+  star1.circuitSchedule.set("0,1,2,0,4,6,1,4,3,6,5,4,2,3,5,0,6,2,5,1,3,0");
+  star1.fourierRectSchedule.set({"x":0.5,"y":0.5,"width":8,"height":8});
+  star1.termGroupsSchedule.set("0, 1, 2, 5-6,7-8, 9-10, 14-19, 20-39, 40-99, 100-1023,11-13,4,3");
+  star1.stepSchedule.set([{"time":2000,"value":0},{"time":88000,"value":13}]);
+  star1.circleColorSchedule.set("hsl(0deg 100% 35%)");
+  star1.thinStarColorSchedule.set("hsl(0deg 0% 70%)");
+  star1.fatStarColorSchedule.set("hsl(210deg 100% 35%)");
+  star1.fourierLineWidthSchedule.set(0.07);
+  star1.referenceLineWidthSchedule.set(0);
+  star1.userEditableDescription = "Star 1";
+  scratch11.replaceableComponents!.push(star1);
+→ → Start 0
+  [added]
+  const start0 = new StarCircuit({ description: "Start 0" });
+  start0.circuitSchedule.set("0,1,2,0,4,6,1,4,3,6,5,4,2,3,5,0,6,2,5,1,3,0");
+  start0.fourierRectSchedule.set({"x":0.5,"y":0.5,"width":8,"height":8});
+  start0.termGroupsSchedule.set("0, 1, 2, 5-6,7-8, 9-10, 14-19, 20-39, 40-99, 100-1023,11-13,4,3");
+  start0.stepSchedule.set([{"time":0,"value":0},{"time":86000,"value":13}]);
+  start0.fourierLineWidthSchedule.set(0.075);
+  start0.referenceLineWidthSchedule.set(0);
+  start0.userEditableDescription = "Start 0";
+  scratch11.replaceableComponents!.push(start0);
+→ → Bridged Fourier
+  [added]
+  const bridgedFourier = new BridgedFourier({ description: "Bridged Fourier" });
+  bridgedFourier.textSchedule.set("Burning\nto the\nFourier\ndance!");
+  bridgedFourier.termGroupsSchedule.set("0, 1, 2, 3-4, 5-7,8-9, 10-13, 14-19, 20-29,30-39, 40-49,50-59,60-79,80-99, 100-119,120-149,150-299, 300-1022");
+  bridgedFourier.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":18}]);
+  bridgedFourier.destRectSchedule.set({"x":0.5,"y":9.5,"width":8,"height":6});
+  bridgedFourier.contentColorSchedule.set("rgb(128, 0, 255)");
+  bridgedFourier.lineWidthSchedule.set(0.085);
+  scratch11.replaceableComponents!.push(bridgedFourier);
+→ Scratch 12
+→ → Min Duration
+TypeScript: 5000
+Current:    90000
+→ → Sound Clips
+TypeScript: undefined
+Current:    [{"source":"local:7-pointed-star-shorts 2026-11-18 13-49-15.803.wav","startMsIntoScene":0,"startMsIntoClip":450.562823,"lengthMs":88858.666667}]
+→ → Background
+→ → → Color
+TypeScript: "black"
+Current:    "rgb(100% 100% 100%)"
+→ → Halftone Shadow
+  [added]
+  const halftoneShadow = new HalftoneShadowComponent({ description: "Halftone Shadow" });
+  halftoneShadow.dotColorSchedule.set("hsl(0deg 0% 80%)");
+  halftoneShadow.dxSchedule.set(0.4);
+  halftoneShadow.dySchedule.set(0.4);
+  halftoneShadow.periodSchedule.set(0.175);
+  const starCircuit2 = new StarCircuit({ description: "Star Circuit" });
+  starCircuit2.circuitSchedule.set("0,1,2,0,5,3,1,6,0,4,1,5,4,3,6,2,4,6,5,2,3,0");
+  starCircuit2.fourierRectSchedule.set({"x":0.5,"y":0.5,"width":8,"height":8});
+  starCircuit2.termGroupsSchedule.set("0, 1, 2, 5-6,7-8, 9-10, 14-19, 20-39, 40-99, 100-1023,11-13,4,3");
+  starCircuit2.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":13}]);
+  starCircuit2.thinStarColorSchedule.set("rgb(255, 128, 0)");
+  starCircuit2.fatStarColorSchedule.set("#0e0");
+  starCircuit2.fourierLineWidthSchedule.set(0.15);
+  starCircuit2.referenceLineWidthSchedule.set(0);
+  halftoneShadow.replaceableComponents!.push(starCircuit2);
+  const bridgedFourier2 = new BridgedFourier({ description: "Bridged Fourier" });
+  bridgedFourier2.textSchedule.set("Halftone\ndots...");
+  bridgedFourier2.termGroupsSchedule.set("0, 1, 2, 3-4, 5-7,8-9, 10-13, 14-19, 20-29,30-39, 40-49,50-59,60-79,80-99, 100-119,120-149,150-199, 200-249,250-299, 300-1022");
+  bridgedFourier2.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":20}]);
+  bridgedFourier2.destRectSchedule.set({"x":0.5,"y":9.5,"width":8,"height":6});
+  bridgedFourier2.contentColorSchedule.set("rgb(32, 64, 255)");
+  bridgedFourier2.lineWidthSchedule.set(0.085);
+  halftoneShadow.replaceableComponents!.push(bridgedFourier2);
+  scratch12.replaceableComponents!.push(halftoneShadow);
