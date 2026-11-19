@@ -945,6 +945,9 @@ Current:    "rgb(100% 100% 100%)"
   starCircuit2.fourierLineWidthSchedule.set(0.15);
   starCircuit2.referenceLineWidthSchedule.set(0);
   halftoneShadow.replaceableComponents!.push(starCircuit2);
+  scratch12.replaceableComponents!.push(halftoneShadow);
+→ → Bridged Fourier
+  [added]
   const bridgedFourier2 = new BridgedFourier({ description: "Bridged Fourier" });
   bridgedFourier2.textSchedule.set("Halftone\ndots...");
   bridgedFourier2.termGroupsSchedule.set("0, 1, 2, 3-4, 5-7,8-9, 10-13, 14-19, 20-29,30-39, 40-49,50-59,60-79,80-99, 100-119,120-149,150-199, 200-249,250-299, 300-1022");
@@ -952,5 +955,56 @@ Current:    "rgb(100% 100% 100%)"
   bridgedFourier2.destRectSchedule.set({"x":0.5,"y":9.5,"width":8,"height":6});
   bridgedFourier2.contentColorSchedule.set("rgb(32, 64, 255)");
   bridgedFourier2.lineWidthSchedule.set(0.085);
-  halftoneShadow.replaceableComponents!.push(bridgedFourier2);
-  scratch12.replaceableComponents!.push(halftoneShadow);
+  scratch12.replaceableComponents!.push(bridgedFourier2);
+→ Scratch 13
+→ → Min Duration
+TypeScript: 5000
+Current:    90000
+→ → Sound Clips
+TypeScript: undefined
+Current:    [{"source":"local:7-pointed-star-shorts 2026-11-19 11-32-19.913.wav","startMsIntoScene":0,"startMsIntoClip":441.392128,"lengthMs":53651.6},{"source":"local:7-pointed-star-shorts 2026-11-19 11-32-19.913.wav","startMsIntoScene":68830.75419,"startMsIntoClip":54092.992128,"lengthMs":4355.8},{"source":"local:7-pointed-star-shorts 2026-11-19 11-36-12.438.wav","startMsIntoScene":55551.923184,"startMsIntoClip":426.801585,"lengthMs":11973.8},{"source":"local:7-pointed-star-shorts 2026-11-19 11-37-42.572.wav","startMsIntoScene":76998.285018,"startMsIntoClip":467.353904,"lengthMs":10122.666667}]
+→ → Slide
+  [added]
+  const slide = new SlideComponent({ description: "Slide" });
+  slide.placeA.set([{"time":23000,"value":3},{"time":24000,"value":2},{"time":29000,"value":2},{"time":30000,"value":1}]);
+  slide.transformTemplate.value = "translate(4.5px, 4.5px) scale(𝓐) translate(-4.5px, -4.5px)\n";
+  const starCircuit3 = new StarCircuit({ description: "Star Circuit" });
+  starCircuit3.circuitSchedule.set("0,1,2,0,5,1,6,5,4,1,3,5,2,6,3,2,4,6,0,3,4,0");
+  starCircuit3.fourierRectSchedule.set({"x":0.5,"y":0.5,"width":8,"height":8});
+  starCircuit3.termGroupsSchedule.set("24-30,\n40-1023\n, \n  20-23,31-39, 10-19, 9,8,6, 4,  3, 2,1,0,7,5");
+  starCircuit3.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":15}]);
+  starCircuit3.fourierLineWidthSchedule.set([{"time":23000,"value":0.025},{"time":24000,"value":0.0375},{"time":29000,"value":0.0375},{"time":30000,"value":0.075}]);
+  starCircuit3.referenceLineWidthSchedule.set(0);
+  slide.replaceableComponents!.push(starCircuit3);
+  scratch13.replaceableComponents!.push(slide);
+→ → Multi Text
+  [added]
+  const multiText = new MultiTextComponent({ description: "Multi Text" });
+  multiText.positionSchedule.set({"x":4.5,"y":9});
+  multiText.widthSchedule.set(8);
+  multiText.heightSchedule.set(6.5);
+  multiText.widthModeScalar.value = "scale";
+  const main = new TextFormatComponent({ description: "main" });
+  main.colorSchedule.set("#d8d800");
+  main.fontSchedule.set("Cursive");
+  main.boldnessSchedule.set(2);
+  main.nameScalar.value = "main";
+  main.userEditableDescription = "main";
+  multiText.replaceableComponents!.push(main);
+  const textSpan13 = new TextSpanComponent({ description: "Text Span" });
+  textSpan13.contentSchedule.set("Inside\nOut");
+  textSpan13.styleSchedule.set("main");
+  multiText.replaceableComponents!.push(textSpan13);
+  const handwritingEffect = new HandwritingEffectComponent({ description: "Handwriting Effect" });
+  multiText.replaceableComponents!.push(handwritingEffect);
+  scratch13.replaceableComponents!.push(multiText);
+→ → Bridged Fourier
+  [added]
+  const bridgedFourier3 = new BridgedFourier({ description: "Bridged Fourier" });
+  bridgedFourier3.textSchedule.set("Inside\nOut");
+  bridgedFourier3.termGroupsSchedule.set("0, 1 2, 3 4, 5, 6 7, 8 9, 10 11, 12-14, 15-17, 18-20, 21-24, 25-29, 30-36, 37-45, 46-58, 59-84, 85-160, 161-1022");
+  bridgedFourier3.stepSchedule.set([{"time":0,"value":-1},{"time":3000,"value":0},{"time":90000,"value":18}]);
+  bridgedFourier3.destRectSchedule.set([{"time":90000,"value":{"x":0.58,"y":8.35,"width":7.9,"height":8}}]);
+  bridgedFourier3.contentColorSchedule.set("rgb(255, 0, 255)");
+  bridgedFourier3.lineWidthSchedule.set(0.075);
+  scratch13.replaceableComponents!.push(bridgedFourier3);

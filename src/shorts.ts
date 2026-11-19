@@ -96,7 +96,7 @@ addScene(root, "Pan and Scan Template", 24_000).replaceableComponents!.push(
 
 // Blank pages, to add anything to from the Visual Editor.
 // The editor finds saved work by name, so add more at the end, and never renumber.
-const scratch = Array.from({ length: 13 }, (_, index) =>
+const scratch = Array.from({ length: 26 }, (_, index) =>
   addScene(root, `Scratch ${index + 1}`, 5_000),
 );
 

@@ -5462,19 +5462,155 @@
                     "value": 0
                   }
                 ]
+              }
+            ]
+          },
+          {
+            "registryKey": "Bridged Fourier",
+            "schedules": [
+              {
+                "description": "Text",
+                "type": "string",
+                "value": "Halftone\ndots..."
               },
               {
-                "registryKey": "Bridged Fourier",
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3-4, 5-7,8-9, 10-13, 14-19, 20-29,30-39, 40-49,50-59,60-79,80-99, 100-119,120-149,150-199, 200-249,250-299, 300-1022"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 90000,
+                    "value": 20
+                  }
+                ]
+              },
+              {
+                "description": "Dest Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0.5,
+                  "y": 9.5,
+                  "width": 8,
+                  "height": 6
+                }
+              },
+              {
+                "description": "Content Color",
+                "type": "color",
+                "value": "rgb(32, 64, 255)"
+              },
+              {
+                "description": "Line Width",
+                "type": "number",
+                "value": 0.085
+              }
+            ]
+          }
+        ],
+        "soundClips": [
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-18 13-49-15.803.wav",
+            "startMsIntoScene": 0,
+            "startMsIntoClip": 450.562823,
+            "lengthMs": 88858.666667
+          }
+        ]
+      },
+      {
+        "description": "Scratch 13",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 90000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Slide",
+            "schedules": [
+              {
+                "description": "𝓐",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 23000,
+                    "value": 3
+                  },
+                  {
+                    "time": 24000,
+                    "value": 2
+                  },
+                  {
+                    "time": 29000,
+                    "value": 2
+                  },
+                  {
+                    "time": 30000,
+                    "value": 1
+                  }
+                ]
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Transform Template",
+                "type": "string",
+                "value": "translate(4.5px, 4.5px) scale(𝓐) translate(-4.5px, -4.5px)\n"
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Star Circuit",
                 "schedules": [
                   {
-                    "description": "Text",
+                    "description": "Circuit",
                     "type": "string",
-                    "value": "Halftone\ndots..."
+                    "value": "0,1,2,0,5,1,6,5,4,1,3,5,2,6,3,2,4,6,0,3,4,0"
+                  },
+                  {
+                    "description": "Fourier Rect",
+                    "type": "rectangle",
+                    "value": {
+                      "x": 0.5,
+                      "y": 0.5,
+                      "width": 8,
+                      "height": 8
+                    }
                   },
                   {
                     "description": "Term Groups",
                     "type": "string",
-                    "value": "0, 1, 2, 3-4, 5-7,8-9, 10-13, 14-19, 20-29,30-39, 40-49,50-59,60-79,80-99, 100-119,120-149,150-199, 200-249,250-299, 300-1022"
+                    "value": "24-30,\n40-1023\n, \n  20-23,31-39, 10-19, 9,8,6, 4,  3, 2,1,0,7,5"
                   },
                   {
                     "description": "Step",
@@ -5486,41 +5622,202 @@
                       },
                       {
                         "time": 90000,
-                        "value": 20
+                        "value": 15
                       }
                     ]
                   },
                   {
-                    "description": "Dest Rect",
-                    "type": "rectangle",
-                    "value": {
-                      "x": 0.5,
-                      "y": 9.5,
-                      "width": 8,
-                      "height": 6
-                    }
-                  },
-                  {
-                    "description": "Content Color",
-                    "type": "color",
-                    "value": "rgb(32, 64, 255)"
-                  },
-                  {
-                    "description": "Line Width",
+                    "description": "Fourier Line Width",
                     "type": "number",
-                    "value": 0.085
+                    "keyframes": [
+                      {
+                        "time": 23000,
+                        "value": 0.025
+                      },
+                      {
+                        "time": 24000,
+                        "value": 0.0375
+                      },
+                      {
+                        "time": 29000,
+                        "value": 0.0375
+                      },
+                      {
+                        "time": 30000,
+                        "value": 0.075
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Reference Line Width",
+                    "type": "number",
+                    "value": 0
                   }
                 ]
+              }
+            ]
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 4.5,
+                  "y": 9
+                }
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 8
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 6.5
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Width Mode",
+                "type": "select",
+                "value": "scale"
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "#d8d800"
+                  },
+                  {
+                    "description": "Font",
+                    "type": "select",
+                    "value": "Cursive"
+                  },
+                  {
+                    "description": "Boldness",
+                    "type": "number",
+                    "value": 2
+                  }
+                ],
+                "scalars": [
+                  {
+                    "description": "Name",
+                    "type": "string",
+                    "value": "main"
+                  }
+                ],
+                "userEditableDescription": "main"
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "Inside\nOut"
+                  },
+                  {
+                    "description": "Style",
+                    "type": "string",
+                    "value": "main"
+                  }
+                ]
+              },
+              {
+                "registryKey": "Handwriting Effect"
+              }
+            ]
+          },
+          {
+            "registryKey": "Bridged Fourier",
+            "schedules": [
+              {
+                "description": "Text",
+                "type": "string",
+                "value": "Inside\nOut"
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1 2, 3 4, 5, 6 7, 8 9, 10 11, 12-14, 15-17, 18-20, 21-24, 25-29, 30-36, 37-45, 46-58, 59-84, 85-160, 161-1022"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": -1
+                  },
+                  {
+                    "time": 3000,
+                    "value": 0
+                  },
+                  {
+                    "time": 90000,
+                    "value": 18
+                  }
+                ]
+              },
+              {
+                "description": "Dest Rect",
+                "type": "rectangle",
+                "keyframes": [
+                  {
+                    "time": 90000,
+                    "value": {
+                      "x": 0.58,
+                      "y": 8.35,
+                      "width": 7.9,
+                      "height": 8
+                    }
+                  }
+                ]
+              },
+              {
+                "description": "Content Color",
+                "type": "color",
+                "value": "rgb(255, 0, 255)"
+              },
+              {
+                "description": "Line Width",
+                "type": "number",
+                "value": 0.075
               }
             ]
           }
         ],
         "soundClips": [
           {
-            "source": "local:7-pointed-star-shorts 2026-11-18 13-49-15.803.wav",
+            "source": "local:7-pointed-star-shorts 2026-11-19 11-32-19.913.wav",
             "startMsIntoScene": 0,
-            "startMsIntoClip": 450.562823,
-            "lengthMs": 88858.666667
+            "startMsIntoClip": 441.392128,
+            "lengthMs": 53651.6
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-19 11-32-19.913.wav",
+            "startMsIntoScene": 68830.75419,
+            "startMsIntoClip": 54092.992128,
+            "lengthMs": 4355.8
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-19 11-36-12.438.wav",
+            "startMsIntoScene": 55551.923184,
+            "startMsIntoClip": 426.801585,
+            "lengthMs": 11973.8
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-19 11-37-42.572.wav",
+            "startMsIntoScene": 76998.285018,
+            "startMsIntoClip": 467.353904,
+            "lengthMs": 10122.666667
           }
         ]
       }

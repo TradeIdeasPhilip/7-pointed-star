@@ -132,9 +132,12 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   It draws straight lines between samples, not a smooth curve:  the ends are then exactly the words.
   Dest Rect's height is one line of the font, and the words are centered side to side, so two morphs with the same Dest Rect put a word in the same place.
   Only `full-video.ts` imports it, like Bridged Fourier.
-- `src/fourier-panel.ts`:  Visual Editor tools for anything with Term Groups and Step, a `SteppedFourier`.  Star Circuit, Bridged Fourier and Bridged Morph are.
+- `src/fourier-panel.ts`:  Visual Editor tools for anything with Term Groups and Step, a `SteppedFourier`.  Star Circuit, Bridged Fourier, Bridged Path and Bridged Morph are.
   `fourierStepPanel()`, a component's own `editorPanel`:  at the playhead, Step, the terms in and coming in, and a table of how many terms and how much of the amplitude are in, adding and left, like "Will it Fourier?".
   When Step's last keyframe isn't the number of groups, a button fixes it, with `propertyChanged()`, so it saves and undoes like any edit.
+  Under it, Rebuild Term Groups, with a minimum, 3% to start:  `termGroupsBySize()` replaces the Term Groups keyframe at the playhead.
+  From the largest term down, a term that big gets its own group, and smaller ones are gathered until the group is that big.  The last group gets what's left.
+  A starting point to edit by hand.  It doesn't touch Step:  the Make Step end button appears when the count changes.  Meant for the library's Fourier panel too, once it settles.
   `fourierMessages()`:  the library's `checkTermGroups()` and `checkStepRange()`, for `editorMessages()`.
   `{ sourceErrors: false }` when the component already says why there are no terms, as Star Circuit's Circuit line does.
   `analyzeStep()`, `describeStep()`, `formatTerms()` and `stepFix()` are pure.

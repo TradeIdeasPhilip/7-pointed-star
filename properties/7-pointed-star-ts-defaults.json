@@ -949,9 +949,19 @@
                     "value": "#fbbf24"
                   },
                   {
+                    "description": "Font",
+                    "type": "select",
+                    "value": "Line Font"
+                  },
+                  {
                     "description": "Font Size",
                     "type": "number",
                     "value": 0.5
+                  },
+                  {
+                    "description": "Font Width",
+                    "type": "number",
+                    "value": 1
                   },
                   {
                     "description": "Boldness",
@@ -1084,9 +1094,19 @@
                     "value": "#22d3ee"
                   },
                   {
+                    "description": "Font",
+                    "type": "select",
+                    "value": "Line Font"
+                  },
+                  {
                     "description": "Font Size",
                     "type": "number",
                     "value": 0.5
+                  },
+                  {
+                    "description": "Font Width",
+                    "type": "number",
+                    "value": 1
                   },
                   {
                     "description": "Boldness",
@@ -1219,9 +1239,19 @@
                     "value": "#f472b6"
                   },
                   {
+                    "description": "Font",
+                    "type": "select",
+                    "value": "Line Font"
+                  },
+                  {
                     "description": "Font Size",
                     "type": "number",
                     "value": 0.5
+                  },
+                  {
+                    "description": "Font Width",
+                    "type": "number",
+                    "value": 1
                   },
                   {
                     "description": "Boldness",

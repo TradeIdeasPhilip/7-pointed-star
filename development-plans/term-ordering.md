@@ -9,7 +9,7 @@ Every trick is one of three kinds:
 
 | Kind | What it needs here | Tricks |
 | --- | --- | --- |
-| **By rank** | Nothing.  Term Groups can say it today. | Small ones early, hold back three, forward and back, pauses |
+| **By rank** | Nothing.  Term Groups can say it today. | Groups by size (a button now), small ones early, hold back three, forward and back, pauses |
 | **By frequency** | Ranks worked out per circuit.  Today, `scripts/fourier-analysis.ts` can do that. | Forced symmetry, shared frequencies |
 | **Several at once** | Several components, each with its own Term Groups.  Today, by hand. | Same circuit in different orders, shared frequencies, staggered starts, 8 variants |
 
@@ -31,6 +31,16 @@ So a by-frequency trick has to be turned into ranks, separately for each circuit
 ### Biggest first
 
 The default, then and now.  One term per step, or groups that grow:  `0, 1, 2, 3, 4, 5-9, 10-19, …`.
+
+### Groups by size
+
+The step panel's Rebuild Term Groups button (`termGroupsBySize()` in `fourier-panel.ts`), since 2026-11-19.  By rank.
+Biggest first, but every group holds at least a share of the total amplitude, 3% to start.  A big term gets a step of its own, and the small ones are gathered, so the long tail goes by quickly.
+
+First used on "Inside / Out", a Bridged Fourier in Scratch 13 of the Shorts.  The author then merged the first 5 groups into 3, and left the rest alone.
+On text, the first big terms only swing lines back and forth across the rows, and one step each lingers there.  The time is better spent filling in the details.
+One click now does most of what used to take a lot of editing by hand.
+General purpose:  it should suit any picture where the first terms are worth showing one at a time.
 
 ### Small ones early
 

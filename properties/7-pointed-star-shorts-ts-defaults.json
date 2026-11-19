@@ -228,9 +228,19 @@
                     "value": "rgb(0, 128, 255)"
                   },
                   {
+                    "description": "Font",
+                    "type": "select",
+                    "value": "Line Font"
+                  },
+                  {
                     "description": "Font Size",
                     "type": "number",
                     "value": 0.5
+                  },
+                  {
+                    "description": "Font Width",
+                    "type": "number",
+                    "value": 1
                   },
                   {
                     "description": "Boldness",
@@ -1634,6 +1644,435 @@
       },
       {
         "description": "Scratch 13",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 14",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 15",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 16",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 17",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 18",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 19",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 20",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 21",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 22",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 23",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 24",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 25",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 5000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          }
+        ]
+      },
+      {
+        "description": "Scratch 26",
         "scalars": [
           {
             "description": "Min Duration",

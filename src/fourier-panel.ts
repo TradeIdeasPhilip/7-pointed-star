@@ -3,9 +3,10 @@
  *
  * * {@link fourierStepPanel}:  a panel that says what Step means at the playhead.  The terms all the way in, the ones coming in,
  *   and how much of the curve they are.  When Step's last keyframe doesn't match the number of groups, a button fixes it.
+ *   And a button that rebuilds Term Groups by size, {@link termGroupsBySize}, as a starting point to edit by hand.
  * * {@link fourierMessages}:  the checks that Term Groups and Step agree.  `editor-messages.ts` shows them.
  *
- * A component gets both by being a {@link SteppedFourier}.  Star Circuit, Bridged Fourier and Bridged Morph are.
+ * A component gets both by being a {@link SteppedFourier}.  Star Circuit, Bridged Fourier, Bridged Path and Bridged Morph are.
  *
  * Built on library 0.7.3's hooks.  See `development-plans/editor-panels.md`.
  * Nothing here touches the DOM until the Visual Editor calls `start()`.
@@ -272,6 +273,61 @@ export function stepFix(
   return { keyframe: last, to: groupCount };
 }
 
+// MARK: Rebuilding Term Groups
+
+/** The Minimum box's starting value, in percent. */
+const DEFAULT_MINIMUM_PERCENT = 3;
+
+/**
+ * New Term Groups, by size:  every group but the last is at least `minShare` of the total amplitude.
+ * From the largest term down, a term that big gets a group of its own.  Smaller ones are gathered until the group is that big.
+ * The last group gets what's left, so it can be smaller.  A starting point to edit by hand.
+ *
+ * Pure.
+ * @param terms Largest first, the way `samplesToFourier()` returns them.
+ * @param minShare A share of the sum of every term's amplitude, 0 to 1.  0.03 is 3%.
+ * @returns In the Term Groups format, like "0, 1, 2 3, 4-9, 10-1022".  Empty when there are no terms.
+ */
+export function termGroupsBySize(
+  terms: readonly { readonly amplitude: number }[],
+  minShare: number,
+): string {
+  const total = sum(terms.map(({ amplitude }) => amplitude));
+  const groups: number[][] = [];
+  let group: number[] = [];
+  let groupShare = 0;
+  terms.forEach(({ amplitude }, rank) => {
+    group.push(rank);
+    groupShare += total > 0 ? amplitude / total : 0;
+    if (groupShare >= minShare) {
+      groups.push(group);
+      group = [];
+      groupShare = 0;
+    }
+  });
+  if (group.length > 0) {
+    groups.push(group);
+  }
+  return groups.map(formatTerms).join(", ");
+}
+
+/**
+ * The keyframe in effect at `timeInMs`, the one `StringScheduleInfo.at()` reads:
+ * the last one at or before that time, or the first one when it's earlier than all of them.
+ */
+function keyframeAt<T>(
+  keyframes: readonly Keyframe<T>[],
+  timeInMs: number,
+): Keyframe<T> | undefined {
+  let result = keyframes[0];
+  for (const keyframe of keyframes) {
+    if (keyframe.time <= timeInMs) {
+      result = keyframe;
+    }
+  }
+  return result;
+}
+
 // MARK: The checks
 
 /**
@@ -371,6 +427,90 @@ export function fourierStepPanel(component: SteppedFourier): EditorPanel {
   let body: HTMLDivElement | undefined;
   /** What the body shows now, so a frame that changes nothing doesn't touch it. */
   let shown = "";
+  /** The Minimum box, in percent.  Kept here, because a rebuild restarts the panel. */
+  let minimumText = String(DEFAULT_MINIMUM_PERCENT);
+  /** What the last rebuild did, or why it didn't.  Kept here for the same reason. */
+  let rebuilt: { readonly text: string; readonly warning: boolean } | undefined;
+
+  /**
+   * Replace the Term Groups keyframe in effect at the playhead with {@link termGroupsBySize}.
+   * A mistake is a message, not an error.
+   * @param show Puts the message on the screen, before the change restarts the panel.
+   */
+  function rebuild(api: EditorPanelAPI, show: () => void) {
+    const fail = (text: string) => {
+      rebuilt = { text: `⚠ ${text}`, warning: true };
+      show();
+    };
+    const minimum = Number(minimumText);
+    if (minimumText.trim() == "" || !(minimum > 0)) {
+      return fail("The minimum should be more than 0%.");
+    }
+    const timeInMs = api.getTimeMs();
+    const terms = component.fourierTermsAt(timeInMs);
+    if (typeof terms == "string") {
+      return fail(terms);
+    }
+    if (terms.length == 0) {
+      return fail("This source has no terms.");
+    }
+    const keyframes = component.termGroupsSchedule.schedule;
+    const keyframe = keyframeAt(keyframes, timeInMs);
+    if (!keyframe) {
+      return fail("Term Groups has no keyframes.");
+    }
+    const value = termGroupsBySize(terms, minimum / 100);
+    const groupCount = parseTermGroups(value).groups.length;
+    rebuilt = {
+      text:
+        `Rebuilt${keyframes.length > 1 ? ` the keyframe at ${keyframe.time} ms` : ""}:  ` +
+        `${groupCount} groups of at least ${minimum}%, except maybe the last.`,
+      warning: false,
+    };
+    show();
+    keyframe.value = value;
+    // Saves, redraws, and rebuilds the properties, which restarts this panel.  Undo works.
+    api.propertyChanged(component.termGroupsSchedule);
+  }
+
+  /** The Minimum box, the Rebuild button, and what the last rebuild did.  Built once per start(), not every frame. */
+  function rebuildTools(api: EditorPanelAPI): HTMLDivElement {
+    const tools = document.createElement("div");
+    tools.style.cssText =
+      "font-size:0.9em;margin-top:0.4em;padding-top:0.4em;border-top:1px solid #ccd";
+    const label = document.createElement("label");
+    label.append("Groups of at least ");
+    const input = document.createElement("input");
+    input.type = "number";
+    input.min = "0";
+    input.step = "0.5";
+    input.value = minimumText;
+    input.style.width = "4.5em";
+    input.addEventListener("input", () => {
+      minimumText = input.value;
+    });
+    label.append(input, "%  ");
+    const button = document.createElement("button");
+    button.textContent = "Rebuild Term Groups";
+    button.title =
+      "Replaces Term Groups at the playhead.  From the largest term down, each group gets terms " +
+      "until it has at least this much of the total amplitude.  The last group gets what's left.  Undo works.";
+    const result = document.createElement("div");
+    const show = () => {
+      result.textContent = rebuilt?.text ?? "";
+      result.style.color = rebuilt?.warning ? "#a06000" : "#555";
+    };
+    show();
+    const click = () => rebuild(api, show);
+    button.addEventListener("click", click);
+    input.addEventListener("keydown", (event) => {
+      if (event.key == "Enter") {
+        click();
+      }
+    });
+    tools.append(label, button, result);
+    return tools;
+  }
 
   function row(label: string, value: string): HTMLDivElement {
     const line = document.createElement("div");
@@ -467,7 +607,7 @@ export function fourierStepPanel(component: SteppedFourier): EditorPanel {
       // Selectable, so a list of terms can be copied into Term Groups.
       body.style.cssText =
         "font-size:0.9em;line-height:1.4;user-select:text;font-variant-numeric:tabular-nums";
-      panel.append(legend, body);
+      panel.append(legend, body, rebuildTools(api));
       refresh();
       return panel;
     },
