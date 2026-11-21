@@ -227,11 +227,8 @@ export class NightSky implements Showable {
     }
     if (problems.length > 0) {
       // Across the whole canvas, not clipped to Rect, so it can always be read.
-      context.save();
-      const scale = canvasRecorder.width / 16;
-      context.scale(scale, scale);
+      // showError() fits the canvas's width by itself since library 0.8.3.
       showError(context, problems.join("\n"));
-      context.restore();
     }
   }
 }

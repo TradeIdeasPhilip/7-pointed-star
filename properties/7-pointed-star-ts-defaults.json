@@ -1833,6 +1833,276 @@
         ]
       },
       {
+        "description": "Warped Paths",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 14000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 16,
+                  "height": 9
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Warped Path",
+            "schedules": [
+              {
+                "description": "Path",
+                "type": "string",
+                "value": "M0-1A1 1 0 0 1 0 1A1 1 0 0 1 0-1Z"
+              },
+              {
+                "description": "Radius Offset",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 1000,
+                    "value": 1
+                  },
+                  {
+                    "time": 8000,
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "description": "Angle (degrees)",
+                "type": "number",
+                "value": 0
+              },
+              {
+                "description": "Samples",
+                "type": "number",
+                "value": 1024
+              },
+              {
+                "description": "Source Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": -1,
+                  "y": -1,
+                  "width": 2,
+                  "height": 2
+                }
+              },
+              {
+                "description": "Dest Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 4,
+                  "y": 0.5,
+                  "width": 8,
+                  "height": 8
+                }
+              },
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "rgb(255, 0, 0)"
+              },
+              {
+                "description": "Line Width",
+                "type": "number",
+                "value": 0.05
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [],
+            "userEditableDescription": "Circle"
+          },
+          {
+            "registryKey": "Warped Path",
+            "schedules": [
+              {
+                "description": "Path",
+                "type": "string",
+                "value": "M 0,-1 L 0.97492791,0.22252093 L -0.43388374,0.90096887 L -0.78183148,-0.6234898 L 0.78183148,-0.6234898 L 0.43388374,0.90096887 L -0.97492791,0.22252093 L 0,-1 Z"
+              },
+              {
+                "description": "Radius Offset",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 2500,
+                    "value": 1
+                  },
+                  {
+                    "time": 9500,
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "description": "Angle (degrees)",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 2500,
+                    "value": 180
+                  },
+                  {
+                    "time": 9500,
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "description": "Samples",
+                "type": "number",
+                "value": 1024
+              },
+              {
+                "description": "Source Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": -1,
+                  "y": -1,
+                  "width": 2,
+                  "height": 2
+                }
+              },
+              {
+                "description": "Dest Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 4,
+                  "y": 0.5,
+                  "width": 8,
+                  "height": 8
+                }
+              },
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "rgb(0, 128, 255)"
+              },
+              {
+                "description": "Line Width",
+                "type": "number",
+                "value": 0.05
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [],
+            "userEditableDescription": "Fat Star"
+          },
+          {
+            "registryKey": "Warped Path",
+            "schedules": [
+              {
+                "description": "Path",
+                "type": "string",
+                "value": "M 0,-1 L 0.43388374,0.90096887 L -0.78183148,-0.6234898 L 0.97492791,0.22252093 L -0.97492791,0.22252093 L 0.78183148,-0.6234898 L -0.43388374,0.90096887 L 0,-1 Z"
+              },
+              {
+                "description": "Radius Offset",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 4000,
+                    "value": 1
+                  },
+                  {
+                    "time": 11000,
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "description": "Angle (degrees)",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 4000,
+                    "value": -180
+                  },
+                  {
+                    "time": 11000,
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "description": "Samples",
+                "type": "number",
+                "value": 1024
+              },
+              {
+                "description": "Source Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": -1,
+                  "y": -1,
+                  "width": 2,
+                  "height": 2
+                }
+              },
+              {
+                "description": "Dest Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 4,
+                  "y": 0.5,
+                  "width": 8,
+                  "height": 8
+                }
+              },
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "white"
+              },
+              {
+                "description": "Line Width",
+                "type": "number",
+                "value": 0.05
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [],
+            "userEditableDescription": "Thin Star"
+          }
+        ]
+      },
+      {
         "description": "Scratch 1",
         "scalars": [
           {

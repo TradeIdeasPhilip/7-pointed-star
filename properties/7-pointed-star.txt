@@ -26,8 +26,8 @@ Current:    90000
 → → Bridged Path
   [added]
   const bridgedPath = new BridgedPath({ description: "Bridged Path" });
-  bridgedPath.termGroupsSchedule.set("0, 1, 2, 3, 4,5,6,7,8,9, 10-19, 20-39, 40-99, 100-299, 300-1022");
-  bridgedPath.stepSchedule.set([{"time":0,"value":0},{"time":10000,"value":15}]);
+  bridgedPath.termGroupsSchedule.set("0, 1, 2, 3, 4, 5, 6, 7 8, 9-11, 12-16, 17-23, 24-32, 33-48, 49-102, 103-1022");
+  bridgedPath.stepSchedule.set([{"time":0,"value":0},{"time":30000,"value":15}]);
   bridgedPath.destRectSchedule.set({"x":9.914391927774826,"y":0.7634653512084593,"width":5.370632036643654,"height":7.672783421450149});
   bridgedPath.contentColorSchedule.set("rgb(0, 128, 255)");
   bridgedPath.lineWidthSchedule.set(0.06);

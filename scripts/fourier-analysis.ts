@@ -18,16 +18,20 @@ import type { SampleFile, SampleRecord } from "./sample-circuits.ts";
 // MARK: Settings
 
 /** Print the symmetries of the named circuits.  See "First loop". */
-const SHOW_SYMMETRY_OF_NAMED_CIRCUITS = true;
+const SHOW_SYMMETRY_OF_NAMED_CIRCUITS = false;
+
+const SHOW_SYMMETRY_OF_MORE = false;
 
 /** Search the sample for circuits that start with the same frequencies.  See "Shared frequencies". */
-const SHOW_SHARED_FREQUENCIES = true;
+const SHOW_SHARED_FREQUENCIES = false;
 
 /**
  * A term smaller than this isn't interesting on its own.
  * A share of the circuit's total amplitude, as in the step panel:  5%.
  */
 const MIN_INTERESTING_AMPLITUDE = 0.05;
+
+const MAX_ROUND_RANK = 100;
 
 /** Look for symmetries from 2 up to this. */
 const LARGEST_SYMMETRY = 9;
@@ -72,7 +76,9 @@ function packIntoGroups(list: readonly RankedTerm[]): number[][] {
   for (const term of list) {
     groupInProgress.push(term.rank);
     currentGroupAmplitude += term.amplitude;
-    if (currentGroupAmplitude >= MIN_INTERESTING_AMPLITUDE) {
+    if (
+      currentGroupAmplitude >= MIN_INTERESTING_AMPLITUDE
+    ) {
       groups.push(groupInProgress);
       groupInProgress = [];
       currentGroupAmplitude = 0;
@@ -147,7 +153,8 @@ function getSymmetryInfo(
     );
     let rest = 0;
     for (const term of matching) {
-      if (term.amplitude < MIN_INTERESTING_AMPLITUDE) {
+      if (term.amplitude < MIN_INTERESTING_AMPLITUDE &&
+      term.rank <= MAX_ROUND_RANK) {
         rest += term.amplitude;
       }
     }
@@ -179,6 +186,7 @@ function getSymmetryInfo(
 // MARK: First loop
 
 if (SHOW_SYMMETRY_OF_NAMED_CIRCUITS) {
+  console.log("——— SHOW_SYMMETRY_OF_NAMED_CIRCUITS ————————————————————————");
   for (const { name, circuit } of examples) {
     console.log(name);
     const terms = decompose(circuit);
@@ -196,6 +204,98 @@ if (SHOW_SYMMETRY_OF_NAMED_CIRCUITS) {
   }
 }
 
+// MARK: BigSampleFile
+
+class BigSampleFile {
+  private constructor() {
+    throw new Error("wtf");
+  }
+  /** The sample, from `npm run sample-circuits`.  Not a plain string in `import()`, so `tsc` doesn't look for it:  GitHub doesn't have it. */
+  private static SAMPLE_FILE = "../data/circuit-sample.json";
+  private static cached: Promise<SampleFile> | undefined;
+  static getRecords(): Promise<SampleFile> {
+    if (!this.cached) {
+      this.cached = import(this.SAMPLE_FILE, { with: { type: "json" } }).then(
+        (wholeFile) => {
+          return wholeFile.default;
+        },
+      );
+      this.cached.catch((reason) => {
+        console.error(
+          `Can't read ${this.SAMPLE_FILE}.  Run "npm run sample-circuits" first.  ${(reason as Error).message}`,
+        );
+      });
+    }
+    return this.cached;
+  }
+  /**
+   *
+   * @returns `undefined` on failure.
+   * @throws never
+   */
+  static async tryGet() {
+    try {
+      return this.getRecords();
+    } catch {
+      return undefined;
+    }
+  }
+}
+
+// MARK: More symmetry
+
+if (SHOW_SYMMETRY_OF_MORE) {
+  console.log("——— SHOW_SYMMETRY_OF_MORE —————————————————————————————————");
+  for (const { index, circuit } of (await BigSampleFile.getRecords())
+    .circuits) {
+    let introPrinted = false;
+    const terms = decompose(circuit);
+    for (let n = 2; n <= LARGEST_SYMMETRY; n++) {
+      const [better, lesser] = getSymmetryInfo(terms, n);
+      if (better.bigTerms.length >= MIN_BIG_TERMS_TO_PRINT) {
+        console.log(
+          `  ${n}-fold:  ${better.score} from ${better.start},  ${lesser.score} from ${lesser.start}`,
+        );
+        if (!introPrinted) {
+          console.log(`\n#${index} — ${circuit}`);
+          introPrinted = true;
+        }
+        //console.log(better.termGroups);
+        //console.table(better.bigTerms);
+      }
+    }
+    //console.table(terms.slice(0, 6));
+  }
+}
+
+const DETAILED_SYMMETRY_REQUEST = new Set<number>([/*837357,*/ 511824]);
+if (DETAILED_SYMMETRY_REQUEST.size > 0) {
+  for (const { index, circuit } of (await BigSampleFile.getRecords())
+    .circuits) {
+    if (DETAILED_SYMMETRY_REQUEST.has(index)) {
+      console.log(`\n#${index} — ${circuit}`);
+      const terms = decompose(circuit);
+      for (let n = 2; n <= LARGEST_SYMMETRY; n++) {
+        const [better, lesser] = getSymmetryInfo(terms, n);
+        if (better.bigTerms.length >= MIN_BIG_TERMS_TO_PRINT) {
+          console.log(
+            `  ${n}-fold:  ${better.score} from ${better.start},  ${lesser.score} from ${lesser.start}`,
+          );
+          console.log(better.termGroups);
+          console.table(better.bigTerms);
+          if (n > 2 /*&&(lesser.bigTerms.length >= MIN_BIG_TERMS_TO_PRINT)*/) {
+            console.log(
+              `  ${n}-fold lesser:  ${lesser.score} from ${better.start}`,
+            );
+            console.log(lesser.termGroups);
+            console.table(lesser.bigTerms);
+          }
+        }
+      }
+    }
+  }
+}
+
 // MARK: Shared frequencies
 
 /*
@@ -210,9 +310,6 @@ if (SHOW_SYMMETRY_OF_NAMED_CIRCUITS) {
  *
  * Each circuit is tried forwards and backwards.  Backwards negates every frequency, and the printed vertices are reversed to match.
  */
-
-/** The sample, from `npm run sample-circuits`.  Not a plain string in `import()`, so `tsc` doesn't look for it:  GitHub doesn't have it. */
-const SAMPLE_FILE = "../data/circuit-sample.json";
 
 /** How many circuits on the screen at once. */
 const GROUP_SIZES = [3, 4] as const;
@@ -530,14 +627,8 @@ function printGroup(group: SyncGroup, number: number) {
 }
 
 if (SHOW_SHARED_FREQUENCIES) {
-  let sample: SampleFile | undefined;
-  try {
-    sample = (await import(SAMPLE_FILE, { with: { type: "json" } })).default;
-  } catch (reason) {
-    console.log(
-      `Can't read ${SAMPLE_FILE}.  Run "npm run sample-circuits" first.  ${(reason as Error).message}`,
-    );
-  }
+  console.log("——— SHOW_SHARED_FREQUENCIES ———————————————————————————————");
+  const sample: SampleFile | undefined = await BigSampleFile.tryGet();
   if (sample) {
     const oriented = sample.circuits.flatMap((record) => [
       orient(record, false),

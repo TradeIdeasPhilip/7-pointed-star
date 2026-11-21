@@ -15,7 +15,7 @@
     "sample-circuits": "mkdir -p data && node scripts/sample-circuits.ts > data/circuit-sample.json.tmp && mv data/circuit-sample.json.tmp data/circuit-sample.json"
   },
   "dependencies": {
-    "canvas-recorder-lib": "^0.8.1",
+    "canvas-recorder-lib": "^0.8.3",
     "phil-lib": "^1.8.1"
   },
   "devDependencies": {

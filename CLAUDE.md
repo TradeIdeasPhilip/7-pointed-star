@@ -68,7 +68,8 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
      Tessellating Triangles that stay still, under an In Series of two halves with a Slide Left between them.
      "Nothing to Something":  a Bridged Fourier of "Something" from a dot.  "Lead to Gold":  a Bridged Morph, gray to gold.
      Each half is a Duration Agnostic with a Min Duration, and its children's keyframes start at the start of that half.
-  9. "Scratch 1" to "Scratch 13":  only a background.  The author fills these from the Visual Editor.
+  9. "Warped Paths":  three Warped Path components, a red circle, a blue fat star and a white thin star, each growing out of the center, one after another.  Ends as the finished Star Circuit.
+  10. "Scratch 1" to "Scratch 13":  only a background.  The author fills these from the Visual Editor.
   The editor matches saved state by description, starting at the root.  Renaming or wrapping the root drops the saved state.
   The author prefers components added as replaceable children, so the Visual Editor can change, copy or delete them, and labels separate from what they label.
   The author's plan:  a few template slides that always match the TypeScript defaults, so the diff file says nothing about them.  Copy a template, or part of one, from the GUI to a blank slide, in either video.
@@ -132,6 +133,15 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   It draws straight lines between samples, not a smooth curve:  the ends are then exactly the words.
   Dest Rect's height is one line of the font, and the words are centered side to side, so two morphs with the same Dest Rect put a word in the same place.
   Only `full-video.ts` imports it, like Bridged Fourier.
+- `src/warped-path.ts`:  a prototype, a strawman.  Any path with every point moved by a function, to make interesting animations.  Registered as "Warped Path".
+  Path is an SVG path string, read by `PathShape.fromRawString()`, so arcs work since library 0.8.3.  `CIRCLE_PATH` is two half circle arcs, and `starPath(2 | 3)` is `makePolygon()` as in `star-sources.ts`, as a string.
+  Sampled by the library's `samplesFromPath()`, as the Fourier components do, so every corner is a sample.  `samplesToPathShape()` joins the moved samples with straight lines, closed.  `Samples` is 1024.
+  `polarWarp(offset, angle)`:  radius becomes `Math.max(0, radius - offset)`, angle gets the angle added.  Offset 0 and angle 0 return the point itself, so the finished state is exactly the path.
+  Fields:  Path, Radius Offset (path units, 1 → 0), Angle in degrees (not clamped), Samples, Source Rect, Dest Rect, Color, Line Width.
+  Source Rect is the part of the path's own coordinates that fits in Dest Rect, the unit circle's square by default.  So the circle and both stars, with different bounds, line up.
+  The path should be one closed piece.  More pieces, or an open path, is a warning in Checks:  the gaps are joined with straight lines, as in the Fourier component.  Each piece should get its own component, someday.
+  Override `makeWarp()` to try another function.  Before the start of Radius Offset's first keyframe the circle shows a dot:  its cubics are 0.03% outside the unit circle, so some radius is left, and a round cap fills in.  The stars don't.
+  A DurationAgnosticComponent, like Star Circuit.  Only `full-video.ts` uses it, but it's registered in both videos.
 - `src/fourier-panel.ts`:  Visual Editor tools for anything with Term Groups and Step, a `SteppedFourier`.  Star Circuit, Bridged Fourier, Bridged Path and Bridged Morph are.
   `fourierStepPanel()`, a component's own `editorPanel`:  at the playhead, Step, the terms in and coming in, and a table of how many terms and how much of the amplitude are in, adding and left, like "Will it Fourier?".
   When Step's last keyframe isn't the number of groups, a button fixes it, with `propertyChanged()`, so it saves and undoes like any edit.
@@ -223,6 +233,9 @@ The author's rule, for every component:  a mistake in the Visual Editor is a sta
 - Draw as much as still makes sense.  Values in worse shape can come back from IndexedDB or a file, so fail gracefully and make them easy to fix.
 - The library's "throw when saving a file" is only for external failures, like an image or video that doesn't load.
 - Assertions are still fine for the programmer's own mistakes, like the hand picked circuits checked at load time.
+- `showError()` (the library's red text on the canvas) lays its text out as wide as the canvas, since library 0.8.3, and centers it.  It used to assume 16 units.
+  So a component that draws it inside a rectangle scales by `rect.width / canvasRecorder.width`, never `/ 16`.  Star Circuit and Tessellating Triangles do.  Night Sky and Freaky Dots draw it across the whole canvas, with no scaling.
+  Test it in the Shorts (9 wide):  a bad circuit in a Star Circuit should show centered text, as wide as the Fourier rectangle.
 
 ## The multi-color Fourier
 

@@ -21,6 +21,7 @@ import "./rounded-star.ts";
 import "./star-circuit.ts";
 import "./tessellating-triangles.ts";
 import "./vertex-pairings.ts";
+import "./warped-path.ts";
 
 // MARK: Fourier sources
 

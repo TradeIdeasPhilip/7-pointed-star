@@ -1,5 +1,6 @@
 import { ReadOnlyRect } from "phil-lib/misc";
 import {
+  canvasRecorder,
   ColorScheduleInfo,
   componentRegistry,
   DurationAgnosticComponent,
@@ -246,7 +247,11 @@ export class StarCircuit
       const rect = this.fourierRectSchedule.at(timeInMs);
       context.save();
       context.translate(rect.x, rect.y);
-      context.scale(rect.width / 16, rect.width / 16);
+      // showError() lays the text out as wide as the canvas (library 0.8.3), so this squeezes that into the rectangle.
+      context.scale(
+        rect.width / canvasRecorder.width,
+        rect.width / canvasRecorder.width,
+      );
       showError(context, circuit);
       context.restore();
       return;

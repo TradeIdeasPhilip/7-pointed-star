@@ -14,7 +14,8 @@
  * 6. Like Share Subscribe:  a prototype.  A Fourier of cursive text, where the lines that close the gaps fade away.
  * 7. Love Reason Balance:  a prototype.  A Fourier morph from one cursive word to the next, twice.
  * 8. Something Lead Gold:  a short demo for a voiceover.  A dot grows into "Something", then slides away for a morph from Lead to Gold.
- * 9. Scratch 1 to 13:  just a background, to add anything to.
+ * 9. Warped Paths:  a prototype.  Three Warped Path components, a circle and two stars, each growing from the center, one after another.
+ * 10. Scratch 1 to 13:  just a background, to add anything to.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  * @module
@@ -42,6 +43,7 @@ import { StarCircuit } from "./star-circuit.ts";
 import { GROUPED_SOURCE } from "./star-sources.ts";
 import { TessellatingTriangles } from "./tessellating-triangles.ts";
 import { VertexPairings } from "./vertex-pairings.ts";
+import { CIRCLE_PATH, starPath, WarpedPath } from "./warped-path.ts";
 
 const root = new InSeriesComponent({ description: "7 Pointed Star Video" });
 
@@ -316,6 +318,60 @@ addScene(root, "Love Reason Balance", 23_000).replaceableComponents!.push(
   );
   halves.add(leadToGold);
 }
+
+// MARK: Warped Paths
+
+// A prototype.  Three paths, each pulled into a dot at the center, then let go, one after another.
+// When they're done the picture is the finished Star Circuit:  the circle, the fat star and the thin star.
+// All three share Source Rect and Dest Rect, so they line up.
+// Radius Offset starts at 1 unit, the radius of the circle, and ends at 0.  Angle ends at 0 too.
+// Each Radius Offset and Angle pair has the same times, so the turn and the growth finish together.
+addScene(root, "Warped Paths", 14_000).replaceableComponents!.push(
+  named(
+    "Circle",
+    new WarpedPath({
+      path: CIRCLE_PATH,
+      radiusOffset: [
+        { time: 1_000, value: 1 },
+        { time: 8_000, value: 0 },
+      ],
+      destRect: { x: 4, y: 0.5, width: 8, height: 8 },
+      color: myRainbow.red,
+    }),
+  ),
+  named(
+    "Fat Star",
+    new WarpedPath({
+      path: starPath(2),
+      radiusOffset: [
+        { time: 2_500, value: 1 },
+        { time: 9_500, value: 0 },
+      ],
+      angle: [
+        { time: 2_500, value: 180 },
+        { time: 9_500, value: 0 },
+      ],
+      destRect: { x: 4, y: 0.5, width: 8, height: 8 },
+      color: myRainbow.myBlue,
+    }),
+  ),
+  named(
+    "Thin Star",
+    new WarpedPath({
+      path: starPath(3),
+      radiusOffset: [
+        { time: 4_000, value: 1 },
+        { time: 11_000, value: 0 },
+      ],
+      angle: [
+        { time: 4_000, value: -180 },
+        { time: 11_000, value: 0 },
+      ],
+      destRect: { x: 4, y: 0.5, width: 8, height: 8 },
+      color: "white",
+    }),
+  ),
+);
 
 // MARK: Scratch
 

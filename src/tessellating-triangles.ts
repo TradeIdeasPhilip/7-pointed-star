@@ -1,5 +1,6 @@
 import { ReadOnlyRect } from "phil-lib/misc";
 import {
+  canvasRecorder,
   ColorScheduleInfo,
   componentRegistry,
   Keyframe,
@@ -81,7 +82,11 @@ export class TessellatingTriangles implements Showable {
     if (!(side > 0) || rows * columns > MAX_TRIANGLES) {
       // A user error, so a warning on the canvas.  The ▼ color alone is still a usable background.
       context.translate(rect.x, rect.y);
-      context.scale(rect.width / 16, rect.width / 16);
+      // showError() lays the text out as wide as the canvas (library 0.8.3), so this squeezes that into the rectangle.
+      context.scale(
+        rect.width / canvasRecorder.width,
+        rect.width / canvasRecorder.width,
+      );
       showError(
         context,
         `Side Length ${side} won't work.  Try a positive number, like 1.`,
