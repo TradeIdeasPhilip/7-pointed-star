@@ -35,3 +35,4 @@ import "./svg-sources.ts";
 import "./delayed-start-each.ts";
 import "./eight-pack.ts";
 import "./four-plus-four.ts";
+import "./temp-console.ts";

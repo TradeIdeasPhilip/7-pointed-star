@@ -268,7 +268,7 @@ if (SHOW_SYMMETRY_OF_MORE) {
   }
 }
 
-const DETAILED_SYMMETRY_REQUEST = new Set<number>([/*837357,*/ 511824]);
+const DETAILED_SYMMETRY_REQUEST = new Set<number>([/*837357,*/ /* 511824 */ /*2711485*/ 1906682]);
 if (DETAILED_SYMMETRY_REQUEST.size > 0) {
   for (const { index, circuit } of (await BigSampleFile.getRecords())
     .circuits) {
