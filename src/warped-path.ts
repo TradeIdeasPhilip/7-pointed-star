@@ -162,7 +162,8 @@ export class WarpedPath
   extends DurationAgnosticComponent
   implements HasEditorMessages
 {
-  readonly registryKey = "Warped Path";
+  // Typed as a string, not the literal, so a subclass can have its own key.  The value is the same.
+  readonly registryKey: string = "Warped Path";
   /** An SVG path, in its own coordinates, around the origin.  All commands work, arcs included. */
   readonly pathSchedule = new StringScheduleInfo("Path", CIRCLE_PATH);
   /**

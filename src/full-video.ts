@@ -15,7 +15,8 @@
  * 7. Love Reason Balance:  a prototype.  A Fourier morph from one cursive word to the next, twice.
  * 8. Something Lead Gold:  a short demo for a voiceover.  A dot grows into "Something", then slides away for a morph from Lead to Gold.
  * 9. Warped Paths:  a prototype.  Three Warped Path components, a circle and two stars, each growing from the center, one after another.
- * 10. Scratch 1 to 13:  just a background, to add anything to.
+ * 10. Twisted Paths:  a prototype.  The same three, but Twisted Path components:  the turn depends on the distance from the center, so the stars curl.
+ * 11. Scratch 1 to 13:  just a background, to add anything to.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  * @module
@@ -43,6 +44,7 @@ import { StarCircuit } from "./star-circuit.ts";
 import { GROUPED_SOURCE } from "./star-sources.ts";
 import { TessellatingTriangles } from "./tessellating-triangles.ts";
 import { VertexPairings } from "./vertex-pairings.ts";
+import { TwistedPath } from "./twisted-path.ts";
 import { CIRCLE_PATH, starPath, WarpedPath } from "./warped-path.ts";
 
 const root = new InSeriesComponent({ description: "7 Pointed Star Video" });
@@ -367,6 +369,71 @@ addScene(root, "Warped Paths", 14_000).replaceableComponents!.push(
         { time: 4_000, value: -180 },
         { time: 11_000, value: 0 },
       ],
+      destRect: { x: 4, y: 0.5, width: 8, height: 8 },
+      color: "white",
+    }),
+  ),
+);
+
+// MARK: Twisted Paths
+
+// A prototype, the second version of Warped Paths.  Same shapes, same timing, but the turn depends on the distance from the center.
+// The circle can't show it:  every point on it is the same distance out, so it just grows.
+// Fat Star:  the center leads.  Twist alone, 540° at the center and nothing at Effect Radius, unwinding as the star grows.
+// Thin Star:  the rim leads.  Angle 360° with Twist -360°, so a point turns in proportion to its distance, and the inside lags.
+// Both end at 0, the identity, so the last frame is the finished Star Circuit.
+// 4096 samples:  a swirl needs more than the 1024 of a plain path.
+addScene(root, "Twisted Paths", 14_000).replaceableComponents!.push(
+  named(
+    "Circle",
+    new TwistedPath({
+      path: CIRCLE_PATH,
+      radiusOffset: [
+        { time: 1_000, value: 1 },
+        { time: 8_000, value: 0 },
+      ],
+      twist: 0,
+      samples: 4096,
+      destRect: { x: 4, y: 0.5, width: 8, height: 8 },
+      color: myRainbow.red,
+    }),
+  ),
+  named(
+    "Fat Star",
+    new TwistedPath({
+      path: starPath(2),
+      radiusOffset: [
+        { time: 2_500, value: 1 },
+        { time: 9_500, value: 0 },
+      ],
+      twist: [
+        { time: 2_500, value: 540 },
+        { time: 9_500, value: 0 },
+      ],
+      effectRadius: 1,
+      samples: 4096,
+      destRect: { x: 4, y: 0.5, width: 8, height: 8 },
+      color: myRainbow.myBlue,
+    }),
+  ),
+  named(
+    "Thin Star",
+    new TwistedPath({
+      path: starPath(3),
+      radiusOffset: [
+        { time: 4_000, value: 1 },
+        { time: 11_000, value: 0 },
+      ],
+      angle: [
+        { time: 4_000, value: 360 },
+        { time: 11_000, value: 0 },
+      ],
+      twist: [
+        { time: 4_000, value: -360 },
+        { time: 11_000, value: 0 },
+      ],
+      effectRadius: 1,
+      samples: 4096,
       destRect: { x: 4, y: 0.5, width: 8, height: 8 },
       color: "white",
     }),

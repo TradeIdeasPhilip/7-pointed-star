@@ -142,6 +142,11 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   The path should be one closed piece.  More pieces, or an open path, is a warning in Checks:  the gaps are joined with straight lines, as in the Fourier component.  Each piece should get its own component, someday.
   Override `makeWarp()` to try another function.  Before the start of Radius Offset's first keyframe the circle shows a dot:  its cubics are 0.03% outside the unit circle, so some radius is left, and a round cap fills in.  The stars don't.
   A DurationAgnosticComponent, like Star Circuit.  Only `full-video.ts` uses it, but it's registered in both videos.
+- `src/twisted-path.ts`:  a prototype, the second version of Warped Path, a subclass so the first (used in Scratch 15 of the Shorts) is untouched.  Registered as "Twisted Path".
+  After Radius Offset and Angle, the point turns by Twist × `(1 - r / Effect Radius) ** Falloff Power`, where `r` is the distance after the offset.  The center gets all of Twist, and Effect Radius and beyond get none.  So lines become spirals.
+  "The rim leads, the inside lags" is Angle = A and Twist = -A;  "the center leads" is Twist alone.  They differ by one rigid turn.  Twist 0 is the identity.
+  Effect Radius is in the path's units, 1 by default.  It isn't taken from Source Rect, which is only the window.  Checks notes how far the path reaches.
+  `WarpedPath.registryKey` is typed `string`, not the literal, so a subclass can have its own.  The scene is "Twisted Paths" in the landscape video, at 4096 samples.
 - `src/fourier-panel.ts`:  Visual Editor tools for anything with Term Groups and Step, a `SteppedFourier`.  Star Circuit, Bridged Fourier, Bridged Path and Bridged Morph are.
   `fourierStepPanel()`, a component's own `editorPanel`:  at the playhead, Step, the terms in and coming in, and a table of how many terms and how much of the amplitude are in, adding and left, like "Will it Fourier?".
   When Step's last keyframe isn't the number of groups, a button fixes it, with `propertyChanged()`, so it saves and undoes like any edit.
@@ -220,6 +225,7 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   - `library-issues.md`:  problems found in canvas-recorder-lib.  Add to it; don't stop to fix the library unless it's urgent.
   - `enumerate-all-circuits.md`:  options for computing every circuit's Fourier terms and storing them to search.  Not started.
   - `3d-euler-circuits.md`:  the author's idea for a 3D reference image.  Far in the future.
+  - `3d-projection.md`:  projecting paths and wireframes as vectors, never a rendered texture.  Camera, clipping, hidden parts, surfaces, and a flat earth that rolls up into a globe.  Discussion only, no code yet.
   - `circuit-editor.md`:  choosing a circuit one vertex at a time, and what to draw when the result is several loops.  Not started.  Nothing blocks it since library 0.7.3.
   - `editor-panels.md`:  our own tools in the Visual Editor.  Starts with what exists, what we want in priority order, and why.  Then the library brainstorm.
   - `term-ordering.md`:  the author's tricks for ordering Fourier terms, from the hexagram videos in random-svg-tests, with commits and videos.
