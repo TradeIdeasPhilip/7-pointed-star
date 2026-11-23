@@ -5,10 +5,11 @@
  * @module
  */
 
-import { parseTermGroups, Showable } from "canvas-recorder-lib";
+import { easeIn, parseTermGroups, Showable } from "canvas-recorder-lib";
 import { philDebug } from "canvas-recorder-lib/src/utility";
 import { root, saveOutsideChanges } from "./console-support";
 import { StarCircuit } from "./star-circuit";
+import { only, makeLinear } from "phil-lib/misc";
 
 // MARK: dump()
 
@@ -180,11 +181,13 @@ function staggeredWithin(numberOfSteps: number, staggerInSteps = 0.1) {
       `The Star Circuits don't all have the same number of term groups:  ${groupCounts.join(", ")}.`,
     );
   }
-  if (!(
-    Number.isInteger(numberOfSteps) &&
-    numberOfSteps >= 1 &&
-    numberOfSteps <= steps
-  )) {
+  if (
+    !(
+      Number.isInteger(numberOfSteps) &&
+      numberOfSteps >= 1 &&
+      numberOfSteps <= steps
+    )
+  ) {
     throw new Error(
       `numberOfSteps should be a whole number from 1 to ${steps}, the number of term groups.`,
     );
@@ -230,6 +233,90 @@ function staggeredWithin(numberOfSteps: number, staggerInSteps = 0.1) {
     duration,
   };
 }
+
+// MARK: staggered2()
+
+/**
+ * Aimed at "scratch 17" in the portrait aspect ratio video.
+ *
+ * The top component should have twice as many steps as the bottom component.
+ * But we adjust the speed so every time the top component does two steps, the bottom does one.
+ *
+ * This pauses briefly between every time the top does two steps and the bottom does one.
+ * The assumption is that we will be pausing every time the two look identical.
+ * I created the second component's step list by combining every two step from the first component.
+ */
+function staggered2() {
+  /**
+   * Use the Visual Editor's root component to decide what this script is applied to.
+   */
+  const rootComponent = root();
+  const [top, bottom] = dump({
+    className: StarCircuit,
+    assertMin: 2,
+    assertMax: 2,
+  });
+  /**
+   * Number of steps.
+   */
+  const topCount = only(top.termGroupsSchedule.schedule).value.split(
+    ",",
+  ).length;
+  /**
+   * Number of steps.
+   */
+  const bottomCount = only(bottom.termGroupsSchedule.schedule).value.split(
+    ",",
+  ).length;
+  if (topCount != bottomCount * 2) {
+    console.error({
+      topCount,
+      bottomCount,
+      expected: "topCount == bottomCount * 2",
+    });
+    throw new Error("wtf");
+  }
+  /**
+   * Give the reference diagram some time to get out of the way.
+   */
+  const startTime = 500;
+  const endTime = rootComponent.duration;
+  /**
+   * The input is the bottom component's starting index.
+   * The output is the time (relative to this component) that this component should start making its first move.
+   */
+  const sectionStart = makeLinear(0, startTime, bottomCount, endTime);
+  /**
+   * Time between the start of one pause and the start of the next.
+   * I.e. 1/frequency.
+   */
+  const sectionTotalDuration = (endTime - startTime) / bottomCount;
+  /**
+   * We pause for the last 1/5 of each time period.
+   */
+  const pauseStartsAt = sectionTotalDuration * (4 / 5);
+  const topSchedule = top.stepSchedule.schedule;
+  topSchedule.length = 0;
+  const bottomSchedule = bottom.stepSchedule.schedule;
+  bottomSchedule.length = 0;
+  for (let bottomIndex = 0; bottomIndex < bottomCount; bottomIndex++) {
+    const thisSectionStartsAt = sectionStart(bottomIndex);
+    const thisPauseStartsAt = thisSectionStartsAt + pauseStartsAt;
+    topSchedule.push(
+      { time: thisSectionStartsAt, value: bottomIndex * 2 },
+      { time: thisPauseStartsAt, value: (bottomIndex + 1) * 2 },
+    );
+    bottomSchedule.push(
+      { time: thisSectionStartsAt, value: bottomIndex },
+      { time: thisPauseStartsAt, value: bottomIndex + 1 },
+    );
+  }
+  topSchedule[0].easeAfter = easeIn;
+  bottomSchedule[0].easeAfter = easeIn;
+  save();
+}
+
+philDebug.staggered2 = staggered2;
 
 // MARK: Console
 

@@ -1264,3 +1264,48 @@ Current:    [{"source":"local:7-pointed-star-shorts 2026-11-22 23-55-55.140.wav"
   bottomFourier3.referenceLineWidthSchedule.set(0);
   bottomFourier3.userEditableDescription = "Bottom Fourier";
   scratch16.replaceableComponents!.push(bottomFourier3);
+→ Scratch 17
+→ → Min Duration
+TypeScript: 5000
+Current:    90000
+→ → Sound Clips
+TypeScript: undefined
+Current:    [{"source":"local:7-pointed-star-shorts 2026-11-23 15-28-04.483.wav","startMsIntoScene":0,"startMsIntoClip":420.834886,"lengthMs":30835.7},{"source":"local:7-pointed-star-shorts 2026-11-23 15-32-45.348.wav","startMsIntoScene":32148.4,"startMsIntoClip":428.512542,"lengthMs":55461.333333}]
+→ → Tessellating Triangles
+  [added]
+  const tessellatingTriangles7 = new TessellatingTriangles({ description: "Tessellating Triangles" });
+  tessellatingTriangles7.upColorSchedule.set("rgb(0% 0% 0%)");
+  tessellatingTriangles7.downColorSchedule.set("hsl(0deg 0% 18%)");
+  tessellatingTriangles7.sideLengthSchedule.set(1.5);
+  scratch17.replaceableComponents!.push(tessellatingTriangles7);
+→ → Top
+  [added]
+  const top3 = new StarCircuit({ description: "Top" });
+  top3.circuitSchedule.set("0,1,3,2,5,3,0,5,6,2,4,3,6,0,2,1,5,4,1,6,4,0");
+  top3.fourierRectSchedule.set({"x":1,"y":0.5,"width":7,"height":7});
+  top3.referenceRectSchedule.set([{"time":0,"value":{"x":1,"y":4.5,"width":7,"height":7},"easeAfter":"easeOut"},{"time":5000,"value":{"x":6.5,"y":7,"width":2,"height":2}}]);
+  top3.termGroupsSchedule.set("0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 12, 13 14, 15 16, 17-19, 20-22, 23-26, 27-31, 32-39, 40-54, 55-85, 86-1023");
+  top3.stepSchedule.set([{"time":500,"value":0,"easeAfter":"easeIn"},{"time":7009.090909090909,"value":2},{"time":8636.363636363636,"value":2},{"time":15145.454545454544,"value":4},{"time":16772.727272727272,"value":4},{"time":23281.81818181818,"value":6},{"time":24909.090909090908,"value":6},{"time":31418.181818181816,"value":8},{"time":33045.454545454544,"value":8},{"time":39554.545454545456,"value":10},{"time":41181.81818181818,"value":10},{"time":47690.90909090909,"value":12},{"time":49318.181818181816,"value":12},{"time":55827.27272727273,"value":14},{"time":57454.545454545456,"value":14},{"time":63963.63636363637,"value":16},{"time":65590.90909090909,"value":16},{"time":72100,"value":18},{"time":73727.27272727272,"value":18},{"time":80236.36363636363,"value":20},{"time":81863.63636363635,"value":20},{"time":88372.72727272726,"value":22}]);
+  top3.circleColorSchedule.set("rgb(255, 128, 0)");
+  top3.thinStarColorSchedule.set("#00d8d8");
+  top3.fatStarColorSchedule.set("rgb(128, 0, 255)");
+  top3.fillColorSchedule.set("rgb(50.2% 0% 100% / 33%)");
+  top3.fourierLineWidthSchedule.set(0.075);
+  top3.referenceLineWidthSchedule.set([{"time":0,"value":0.1},{"time":5000,"value":0.025}]);
+  top3.userEditableDescription = "Top";
+  scratch17.replaceableComponents!.push(top3);
+→ → Bottom
+  [added]
+  const bottom3 = new StarCircuit({ description: "Bottom" });
+  bottom3.circuitSchedule.set("0,1,3,2,5,3,0,5,6,2,4,3,6,0,2,1,5,4,1,6,4,0");
+  bottom3.fourierRectSchedule.set({"x":1,"y":8.5,"width":7,"height":7});
+  bottom3.referenceRectSchedule.set({"x":1,"y":20,"width":7,"height":7});
+  bottom3.termGroupsSchedule.set("0 1, 2 3, 4 5, 6 7, 8 9, 10 11 12, 13 14 15 16, 17-22, 23-31, 32-54, 55-1023");
+  bottom3.stepSchedule.set([{"time":500,"value":0,"easeAfter":"easeIn"},{"time":7009.090909090909,"value":1},{"time":8636.363636363636,"value":1},{"time":15145.454545454544,"value":2},{"time":16772.727272727272,"value":2},{"time":23281.81818181818,"value":3},{"time":24909.090909090908,"value":3},{"time":31418.181818181816,"value":4},{"time":33045.454545454544,"value":4},{"time":39554.545454545456,"value":5},{"time":41181.81818181818,"value":5},{"time":47690.90909090909,"value":6},{"time":49318.181818181816,"value":6},{"time":55827.27272727273,"value":7},{"time":57454.545454545456,"value":7},{"time":63963.63636363637,"value":8},{"time":65590.90909090909,"value":8},{"time":72100,"value":9},{"time":73727.27272727272,"value":9},{"time":80236.36363636363,"value":10},{"time":81863.63636363635,"value":10},{"time":88372.72727272726,"value":11}]);
+  bottom3.circleColorSchedule.set("rgb(255, 128, 0)");
+  bottom3.thinStarColorSchedule.set("#00d8d8");
+  bottom3.fatStarColorSchedule.set("rgb(128, 0, 255)");
+  bottom3.fillColorSchedule.set("rgb(50.2% 0% 100% / 33%)");
+  bottom3.fourierLineWidthSchedule.set(0.075);
+  bottom3.userEditableDescription = "Bottom";
+  scratch17.replaceableComponents!.push(bottom3);

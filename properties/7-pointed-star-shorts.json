@@ -7200,6 +7200,414 @@
             "lengthMs": 88800.4
           }
         ]
+      },
+      {
+        "description": "Scratch 17",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 90000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Tessellating Triangles",
+            "schedules": [
+              {
+                "description": "▲ Color",
+                "type": "color",
+                "value": "rgb(0% 0% 0%)"
+              },
+              {
+                "description": "▼ Color",
+                "type": "color",
+                "value": "hsl(0deg 0% 18%)"
+              },
+              {
+                "description": "Side Length",
+                "type": "number",
+                "value": 1.5
+              }
+            ]
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "0,1,3,2,5,3,0,5,6,2,4,3,6,0,2,1,5,4,1,6,4,0"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1,
+                  "y": 0.5,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": {
+                      "x": 1,
+                      "y": 4.5,
+                      "width": 7,
+                      "height": 7
+                    },
+                    "easeAfter": "easeOut"
+                  },
+                  {
+                    "time": 5000,
+                    "value": {
+                      "x": 6.5,
+                      "y": 7,
+                      "width": 2,
+                      "height": 2
+                    }
+                  }
+                ]
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 12, 13 14, 15 16, 17-19, 20-22, 23-26, 27-31, 32-39, 40-54, 55-85, 86-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 500,
+                    "value": 0,
+                    "easeAfter": "easeIn"
+                  },
+                  {
+                    "time": 7009.090909090909,
+                    "value": 2
+                  },
+                  {
+                    "time": 8636.363636363636,
+                    "value": 2
+                  },
+                  {
+                    "time": 15145.454545454544,
+                    "value": 4
+                  },
+                  {
+                    "time": 16772.727272727272,
+                    "value": 4
+                  },
+                  {
+                    "time": 23281.81818181818,
+                    "value": 6
+                  },
+                  {
+                    "time": 24909.090909090908,
+                    "value": 6
+                  },
+                  {
+                    "time": 31418.181818181816,
+                    "value": 8
+                  },
+                  {
+                    "time": 33045.454545454544,
+                    "value": 8
+                  },
+                  {
+                    "time": 39554.545454545456,
+                    "value": 10
+                  },
+                  {
+                    "time": 41181.81818181818,
+                    "value": 10
+                  },
+                  {
+                    "time": 47690.90909090909,
+                    "value": 12
+                  },
+                  {
+                    "time": 49318.181818181816,
+                    "value": 12
+                  },
+                  {
+                    "time": 55827.27272727273,
+                    "value": 14
+                  },
+                  {
+                    "time": 57454.545454545456,
+                    "value": 14
+                  },
+                  {
+                    "time": 63963.63636363637,
+                    "value": 16
+                  },
+                  {
+                    "time": 65590.90909090909,
+                    "value": 16
+                  },
+                  {
+                    "time": 72100,
+                    "value": 18
+                  },
+                  {
+                    "time": 73727.27272727272,
+                    "value": 18
+                  },
+                  {
+                    "time": 80236.36363636363,
+                    "value": 20
+                  },
+                  {
+                    "time": 81863.63636363635,
+                    "value": 20
+                  },
+                  {
+                    "time": 88372.72727272726,
+                    "value": 22
+                  }
+                ]
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "rgb(255, 128, 0)"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "#00d8d8"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "rgb(128, 0, 255)"
+              },
+              {
+                "description": "Fill Color",
+                "type": "color",
+                "value": "rgb(50.2% 0% 100% / 33%)"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.075
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0.1
+                  },
+                  {
+                    "time": 5000,
+                    "value": 0.025
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Top"
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "0,1,3,2,5,3,0,5,6,2,4,3,6,0,2,1,5,4,1,6,4,0"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1,
+                  "y": 8.5,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Reference Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 1,
+                  "y": 20,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0 1, 2 3, 4 5, 6 7, 8 9, 10 11 12, 13 14 15 16, 17-22, 23-31, 32-54, 55-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 500,
+                    "value": 0,
+                    "easeAfter": "easeIn"
+                  },
+                  {
+                    "time": 7009.090909090909,
+                    "value": 1
+                  },
+                  {
+                    "time": 8636.363636363636,
+                    "value": 1
+                  },
+                  {
+                    "time": 15145.454545454544,
+                    "value": 2
+                  },
+                  {
+                    "time": 16772.727272727272,
+                    "value": 2
+                  },
+                  {
+                    "time": 23281.81818181818,
+                    "value": 3
+                  },
+                  {
+                    "time": 24909.090909090908,
+                    "value": 3
+                  },
+                  {
+                    "time": 31418.181818181816,
+                    "value": 4
+                  },
+                  {
+                    "time": 33045.454545454544,
+                    "value": 4
+                  },
+                  {
+                    "time": 39554.545454545456,
+                    "value": 5
+                  },
+                  {
+                    "time": 41181.81818181818,
+                    "value": 5
+                  },
+                  {
+                    "time": 47690.90909090909,
+                    "value": 6
+                  },
+                  {
+                    "time": 49318.181818181816,
+                    "value": 6
+                  },
+                  {
+                    "time": 55827.27272727273,
+                    "value": 7
+                  },
+                  {
+                    "time": 57454.545454545456,
+                    "value": 7
+                  },
+                  {
+                    "time": 63963.63636363637,
+                    "value": 8
+                  },
+                  {
+                    "time": 65590.90909090909,
+                    "value": 8
+                  },
+                  {
+                    "time": 72100,
+                    "value": 9
+                  },
+                  {
+                    "time": 73727.27272727272,
+                    "value": 9
+                  },
+                  {
+                    "time": 80236.36363636363,
+                    "value": 10
+                  },
+                  {
+                    "time": 81863.63636363635,
+                    "value": 10
+                  },
+                  {
+                    "time": 88372.72727272726,
+                    "value": 11
+                  }
+                ]
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "rgb(255, 128, 0)"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "value": "#00d8d8"
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "value": "rgb(128, 0, 255)"
+              },
+              {
+                "description": "Fill Color",
+                "type": "color",
+                "value": "rgb(50.2% 0% 100% / 33%)"
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.075
+              }
+            ],
+            "userEditableDescription": "Bottom"
+          }
+        ],
+        "soundClips": [
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-23 15-28-04.483.wav",
+            "startMsIntoScene": 0,
+            "startMsIntoClip": 420.834886,
+            "lengthMs": 30835.7
+          },
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-23 15-32-45.348.wav",
+            "startMsIntoScene": 32148.4,
+            "startMsIntoClip": 428.512542,
+            "lengthMs": 55461.333333
+          }
+        ]
       }
     ],
     "soundClips": [
