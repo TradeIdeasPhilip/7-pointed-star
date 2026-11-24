@@ -87,3 +87,15 @@ The new fields are Twist (degrees), Effect Radius and Falloff Power, which sit n
 Which of these interests you?
 
 I also added the component to CLAUDE.md. I noticed a `philip-needs-to-investigate.md` file that I didn't create, and I left it alone.
+
+# Alfred Hitchcock & Field of View
+
+I don't know, and I don't want to invent numbers. *Vertigo* (1958) was shot by Irmin Roberts, with Hitchcock directing. I remember it being filmed on a miniature stairwell set turned on its side, with a track-in and a zoom out. I don't remember reliable lens figures from any source. Any specific focal lengths I gave you would be a guess.
+
+The math doesn't depend on those figures, and it's what matters for your camera control. In a dolly zoom the subject stays the same size, so the camera distance `d` is proportional to `tan(FOV/2)`. Widening the FOV from 20° to 60° means the camera is about 3.3× closer at the wide end (tan 30° ÷ tan 10° ≈ 3.3). Going from 40° to 80° makes it about 2.3× closer. The background's apparent size changes by that same ratio, which is why the effect is so dramatic.
+
+For scale, *Vertigo* was shot on VistaVision. Its frame is about 37.7 mm wide, so the horizontal FOV is `2·atan(18.85 / focal length)`. That gives about 74° at 25 mm, 41° at 50 mm and 21° at 100 mm. I'm showing these to illustrate the formula, not claiming the film used them.
+
+If you want the real numbers, I can search for them. The likeliest places are interviews with Roberts and the American Cinematographer coverage of the film. Sources disagree about it, so I'd report what I find and how reliable it looks.
+
+For your pipeline, the useful result is that a dolly zoom is a camera distance driven by a FOV schedule: `d = k / tan(FOV/2)`. A rule like "keep this object the same size" is just that formula, so it could be a Checks suggestion or a helper that computes the distance for you.

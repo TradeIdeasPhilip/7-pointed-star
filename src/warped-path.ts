@@ -15,6 +15,10 @@
  * The path should be one connected piece.  More than that is a warning in the Visual Editor, not an error:
  * the gaps are joined with straight lines, as in the Fourier component.  Ideally each piece would get its own component.
  *
+ * TODO:  Eventually remove that requirement.  Start with N connected pieces, move each one separately, and get N connected pieces back
+ * (or ignore the jumps).  The "Path Warp" text effects (`text-warps.ts`, `path-warp-effect.ts`) already work that way.
+ * Then the one-piece warning, and the straight lines across the gaps, go away.
+ *
  * Registered as "Warped Path".
  * @module
  */
@@ -305,6 +309,7 @@ export class WarpedPath
           text: `${at(time)}Path:  ${parsed}`,
         });
       } else if (parsed.pieces > 1) {
+        // TODO:  Remove this warning along with the requirement.  See the top of this file.
         messages.push({
           level: "warning",
           text:

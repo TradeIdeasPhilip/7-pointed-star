@@ -20,6 +20,7 @@ import "./night-sky.ts";
 import "./rounded-star.ts";
 import "./star-circuit.ts";
 import "./tessellating-triangles.ts";
+import "./text-warps.ts";
 import "./twisted-path.ts";
 import "./vertex-pairings.ts";
 import "./warped-path.ts";

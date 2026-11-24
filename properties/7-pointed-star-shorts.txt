@@ -1309,3 +1309,47 @@ Current:    [{"source":"local:7-pointed-star-shorts 2026-11-23 15-28-04.483.wav"
   bottom3.fourierLineWidthSchedule.set(0.075);
   bottom3.userEditableDescription = "Bottom";
   scratch17.replaceableComponents!.push(bottom3);
+→ Scratch 18
+→ → Min Duration
+TypeScript: 5000
+Current:    90000
+→ → Sound Clips
+TypeScript: undefined
+Current:    [{"source":"local:7-pointed-star-shorts 2026-11-23 23-01-25.281.wav","startMsIntoScene":0,"startMsIntoClip":435.732618,"lengthMs":88229.1}]
+→ → Halftone Shadow
+  [added]
+  const halftoneShadow2 = new HalftoneShadowComponent({ description: "Halftone Shadow" });
+  halftoneShadow2.dotColorSchedule.set("hsl(270deg 100% 37%)");
+  halftoneShadow2.dxSchedule.set(0.4);
+  halftoneShadow2.dySchedule.set(0.4);
+  const starCircuit5 = new StarCircuit({ description: "Star Circuit" });
+  starCircuit5.circuitSchedule.set("0,1,3,2,5,3,0,5,4,6,3,4,0,6,2,1,5,6,1,4,2,0");
+  starCircuit5.fourierRectSchedule.set({"x":0.5,"y":0.5,"width":7,"height":7});
+  starCircuit5.termGroupsSchedule.set("0, 1, 2, 3, 4 5, 6 7, 8, 9 10, 11 12, 13 14, 15 16, 17 18, 19-21, 22-25, 26-30, 31-37, 38-48, 49-70, 71-119, 120-429, 430-1023");
+  starCircuit5.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":21}]);
+  starCircuit5.circleColorSchedule.set("#d8d800");
+  starCircuit5.thinStarColorSchedule.set([{"time":20900,"value":"#d8d800"},{"time":29460,"value":"rgb(0, 128, 255)"}]);
+  starCircuit5.fatStarColorSchedule.set([{"time":20900,"value":"#d8d800"},{"time":29460,"value":"rgb(0, 128, 255)"},{"time":42570,"value":"rgb(255, 0, 255)"}]);
+  starCircuit5.fourierLineWidthSchedule.set(0.1);
+  starCircuit5.referenceLineWidthSchedule.set(0);
+  halftoneShadow2.replaceableComponents!.push(starCircuit5);
+  scratch18.replaceableComponents!.push(halftoneShadow2);
+→ → Rectangle
+  [added]
+  const rectangle = new RectangleComponent({ description: "Rectangle" });
+  rectangle.colorSchedule.set("rgb(100% 100% 100%)");
+  rectangle.rectSchedule.set({"x":0,"y":8,"width":9,"height":8});
+  scratch18.replaceableComponents!.push(rectangle);
+→ → Star Circuit
+  [added]
+  const starCircuit6 = new StarCircuit({ description: "Star Circuit" });
+  starCircuit6.circuitSchedule.set("0,1,3,2,5,3,0,5,4,6,3,4,0,6,2,1,5,6,1,4,2,0");
+  starCircuit6.fourierRectSchedule.set({"x":0.5,"y":8.5,"width":7,"height":7});
+  starCircuit6.termGroupsSchedule.set("0, 1, 2, 3, 4 5, 6 7, 8, 9 10, 11 12, 13 14, 15 16, 17 18, 19-21, 22-25, 26-30, 31-37, 38-48, 49-70, 71-119, 120-429, 430-1023");
+  starCircuit6.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":21}]);
+  starCircuit6.circleColorSchedule.set("#d8d800");
+  starCircuit6.thinStarColorSchedule.set([{"time":20900,"value":"#d8d800"},{"time":29460,"value":"rgb(0, 128, 255)"}]);
+  starCircuit6.fatStarColorSchedule.set([{"time":20900,"value":"#d8d800"},{"time":29460,"value":"rgb(0, 128, 255)"},{"time":42570,"value":"rgb(255, 0, 255)"}]);
+  starCircuit6.fourierLineWidthSchedule.set(0.1);
+  starCircuit6.referenceLineWidthSchedule.set(0);
+  scratch18.replaceableComponents!.push(starCircuit6);

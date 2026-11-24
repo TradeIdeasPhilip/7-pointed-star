@@ -80,6 +80,15 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    * **The error says why.**  "Not enough results." goes on a button's result line without the counts, which only went to `console.error()`.
    * **Two jobs.**  With no arguments it prints a summary; with any, it searches.  Maybe two functions in the library.
    * It uses `Map.getOrInsertComputed()`, which is very new.  Check that every browser the library supports has it.
+36. **The text effect hook didn't say where the paragraph went.**  Found 2026-11-23, in 0.8.3.  **Changed in `../canvas-recorder-lib`, not committed, not published.**
+   `[TEXT_EFFECT](letters, options)` gets the letters in the paragraph's own coordinates, before the Multi Text scales, moves and turns them.
+   An effect that wants a point the author can see on the slide, or a radius in the slide's units, can't convert.  The Visual Editor draws a point property's marker in the Multi Text's own coordinates.
+   The change:  a third argument, `placed: PlacedText` (`scale`, `offset`, `quarterTurns`, `pivot`), the same object `layoutAt()` returns.  Two lines in `multi-text.ts`, one parameter and its docs in `text-effect.ts`.
+   Additive:  an effect that takes two parameters still works.  `src/path-warp-effect.ts` declares `placed?` optional, so it also compiles and runs on 0.8.3, where it falls back to paragraph coordinates.
+   To finish:  commit, publish 0.8.4, raise `package.json` here to `^0.8.4`.  Until then, `npm ci` here (and GitHub) gets 0.8.3, and the effects are only right for an unscaled, unturned Multi Text at Position (0, 0).
+   To try it here:  `npm link ../canvas-recorder-lib` to try it, and run `npm run build` there first, since the link serves its `dist/`.
+   Also:  `TEXT_EFFECT`, `TextEffect` and `EffectLetter` aren't exported from the main entry, so this project imports them by path (`canvas-recorder-lib/src/slide-components/text-effect`).  `PlacedText` is exported.
+   The author's longer plan:  one interface for this kind of hook, shared by a path component and Multi Text.  `PathWarpEffect` is the experiment for it.
 
 ## Bugs
 

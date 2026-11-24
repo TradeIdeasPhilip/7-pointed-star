@@ -16,7 +16,8 @@
  * 8. Something Lead Gold:  a short demo for a voiceover.  A dot grows into "Something", then slides away for a morph from Lead to Gold.
  * 9. Warped Paths:  a prototype.  Three Warped Path components, a circle and two stars, each growing from the center, one after another.
  * 10. Twisted Paths:  a prototype.  The same three, but Twisted Path components:  the turn depends on the distance from the center, so the stars curl.
- * 11. Scratch 1 to 13:  just a background, to add anything to.
+ * 11. Text Warps:  a prototype.  Three columns of text, each a Multi Text with its own text effect:  Zoom Into Circle, Waves: Fixed Amplitude, Waves: Fixed Frequency.
+ * 12. Scratch 1 to 13:  just a background, to add anything to.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  * @module
@@ -28,6 +29,7 @@ import {
   FourierComponent,
   InSeriesComponent,
   MultiTextComponent,
+  type Showable,
   TextFormatComponent,
   TextSpanComponent,
 } from "canvas-recorder-lib";
@@ -45,6 +47,11 @@ import { GROUPED_SOURCE } from "./star-sources.ts";
 import { TessellatingTriangles } from "./tessellating-triangles.ts";
 import { VertexPairings } from "./vertex-pairings.ts";
 import { TwistedPath } from "./twisted-path.ts";
+import {
+  WavesFixedAmplitude,
+  WavesFixedFrequency,
+  ZoomIntoCircle,
+} from "./text-warps.ts";
 import { CIRCLE_PATH, starPath, WarpedPath } from "./warped-path.ts";
 
 const root = new InSeriesComponent({ description: "7 Pointed Star Video" });
@@ -439,6 +446,91 @@ addScene(root, "Twisted Paths", 14_000).replaceableComponents!.push(
     }),
   ),
 );
+
+// MARK: Text Warps
+
+// Prototypes:  Multi Text effects that move every point of the text by a function, like Handwriting Effect but from this project.
+// Three columns of the same kind of text, each with its own effect as a direct child of its Multi Text.
+// The effects work in the slide's coordinates, so a Center or a Center Y here is where it looks on the slide.
+{
+  const paragraph =
+    "Every circuit is a sum of circles. Each circle spins at its own steady speed. " +
+    "Add them up, biggest first, and a picture appears.";
+  /** One column of text, with an effect inside it. */
+  const column = (
+    name: string,
+    centerX: number,
+    color: string,
+    effect: Showable,
+  ) => {
+    const text = new MultiTextComponent({
+      position: { x: centerX, y: 0.6 },
+      width: 4.8,
+      height: 7.8,
+      anchorX: "center",
+      textBaseline: "top",
+    });
+    text.replaceableComponents!.push(
+      new TextFormatComponent({ color, size: 0.45 }),
+      new TextSpanComponent({ content: paragraph }),
+      effect,
+    );
+    return named(name, text);
+  };
+  addScene(root, "Text Warps", 8_000).replaceableComponents!.push(
+    // A magnifying glass that slides down the column, and grows as it goes.
+    column(
+      "Zoom Into Circle",
+      2.7,
+      "white",
+      new ZoomIntoCircle({
+        center: [
+          { time: 0, value: { x: 2.7, y: 1.5 } },
+          { time: 8_000, value: { x: 2.7, y: 7.5 } },
+        ],
+        zoomInputRadius: 0.6,
+        zoomOutputRadius: [
+          { time: 0, value: 0.6 },
+          { time: 1_500, value: 1.6 },
+          { time: 6_500, value: 1.6 },
+          { time: 8_000, value: 0.6 },
+        ],
+        copyVerbatimRadius: 2.4,
+      }),
+    ),
+    // The phase goes around twice, so the last frame matches the first.
+    column(
+      "Waves: Fixed Amplitude",
+      8,
+      myRainbow.myBlue,
+      new WavesFixedAmplitude({
+        centerY: 4.5,
+        standardDeviation: 1.5,
+        amplitude: 0.3,
+        cycles: 3,
+        phase: [
+          { time: 0, value: 0 },
+          { time: 8_000, value: 720 },
+        ],
+      }),
+    ),
+    column(
+      "Waves: Fixed Frequency",
+      13.3,
+      myRainbow.red,
+      new WavesFixedFrequency({
+        centerY: 4.5,
+        standardDeviation: 1.5,
+        amplitude: 0.35,
+        frequency: 0.8,
+        phase: [
+          { time: 0, value: 0 },
+          { time: 8_000, value: -720 },
+        ],
+      }),
+    ),
+  );
+}
 
 // MARK: Scratch
 

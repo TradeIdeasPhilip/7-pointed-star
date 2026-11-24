@@ -7608,6 +7608,261 @@
             "lengthMs": 55461.333333
           }
         ]
+      },
+      {
+        "description": "Scratch 18",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 90000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 9,
+                  "height": 16
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Halftone Shadow",
+            "schedules": [
+              {
+                "description": "Dot Color",
+                "type": "color",
+                "value": "hsl(270deg 100% 37%)"
+              },
+              {
+                "description": "Dx",
+                "type": "number",
+                "value": 0.4
+              },
+              {
+                "description": "Dy",
+                "type": "number",
+                "value": 0.4
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Star Circuit",
+                "schedules": [
+                  {
+                    "description": "Circuit",
+                    "type": "string",
+                    "value": "0,1,3,2,5,3,0,5,4,6,3,4,0,6,2,1,5,6,1,4,2,0"
+                  },
+                  {
+                    "description": "Fourier Rect",
+                    "type": "rectangle",
+                    "value": {
+                      "x": 0.5,
+                      "y": 0.5,
+                      "width": 7,
+                      "height": 7
+                    }
+                  },
+                  {
+                    "description": "Term Groups",
+                    "type": "string",
+                    "value": "0, 1, 2, 3, 4 5, 6 7, 8, 9 10, 11 12, 13 14, 15 16, 17 18, 19-21, 22-25, 26-30, 31-37, 38-48, 49-70, 71-119, 120-429, 430-1023"
+                  },
+                  {
+                    "description": "Step",
+                    "type": "number",
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0
+                      },
+                      {
+                        "time": 90000,
+                        "value": 21
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Circle Color",
+                    "type": "color",
+                    "value": "#d8d800"
+                  },
+                  {
+                    "description": "Thin Star Color",
+                    "type": "color",
+                    "keyframes": [
+                      {
+                        "time": 20900,
+                        "value": "#d8d800"
+                      },
+                      {
+                        "time": 29460,
+                        "value": "rgb(0, 128, 255)"
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Fat Star Color",
+                    "type": "color",
+                    "keyframes": [
+                      {
+                        "time": 20900,
+                        "value": "#d8d800"
+                      },
+                      {
+                        "time": 29460,
+                        "value": "rgb(0, 128, 255)"
+                      },
+                      {
+                        "time": 42570,
+                        "value": "rgb(255, 0, 255)"
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Fourier Line Width",
+                    "type": "number",
+                    "value": 0.1
+                  },
+                  {
+                    "description": "Reference Line Width",
+                    "type": "number",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "rgb(100% 100% 100%)"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 8,
+                  "width": 9,
+                  "height": 8
+                }
+              }
+            ]
+          },
+          {
+            "registryKey": "Star Circuit",
+            "schedules": [
+              {
+                "description": "Circuit",
+                "type": "string",
+                "value": "0,1,3,2,5,3,0,5,4,6,3,4,0,6,2,1,5,6,1,4,2,0"
+              },
+              {
+                "description": "Fourier Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0.5,
+                  "y": 8.5,
+                  "width": 7,
+                  "height": 7
+                }
+              },
+              {
+                "description": "Term Groups",
+                "type": "string",
+                "value": "0, 1, 2, 3, 4 5, 6 7, 8, 9 10, 11 12, 13 14, 15 16, 17 18, 19-21, 22-25, 26-30, 31-37, 38-48, 49-70, 71-119, 120-429, 430-1023"
+              },
+              {
+                "description": "Step",
+                "type": "number",
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 90000,
+                    "value": 21
+                  }
+                ]
+              },
+              {
+                "description": "Circle Color",
+                "type": "color",
+                "value": "#d8d800"
+              },
+              {
+                "description": "Thin Star Color",
+                "type": "color",
+                "keyframes": [
+                  {
+                    "time": 20900,
+                    "value": "#d8d800"
+                  },
+                  {
+                    "time": 29460,
+                    "value": "rgb(0, 128, 255)"
+                  }
+                ]
+              },
+              {
+                "description": "Fat Star Color",
+                "type": "color",
+                "keyframes": [
+                  {
+                    "time": 20900,
+                    "value": "#d8d800"
+                  },
+                  {
+                    "time": 29460,
+                    "value": "rgb(0, 128, 255)"
+                  },
+                  {
+                    "time": 42570,
+                    "value": "rgb(255, 0, 255)"
+                  }
+                ]
+              },
+              {
+                "description": "Fourier Line Width",
+                "type": "number",
+                "value": 0.1
+              },
+              {
+                "description": "Reference Line Width",
+                "type": "number",
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "soundClips": [
+          {
+            "source": "local:7-pointed-star-shorts 2026-11-23 23-01-25.281.wav",
+            "startMsIntoScene": 0,
+            "startMsIntoClip": 435.732618,
+            "lengthMs": 88229.1
+          }
+        ]
       }
     ],
     "soundClips": [

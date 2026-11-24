@@ -16,6 +16,8 @@
  * To straighten it out again:  take Twist to 0, which is the identity, or shrink Effect Radius to 0 to pull the swirl into the center.
  *
  * Step 3 uses the distance after step 1, so the swirl is a field fixed on the screen, and the shrinking path moves through it.
+ *
+ * TODO:  It inherits Warped Path's "one connected piece" requirement, which we'll eventually remove.  See the top of `warped-path.ts`.
  * @module
  */
 

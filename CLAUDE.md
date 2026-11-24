@@ -69,7 +69,8 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
      "Nothing to Something":  a Bridged Fourier of "Something" from a dot.  "Lead to Gold":  a Bridged Morph, gray to gold.
      Each half is a Duration Agnostic with a Min Duration, and its children's keyframes start at the start of that half.
   9. "Warped Paths":  three Warped Path components, a red circle, a blue fat star and a white thin star, each growing out of the center, one after another.  Ends as the finished Star Circuit.
-  10. "Scratch 1" to "Scratch 13":  only a background.  The author fills these from the Visual Editor.
+  10. "Text Warps":  three columns of text, each a Multi Text with one of our own text effects as a child:  Zoom Into Circle, Waves: Fixed Amplitude, Waves: Fixed Frequency.
+  11. "Scratch 1" to "Scratch 13":  only a background.  The author fills these from the Visual Editor.
   The editor matches saved state by description, starting at the root.  Renaming or wrapping the root drops the saved state.
   The author prefers components added as replaceable children, so the Visual Editor can change, copy or delete them, and labels separate from what they label.
   The author's plan:  a few template slides that always match the TypeScript defaults, so the diff file says nothing about them.  Copy a template, or part of one, from the GUI to a blank slide, in either video.
@@ -147,6 +148,17 @@ If its first line isn't the newest commit on `master`, the last deploy failed.  
   "The rim leads, the inside lags" is Angle = A and Twist = -A;  "the center leads" is Twist alone.  They differ by one rigid turn.  Twist 0 is the identity.
   Effect Radius is in the path's units, 1 by default.  It isn't taken from Source Rect, which is only the window.  Checks notes how far the path reaches.
   `WarpedPath.registryKey` is typed `string`, not the literal, so a subclass can have its own.  The scene is "Twisted Paths" in the landscape video, at 4096 samples.
+- `src/path-warp-effect.ts`:  a prototype.  The base class for Multi Text effects that move every point of the text by a function, `PathWarpEffect`.
+  The first text effects made outside the library.  An effect is a direct child of a Multi Text, registered with `isTextEffect` and `hiddenByDefault`, as the library's Handwriting Effect is.  `registerPathWarp()` does that.
+  Each letter is split into its connected pieces and cut into short segments (Max Segment, cached by letter), each piece warped on its own, so N pieces in give N pieces out.  No requirement that the text be one piece.
+  The function works in the **Multi Text's own coordinates**, the ones Position and the Visual Editor's point markers use, not the paragraph's.  `makePlacement()` converts, from the `placed` argument the hook gets (library 0.8.4, `library-issues.md` item 36).
+  With 0.8.3 `placed` is missing and the two systems are taken as the same:  right only for a Multi Text at Position (0, 0), no scaling, no turn.  Tested with all four rotations and a scaled text.
+  Subclasses write `makeWarp(timeInMs)` (a `PointFunction`) and `parameterMessages()`.  A mistake in a field is a Checks warning, and the effect draws what it can.
+- `src/text-warps.ts`:  the three effects, registered as "Zoom Into Circle", "Waves: Fixed Amplitude" and "Waves: Fixed Frequency".  Also `erf()`, `bell()` and the pure `zoomWarp()`.  The scene is "Text Warps" in the landscape video.
+  Zoom Into Circle:  Center (a point) and three radii, Zoom Input ≤ Zoom Output ≤ Copy Verbatim.  Inside the input radius, scaled by output / input about Center.  The ring out to Copy Verbatim is a straight line in radius, squeezed to fit.  Outside, copied.
+  Waves: Fixed Amplitude:  `x += A · sin(phase + π · cycles · erf((y - centerY) / σ√2))`.  The wave is tightest at Center Y because erf is steepest there.  Far away the rows all shift together by `A · sin(phase ± π · cycles)`, which is 0 only for whole Cycles at Phase 0.
+  Waves: Fixed Frequency:  `x += A · bell(y) · sin(phase + 2π · frequency · (y - centerY))`.  The bell is the normal density (peak 1), not erf:  erf is an S curve, and would flip the wave's direction across Center Y instead of fading it.
+  Center Y is the mean μ and Standard Deviation is σ of the bell.  The `√2` is because erf's own bell, `exp(-x²)`, has σ = 1/√2.
 - `src/fourier-panel.ts`:  Visual Editor tools for anything with Term Groups and Step, a `SteppedFourier`.  Star Circuit, Bridged Fourier, Bridged Path and Bridged Morph are.
   `fourierStepPanel()`, a component's own `editorPanel`:  at the playhead, Step, the terms in and coming in, and a table of how many terms and how much of the amplitude are in, adding and left, like "Will it Fourier?".
   When Step's last keyframe isn't the number of groups, a button fixes it, with `propertyChanged()`, so it saves and undoes like any edit.
