@@ -17,6 +17,7 @@ import "./circuit-grid.ts";
 import "./colorful-star.ts";
 import "./freaky-dots.ts";
 import "./night-sky.ts";
+import "./radial-warps.ts";
 import "./rounded-star.ts";
 import "./star-circuit.ts";
 import "./tessellating-triangles.ts";

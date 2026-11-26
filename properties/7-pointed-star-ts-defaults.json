@@ -3045,6 +3045,1050 @@
         ]
       },
       {
+        "description": "Eased Circle",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 12000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 16,
+                  "height": 9
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 4,
+                  "y": 0.8
+                }
+              },
+              {
+                "description": "Alignment",
+                "type": "select",
+                "value": "center"
+              },
+              {
+                "description": "Anchor X",
+                "type": "select",
+                "value": "center"
+              },
+              {
+                "description": "Baseline",
+                "type": "select",
+                "value": "top"
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 7
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 6
+              },
+              {
+                "description": "Additional Line Height",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              },
+              {
+                "description": "Rotation",
+                "type": "select",
+                "value": "none"
+              },
+              {
+                "description": "Width Mode",
+                "type": "select",
+                "value": "wrap"
+              },
+              {
+                "description": "Height Mode",
+                "type": "select",
+                "value": "unbounded"
+              },
+              {
+                "description": "May Grow",
+                "type": "select",
+                "value": "shrink or grow"
+              },
+              {
+                "description": "Auto Size",
+                "type": "select",
+                "value": "live"
+              },
+              {
+                "description": "Frozen Size",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "white"
+                  },
+                  {
+                    "description": "Font",
+                    "type": "select",
+                    "value": "Line Font"
+                  },
+                  {
+                    "description": "Font Size",
+                    "type": "number",
+                    "value": 0.45
+                  },
+                  {
+                    "description": "Font Width",
+                    "type": "number",
+                    "value": 1
+                  },
+                  {
+                    "description": "Boldness",
+                    "type": "number",
+                    "value": 1
+                  },
+                  {
+                    "description": "Obliqueness",
+                    "type": "number",
+                    "value": 0
+                  },
+                  {
+                    "description": "Alpha",
+                    "type": "number",
+                    "value": 1
+                  }
+                ],
+                "scalars": [
+                  {
+                    "description": "Name",
+                    "type": "string",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "Every circuit is a sum of circles. Each circle spins at its own steady speed. Add them up, biggest first, and a picture appears. The first few circles give a rough sketch."
+                  },
+                  {
+                    "description": "Style",
+                    "type": "string",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "registryKey": "Zoom Into Circle",
+                "schedules": [
+                  {
+                    "description": "Center",
+                    "type": "point",
+                    "value": {
+                      "x": 4,
+                      "y": 3.7
+                    }
+                  },
+                  {
+                    "description": "Zoom Input Radius",
+                    "type": "number",
+                    "value": 0.6
+                  },
+                  {
+                    "description": "Zoom Output Radius",
+                    "type": "number",
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0.6
+                      },
+                      {
+                        "time": 1500,
+                        "value": 1.2
+                      },
+                      {
+                        "time": 2500,
+                        "value": 1.2
+                      },
+                      {
+                        "time": 4000,
+                        "value": 0.6
+                      },
+                      {
+                        "time": 5500,
+                        "value": 1.2
+                      },
+                      {
+                        "time": 6500,
+                        "value": 1.2
+                      },
+                      {
+                        "time": 8000,
+                        "value": 0.6
+                      },
+                      {
+                        "time": 9500,
+                        "value": 1.2
+                      },
+                      {
+                        "time": 10500,
+                        "value": 1.2
+                      },
+                      {
+                        "time": 12000,
+                        "value": 0.6
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Copy Verbatim Radius",
+                    "type": "number",
+                    "value": 2.2
+                  },
+                  {
+                    "description": "Max Segment",
+                    "type": "number",
+                    "value": 0.04
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Zoom Into Circle"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 12,
+                  "y": 0.8
+                }
+              },
+              {
+                "description": "Alignment",
+                "type": "select",
+                "value": "center"
+              },
+              {
+                "description": "Anchor X",
+                "type": "select",
+                "value": "center"
+              },
+              {
+                "description": "Baseline",
+                "type": "select",
+                "value": "top"
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 7
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 6
+              },
+              {
+                "description": "Additional Line Height",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              },
+              {
+                "description": "Rotation",
+                "type": "select",
+                "value": "none"
+              },
+              {
+                "description": "Width Mode",
+                "type": "select",
+                "value": "wrap"
+              },
+              {
+                "description": "Height Mode",
+                "type": "select",
+                "value": "unbounded"
+              },
+              {
+                "description": "May Grow",
+                "type": "select",
+                "value": "shrink or grow"
+              },
+              {
+                "description": "Auto Size",
+                "type": "select",
+                "value": "live"
+              },
+              {
+                "description": "Frozen Size",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "rgb(0, 128, 255)"
+                  },
+                  {
+                    "description": "Font",
+                    "type": "select",
+                    "value": "Line Font"
+                  },
+                  {
+                    "description": "Font Size",
+                    "type": "number",
+                    "value": 0.45
+                  },
+                  {
+                    "description": "Font Width",
+                    "type": "number",
+                    "value": 1
+                  },
+                  {
+                    "description": "Boldness",
+                    "type": "number",
+                    "value": 1
+                  },
+                  {
+                    "description": "Obliqueness",
+                    "type": "number",
+                    "value": 0
+                  },
+                  {
+                    "description": "Alpha",
+                    "type": "number",
+                    "value": 1
+                  }
+                ],
+                "scalars": [
+                  {
+                    "description": "Name",
+                    "type": "string",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "Every circuit is a sum of circles. Each circle spins at its own steady speed. Add them up, biggest first, and a picture appears. The first few circles give a rough sketch."
+                  },
+                  {
+                    "description": "Style",
+                    "type": "string",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "registryKey": "Eased Circle",
+                "schedules": [
+                  {
+                    "description": "Center",
+                    "type": "point",
+                    "value": {
+                      "x": 12,
+                      "y": 3.7
+                    }
+                  },
+                  {
+                    "description": "Effect Radius",
+                    "type": "number",
+                    "value": 2.2
+                  },
+                  {
+                    "description": "Curve",
+                    "type": "select",
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": "smooth"
+                      },
+                      {
+                        "time": 4000,
+                        "value": "ease out"
+                      },
+                      {
+                        "time": 8000,
+                        "value": "ease in out"
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Strength",
+                    "type": "number",
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0
+                      },
+                      {
+                        "time": 1500,
+                        "value": 1
+                      },
+                      {
+                        "time": 2500,
+                        "value": 1
+                      },
+                      {
+                        "time": 4000,
+                        "value": 0
+                      },
+                      {
+                        "time": 5500,
+                        "value": 1
+                      },
+                      {
+                        "time": 6500,
+                        "value": 1
+                      },
+                      {
+                        "time": 8000,
+                        "value": 0
+                      },
+                      {
+                        "time": 9500,
+                        "value": 1
+                      },
+                      {
+                        "time": 10500,
+                        "value": 1
+                      },
+                      {
+                        "time": 12000,
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Max Segment",
+                    "type": "number",
+                    "value": 0.04
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Eased Circle"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 4,
+                  "y": 7.7
+                }
+              },
+              {
+                "description": "Alignment",
+                "type": "select",
+                "value": "center"
+              },
+              {
+                "description": "Anchor X",
+                "type": "select",
+                "value": "center"
+              },
+              {
+                "description": "Baseline",
+                "type": "select",
+                "value": "top"
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 7
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 1
+              },
+              {
+                "description": "Additional Line Height",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              },
+              {
+                "description": "Rotation",
+                "type": "select",
+                "value": "none"
+              },
+              {
+                "description": "Width Mode",
+                "type": "select",
+                "value": "wrap"
+              },
+              {
+                "description": "Height Mode",
+                "type": "select",
+                "value": "unbounded"
+              },
+              {
+                "description": "May Grow",
+                "type": "select",
+                "value": "shrink or grow"
+              },
+              {
+                "description": "Auto Size",
+                "type": "select",
+                "value": "live"
+              },
+              {
+                "description": "Frozen Size",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "#999"
+                  },
+                  {
+                    "description": "Font",
+                    "type": "select",
+                    "value": "Line Font"
+                  },
+                  {
+                    "description": "Font Size",
+                    "type": "number",
+                    "value": 0.35
+                  },
+                  {
+                    "description": "Font Width",
+                    "type": "number",
+                    "value": 1
+                  },
+                  {
+                    "description": "Boldness",
+                    "type": "number",
+                    "value": 1
+                  },
+                  {
+                    "description": "Obliqueness",
+                    "type": "number",
+                    "value": 0
+                  },
+                  {
+                    "description": "Alpha",
+                    "type": "number",
+                    "value": 1
+                  }
+                ],
+                "scalars": [
+                  {
+                    "description": "Name",
+                    "type": "string",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "Zoom Into Circle:  straight lines"
+                  },
+                  {
+                    "description": "Style",
+                    "type": "string",
+                    "value": ""
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Zoom Into Circle Label"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 12,
+                  "y": 7.7
+                }
+              },
+              {
+                "description": "Alignment",
+                "type": "select",
+                "value": "center"
+              },
+              {
+                "description": "Anchor X",
+                "type": "select",
+                "value": "center"
+              },
+              {
+                "description": "Baseline",
+                "type": "select",
+                "value": "top"
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 7
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 1
+              },
+              {
+                "description": "Additional Line Height",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              },
+              {
+                "description": "Rotation",
+                "type": "select",
+                "value": "none"
+              },
+              {
+                "description": "Width Mode",
+                "type": "select",
+                "value": "wrap"
+              },
+              {
+                "description": "Height Mode",
+                "type": "select",
+                "value": "unbounded"
+              },
+              {
+                "description": "May Grow",
+                "type": "select",
+                "value": "shrink or grow"
+              },
+              {
+                "description": "Auto Size",
+                "type": "select",
+                "value": "live"
+              },
+              {
+                "description": "Frozen Size",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "#999"
+                  },
+                  {
+                    "description": "Font",
+                    "type": "select",
+                    "value": "Line Font"
+                  },
+                  {
+                    "description": "Font Size",
+                    "type": "number",
+                    "value": 0.35
+                  },
+                  {
+                    "description": "Font Width",
+                    "type": "number",
+                    "value": 1
+                  },
+                  {
+                    "description": "Boldness",
+                    "type": "number",
+                    "value": 1
+                  },
+                  {
+                    "description": "Obliqueness",
+                    "type": "number",
+                    "value": 0
+                  },
+                  {
+                    "description": "Alpha",
+                    "type": "number",
+                    "value": 1
+                  }
+                ],
+                "scalars": [
+                  {
+                    "description": "Name",
+                    "type": "string",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": "Eased Circle:  smooth"
+                      },
+                      {
+                        "time": 4000,
+                        "value": "Eased Circle:  ease out"
+                      },
+                      {
+                        "time": 8000,
+                        "value": "Eased Circle:  ease in out"
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Style",
+                    "type": "string",
+                    "value": ""
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Eased Circle Label"
+          }
+        ]
+      },
+      {
+        "description": "Ripples",
+        "scalars": [
+          {
+            "description": "Min Duration",
+            "type": "number",
+            "value": 12000
+          }
+        ],
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 16,
+                  "height": 9
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 8,
+                  "y": 0.35
+                }
+              },
+              {
+                "description": "Alignment",
+                "type": "select",
+                "value": "left"
+              },
+              {
+                "description": "Anchor X",
+                "type": "select",
+                "value": "center"
+              },
+              {
+                "description": "Baseline",
+                "type": "select",
+                "value": "top"
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 15.2
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 8.3
+              },
+              {
+                "description": "Additional Line Height",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "scalars": [
+              {
+                "description": "Min Duration",
+                "type": "number",
+                "value": 0
+              },
+              {
+                "description": "Rotation",
+                "type": "select",
+                "value": "none"
+              },
+              {
+                "description": "Width Mode",
+                "type": "select",
+                "value": "wrap"
+              },
+              {
+                "description": "Height Mode",
+                "type": "select",
+                "value": "shrink font"
+              },
+              {
+                "description": "May Grow",
+                "type": "select",
+                "value": "shrink or grow"
+              },
+              {
+                "description": "Auto Size",
+                "type": "select",
+                "value": "live"
+              },
+              {
+                "description": "Frozen Size",
+                "type": "number",
+                "value": 0
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "white"
+                  },
+                  {
+                    "description": "Font",
+                    "type": "select",
+                    "value": "Line Font"
+                  },
+                  {
+                    "description": "Font Size",
+                    "type": "number",
+                    "value": 0.45
+                  },
+                  {
+                    "description": "Font Width",
+                    "type": "number",
+                    "value": 1
+                  },
+                  {
+                    "description": "Boldness",
+                    "type": "number",
+                    "value": 1
+                  },
+                  {
+                    "description": "Obliqueness",
+                    "type": "number",
+                    "value": 0
+                  },
+                  {
+                    "description": "Alpha",
+                    "type": "number",
+                    "value": 1
+                  }
+                ],
+                "scalars": [
+                  {
+                    "description": "Name",
+                    "type": "string",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "The eye is the first circle; the horizon which it forms is the second; and throughout nature this primary figure is repeated without end. It is the highest emblem in the cipher of the world. St. Augustine described the nature of God as a circle whose centre was everywhere, and its circumference nowhere. We are all our lifetime reading the copious sense of this first of forms. One moral we have already deduced, in considering the circular or compensatory character of every human action. Another analogy we shall now trace; that every action admits of being outdone. Our life is an apprenticeship to the truth, that around every circle another can be drawn; that there is no end in nature, but every end is a beginning; that there is always another dawn risen on mid-noon, and under every deep a lower deep opens."
+                  },
+                  {
+                    "description": "Style",
+                    "type": "string",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "registryKey": "Ripples",
+                "schedules": [
+                  {
+                    "description": "Center",
+                    "type": "point",
+                    "value": {
+                      "x": 8,
+                      "y": 4.5
+                    }
+                  },
+                  {
+                    "description": "Wavelength",
+                    "type": "number",
+                    "value": 0.9
+                  },
+                  {
+                    "description": "Amplitude",
+                    "type": "number",
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0.1
+                      },
+                      {
+                        "time": 9000,
+                        "value": 0.1
+                      },
+                      {
+                        "time": 12000,
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Phase (degrees)",
+                    "type": "number",
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0
+                      },
+                      {
+                        "time": 12000,
+                        "value": 4320
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Peak Radius",
+                    "type": "number",
+                    "value": 1
+                  },
+                  {
+                    "description": "Falloff Power",
+                    "type": "number",
+                    "value": 0.5
+                  },
+                  {
+                    "description": "Reach",
+                    "type": "number",
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0
+                      },
+                      {
+                        "time": 9000,
+                        "value": 10
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Max Segment",
+                    "type": "number",
+                    "value": 0.04
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Pond"
+          }
+        ]
+      },
+      {
         "description": "Scratch 1",
         "scalars": [
           {

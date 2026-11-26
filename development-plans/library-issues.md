@@ -84,11 +84,22 @@ The numbers aren't reused, so `circuit-editor.md`'s "item 15" still means the sa
    `[TEXT_EFFECT](letters, options)` gets the letters in the paragraph's own coordinates, before the Multi Text scales, moves and turns them.
    An effect that wants a point the author can see on the slide, or a radius in the slide's units, can't convert.  The Visual Editor draws a point property's marker in the Multi Text's own coordinates.
    The change:  a third argument, `placed: PlacedText` (`scale`, `offset`, `quarterTurns`, `pivot`), the same object `layoutAt()` returns.  Two lines in `multi-text.ts`, one parameter and its docs in `text-effect.ts`.
-   Additive:  an effect that takes two parameters still works.  `src/path-warp-effect.ts` declares `placed?` optional, so it also compiles and runs on 0.8.3, where it falls back to paragraph coordinates.
-   To finish:  commit, publish 0.8.4, raise `package.json` here to `^0.8.4`.  Until then, `npm ci` here (and GitHub) gets 0.8.3, and the effects are only right for an unscaled, unturned Multi Text at Position (0, 0).
+   Additive:  an effect that takes two parameters still works.  `src/path-warp-effect.ts` declares `placed?` optional, so it also compiles and runs on 0.8.3.
+   Since 2026-11-25 it works right on 0.8.3 too:  without `placed`, the effect asks its `parent`, the Multi Text, with `layoutAt()`.  So 0.8.4 only saves that one extra layout a frame, and isn't urgent.
+   To finish:  commit, publish 0.8.4, raise `package.json` here to `^0.8.4`.
    To try it here:  `npm link ../canvas-recorder-lib` to try it, and run `npm run build` there first, since the link serves its `dist/`.
    Also:  `TEXT_EFFECT`, `TextEffect` and `EffectLetter` aren't exported from the main entry, so this project imports them by path (`canvas-recorder-lib/src/slide-components/text-effect`).  `PlacedText` is exported.
    The author's longer plan:  one interface for this kind of hook, shared by a path component and Multi Text.  `PathWarpEffect` is the experiment for it.
+   **The point editor, found 2026-11-25 in the Shorts' Scratch 19:**  Center's marker isn't where the lens is.  Two causes.
+   * With 0.8.3 the effect got no `placed`, so it read Center in the paragraph's own units:  unscaled, from the top left of the text.  The marker is in the slide's units.
+     So Scratch 19's Centers were tuned by eye in paragraph units (y up to 18 on a 16 tall canvas).  **Fixed in this project 2026-11-25**, by asking the parent (above).
+     That moved Scratch 19's lens, so `philDebug.textWarpsToSlideUnits(true)`, with Scratch 19 chosen, converts its fields once.  Tested on a copy of Scratch 19:  frames identical to before.
+   * The editor puts a selected component's markers in its frame through `registerTransform()`, which a parent calls for each child it draws.  Multi Text never calls it for its text effect, which it doesn't draw with `show()`.
+     So the marker is drawn in the root's coordinates.  That's right for Scratch 19 (no moved or scaled parent), and wrong inside a Slide, like Pan and Scan.
+     Fix:  in `MultiTextComponent.show()`, for the effect child, `options.registerTransform?.(effect, context.getTransform())`, before Multi Text's own translate and scale.
+     The effect works in the Multi Text's coordinates, which are its parent's, so that's the right frame.
+   **Save Diffs writes code that doesn't compile,** found the same day:  `new TextSpanComponent({ description: "Text Span" })`, and Text Span's constructor takes no `description`.
+   Vite builds it anyway, but `tsc` fails.  Either Text Span takes a `description`, or the diff leaves it out.  The Text Format line above it is fine.
 
 ## Bugs
 

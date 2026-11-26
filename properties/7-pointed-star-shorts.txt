@@ -1353,3 +1353,79 @@ Current:    [{"source":"local:7-pointed-star-shorts 2026-11-23 23-01-25.281.wav"
   starCircuit6.fourierLineWidthSchedule.set(0.1);
   starCircuit6.referenceLineWidthSchedule.set(0);
   scratch18.replaceableComponents!.push(starCircuit6);
+→ Scratch 19
+→ → Min Duration
+TypeScript: 5000
+Current:    90000
+→ → Sound Clips
+TypeScript: undefined
+Current:    [{"source":"local:7-pointed-star-shorts 2026-11-26 10-21-27.131.wav","startMsIntoScene":0,"startMsIntoClip":440.26686,"lengthMs":44764.5},{"source":"local:7-pointed-star-shorts 2026-11-26 10-22-51.866.wav","startMsIntoScene":44764.5,"startMsIntoClip":464.777841,"lengthMs":43181.7}]
+→ → Lyrics
+  [added]
+  const lyrics = new MultiTextComponent({ description: "Lyrics" });
+  lyrics.positionSchedule.set({"x":4.464895636,"y":6.840844402});
+  lyrics.alignmentSchedule.set("left");
+  lyrics.widthSchedule.set(8.39634724857685);
+  lyrics.heightSchedule.set(8.911527514231498);
+  lyrics.widthModeScalar.value = "scale";
+  lyrics.userEditableDescription = "Lyrics";
+  const comp5 = new TextFormatComponent({ description: "" });
+  comp5.colorSchedule.set("rgb(100% 100% 100%)");
+  comp5.userEditableDescription = "";
+  lyrics.replaceableComponents!.push(comp5);
+  const textSpan18 = new TextSpanComponent({ description: "Text Span" });
+  textSpan18.contentSchedule.set("Round like a circle in a spiral, \n  like a wheel within a wheel\nNever ending or beginning\n  on an ever-spinning reel\nLike a snowball down a mountain\n  or a carnival balloon\nLike a carousel that's turning, \n  running rings around the moon\nLike a door that keeps revolving\n  in a half forgotten dream\nOr the ripples from a pebble\n  someone tosses in a stream\n");
+  lyrics.replaceableComponents!.push(textSpan18);
+  const zoomIntoCircle = new ZoomIntoCircle({ description: "Zoom Into Circle" });
+  zoomIntoCircle.centerSchedule.set([{"time":0,"value":{"x":-1.877938844,"y":7.484242659}},{"time":6459.340979927841,"value":{"x":6.486238492,"y":7.484242659}},{"time":10710.948146155875,"value":{"x":1.553518525,"y":9.929156034}},{"time":15570.711158428774,"value":{"x":7.129636749,"y":12.845894797}},{"time":19464.825656384117,"value":{"x":5.432163187855787,"y":8.097722960151803}},{"time":24633.143983961978,"value":{"x":3.69817938,"y":14.561623481}},{"time":28939.371303854467,"value":{"x":1.553518525,"y":9.414437428}},{"time":31584.383956092937,"value":{"x":4.727616591,"y":8.127640915}},{"time":36726.41966668405,"value":{"x":6.271772407,"y":14.604516698}},{"time":42201.76896379375,"value":{"x":2.947548081,"y":8.342107001}},{"time":46544.18596947588,"value":{"x":1.253266005,"y":13.703759139}},{"time":47295.17770767535,"value":{"x":1.982450696,"y":14.347157396}},{"time":52921.52464259522,"value":{"x":6.915170663,"y":8.985505257}},{"time":53858.43619297143,"value":{"x":6.057306321,"y":8.127640915}},{"time":58498.86839946348,"value":{"x":6.271772407,"y":14.13269131}},{"time":62492.04742046971,"value":{"x":1.668222003929273,"y":11.778118860510805}},{"time":67647.6947219951,"value":{"x":8.343811394891945,"y":11.701498035363457}},{"time":71216.5829741431,"value":{"x":5.413908064,"y":8.127640915}},{"time":76090.54958779368,"value":{"x":4.341577637,"y":14.347157396}},{"time":81354.1667084447,"value":{"x":1.553518525,"y":8.127640915}},{"time":90000,"value":{"x":10.561094117,"y":14.776089567}}]);
+  zoomIntoCircle.zoomInputRadiusSchedule.set(0.857864342);
+  zoomIntoCircle.zoomOutputRadiusSchedule.set(1.286796513);
+  zoomIntoCircle.copyVerbatimRadiusSchedule.set(2.144660855);
+  zoomIntoCircle.maxSegmentSchedule.set(0.017157287);
+  lyrics.replaceableComponents!.push(zoomIntoCircle);
+  scratch19.replaceableComponents!.push(lyrics);
+→ → Star Circuit
+  [added]
+  const starCircuit7 = new StarCircuit({ description: "Star Circuit" });
+  starCircuit7.circuitSchedule.set("0,1,3,2,4,6,5,2,1,4,5,1,6,0,3,4,0,5,3,6,2,0");
+  starCircuit7.fourierRectSchedule.set({"x":2.5,"y":0.5,"width":6,"height":6});
+  starCircuit7.termGroupsSchedule.set("0, 1, 2, 3, 4, 5 6, 7 8, 9 10, 11-13, 14-16, 17-19, 20-23, 24-31, 32-46, 47-96, 97-1023");
+  starCircuit7.stepSchedule.set([{"time":0,"value":0},{"time":90000,"value":16}]);
+  starCircuit7.circleColorSchedule.set([{"time":40937.30000000005,"value":"rgb(0, 128, 255)"},{"time":58661.60000000009,"value":"rgb(255, 0, 0)"}]);
+  starCircuit7.thinStarColorSchedule.set([{"time":24739.399999999907,"value":"rgb(0, 128, 255)"},{"time":45286,"value":"white"}]);
+  starCircuit7.referenceLineWidthSchedule.set(0);
+  scratch19.replaceableComponents!.push(starCircuit7);
+→ → Credits
+  [added]
+  const credits = new MultiTextComponent({ description: "Credits" });
+  credits.positionSchedule.set({"x":0.425834971,"y":3.333742633});
+  credits.widthSchedule.set(5.55844793713163);
+  credits.heightSchedule.set(1.62463163064833);
+  credits.rotationScalar.value = "90° counterclockwise";
+  credits.widthModeScalar.value = "scale";
+  credits.userEditableDescription = "Credits";
+  const comp6 = new TextFormatComponent({ description: "" });
+  comp6.userEditableDescription = "";
+  credits.replaceableComponents!.push(comp6);
+  const textSpan19 = new TextSpanComponent({ description: "Text Span" });
+  textSpan19.contentSchedule.set("From ");
+  credits.replaceableComponents!.push(textSpan19);
+  const textSpan20 = new TextSpanComponent({ description: "Text Span" });
+  textSpan20.contentSchedule.set("Noel Harrison's\n");
+  textSpan20.styleSchedule.set("Author");
+  credits.replaceableComponents!.push(textSpan20);
+  const textSpan21 = new TextSpanComponent({ description: "Text Span" });
+  textSpan21.contentSchedule.set("The Windmills of Your Mind");
+  textSpan21.styleSchedule.set("Title");
+  credits.replaceableComponents!.push(textSpan21);
+  const author = new TextFormatComponent({ description: "Author" });
+  author.colorSchedule.set("rgb(128, 0, 255)");
+  author.nameScalar.value = "Author";
+  author.userEditableDescription = "Author";
+  credits.replaceableComponents!.push(author);
+  const title = new TextFormatComponent({ description: "Title" });
+  title.colorSchedule.set("hwb(30deg 0% 17%)");
+  title.nameScalar.value = "Title";
+  title.userEditableDescription = "Title";
+  credits.replaceableComponents!.push(title);
+  scratch19.replaceableComponents!.push(credits);

@@ -9,7 +9,9 @@ import { easeIn, parseTermGroups, Showable } from "canvas-recorder-lib";
 import { philDebug } from "canvas-recorder-lib/src/utility";
 import { root, saveOutsideChanges } from "./console-support";
 import { StarCircuit } from "./star-circuit";
-import { only, makeLinear } from "phil-lib/misc";
+import { only, makeLinear, sum } from "phil-lib/misc";
+import { ZoomIntoCircle } from "./text-warps";
+import { zipper } from "canvas-recorder-lib/src/zipper";
 
 // MARK: dump()
 
@@ -317,6 +319,56 @@ function staggered2() {
 }
 
 philDebug.staggered2 = staggered2;
+
+// MARK: function bounceTimes()
+
+/**
+ * Find the ZoomIntoCircle effect and make the center of the effect move at a constant speed.
+ * This was aimed at "scratch 19" but could work in other places.
+ * This allowed me to just select the points where the effect changed direction.
+ * The computer controls the times.
+ */
+function bounceTimes() {
+  const rootComponent = root();
+  const sceneStartTime = 0;
+  const sceneEndTime = rootComponent.duration;
+  const component = only(dump({ className: ZoomIntoCircle }));
+  const schedule = component.centerSchedule.schedule;
+  const distances = schedule.map((toKeyframe, index, array) => {
+    const fromKeyframe = array[index - 1];
+    if (fromKeyframe === undefined) {
+      return 0;
+    } else {
+      return Math.hypot(
+        fromKeyframe.value.x - toKeyframe.value.x,
+        fromKeyframe.value.y - toKeyframe.value.y,
+      );
+    }
+  });
+  const totalDistance = sum(distances);
+  const speed = totalDistance / (sceneEndTime - sceneStartTime);
+  let startTime = sceneStartTime;
+  zipper([distances, schedule]).forEach(([distanceToHere, keyframe]) => {
+    const duration = distanceToHere / speed;
+    startTime += duration;
+    keyframe.time = startTime;
+  });
+  if (startTime != sceneEndTime) {
+    // This should be small.
+    // Ideally it would be 0, but because of round off error it might not be exact.
+    // If this is too big there is an error in the algorithm.
+    console.log({
+      startTime,
+      sceneEndTime,
+      scaledDifference: (startTime - sceneEndTime) / sceneEndTime,
+    });
+    // Always make the last time perfect for the GUI.
+    schedule.at(-1)!.time = sceneEndTime;
+  }
+  //console.log(distances);
+}
+
+philDebug.bounceTimes = bounceTimes;
 
 // MARK: Console
 

@@ -14,6 +14,31 @@ Current:    [{"time":0,"value":0},{"time":22000,"value":15}]
   const textFormat = new TextFormatComponent({ description: "Text Format" });
   multiText.replaceableComponents!.push(textFormat);
   somethingLeadGold.replaceableComponents!.push(multiText);
+→ Text Warps
+→ → Zoom Into Circle
+  [new order:  Text Format, red, Text Span #1, Text Span #2, Zoom Into Circle]
+→ → → Text Span #1
+→ → → → Content
+TypeScript: "Every circuit is a sum of circles. Each circle spins at its own steady speed. Add them up, biggest first, and a picture appears."
+Current:    "Hi Rachel "
+→ → → → Style
+TypeScript: ""
+Current:    "red"
+→ → → red
+  [added]
+  const red = new TextFormatComponent({ description: "red" });
+  red.colorSchedule.set("rgb(255, 0, 0)");
+  red.sizeSchedule.set(0.45);
+  red.boldnessSchedule.set(1.5);
+  red.obliquenessSchedule.set(21.8);
+  red.nameScalar.value = "red";
+  red.userEditableDescription = "red";
+  zoomIntoCircle.replaceableComponents!.push(red);
+→ → → Text Span #2
+  [added]
+  const textSpan = new TextSpanComponent({ description: "Text Span" });
+  textSpan.contentSchedule.set("Every circuit is a sum of circles. Each circle spins at its own steady speed. Add them up, biggest first, and a picture appears.");
+  zoomIntoCircle.replaceableComponents!.push(textSpan);
 → Scratch 1
 → → Fourier
   [added]

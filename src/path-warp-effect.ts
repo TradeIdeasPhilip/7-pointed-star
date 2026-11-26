@@ -17,9 +17,11 @@
  * **Coordinates.**  The hook hands over letters in the paragraph's own coordinates, before the text is scaled, moved and turned.
  * The function works in the **Multi Text's own coordinates** instead:  the ones Position uses, and where the Visual Editor draws a
  * point property's marker.  So a Center is where you see it, and a radius is in the same units as everything else on the slide.
- * The library passes `placed` to the hook, and the points are converted there and back.
- * Library 0.8.3 and earlier don't pass it.  Then the two systems are the same, which is the right answer for a Multi Text with Position
- * (0, 0), no scaling and no turn, and nothing else.
+ * The library passes `placed` to the hook (0.8.4), and the points are converted there and back.
+ * Library 0.8.3 and earlier don't pass it.  Then the effect asks its parent, the Multi Text, with `layoutAt()`.  That's one more layout each frame.
+ *
+ * Until 2026-11-25 there was no fallback, so with 0.8.3 the fields were in the paragraph's own units:  unscaled, from the top left of the text.
+ * Anything saved then (the Shorts' Scratch 19) needs converting once:  `philDebug.textWarpsToSlideUnits()`, at the bottom of this file.
  *
  * Any mistake in a field is a state, not an error.  Checks says what's wrong and the effect draws what it can.
  * @module
@@ -28,8 +30,11 @@
 import {
   componentRegistry,
   type Keyframe,
+  MultiTextComponent,
   NumberScheduleInfo,
   PointScheduleInfo,
+  SelectScheduleInfo,
+  type ShowableParent,
   type ShowOptions,
 } from "canvas-recorder-lib";
 import {
@@ -45,6 +50,8 @@ import {
   TEXT_EFFECT,
   type TextEffect,
 } from "canvas-recorder-lib/src/slide-components/text-effect";
+import { philDebug } from "canvas-recorder-lib/src/utility";
+import { root, saveOutsideChanges } from "./console-support.ts";
 import { EditorMessage, HasEditorMessages } from "./editor-messages.ts";
 import type { PointFunction } from "./warped-path.ts";
 
@@ -178,8 +185,21 @@ export function piecesOf(shape: PathShape, maxSegment: number): Pieces {
 
 // MARK: Effect
 
-/** The most schedules a subclass adds, for the type below. */
-type EffectSchedule = NumberScheduleInfo | PointScheduleInfo;
+/** What each of a subclass's number and point fields measures, so `convertFromParagraphUnits()` knows how to change it. */
+export type FieldUnits = {
+  /** Points on the slide, like Center. */
+  readonly points?: readonly PointScheduleInfo[];
+  /** A y on the slide, like Center Y. */
+  readonly ys?: readonly NumberScheduleInfo[];
+  /** Distances, like a radius or an amplitude. */
+  readonly lengths?: readonly NumberScheduleInfo[];
+  /** Something per unit of distance, like a frequency. */
+  readonly perLength?: readonly NumberScheduleInfo[];
+};
+
+/** The kinds of schedules a subclass adds. */
+type EffectSchedule =
+  NumberScheduleInfo | PointScheduleInfo | SelectScheduleInfo<string, string>;
 
 /**
  * A Multi Text effect that moves every point of the text by a function of its position and the time.
@@ -200,6 +220,9 @@ export abstract class PathWarpEffect implements TextEffect, HasEditorMessages {
 
   readonly description: string;
 
+  /** The Multi Text this is in.  Its parent sets this, as every In Parallel parent does. */
+  parent?: ShowableParent;
+
   constructor(
     description: string,
     initialValues: { maxSegment?: number | readonly Keyframe<number>[] } = {},
@@ -218,6 +241,93 @@ export abstract class PathWarpEffect implements TextEffect, HasEditorMessages {
 
   /** The subclass's own warnings, for Checks.  Called after every keystroke, so keep it quick. */
   protected abstract parameterMessages(): EditorMessage[];
+
+  /** What the subclass's fields measure.  Max Segment is added to the lengths here. */
+  protected abstract fieldUnits(): FieldUnits;
+
+  /**
+   * Where the Multi Text put the text, when the library didn't say (0.8.3).  The parent knows:  ask it.
+   * `undefined` when this isn't in a Multi Text, which `show()` already complains about.
+   */
+  #placedByParent(options: ShowOptions): PlacedText | undefined {
+    const parent = this.parent;
+    return parent instanceof MultiTextComponent
+      ? parent.layoutAt(options)
+      : undefined;
+  }
+
+  /**
+   * Once only, for fields saved before 2026-11-25 with library 0.8.3, when they were in the paragraph's units:  change them to the Multi Text's,
+   * so the picture looks the same as it did.  Each keyframe uses the layout at its own time.
+   * Running it twice converts twice, so run it once.
+   * @param apply false to only describe what would change.
+   * @returns One line for each field, before and after, for the console.
+   */
+  convertFromParagraphUnits(apply: boolean): string[] {
+    const parent = this.parent;
+    if (!(parent instanceof MultiTextComponent)) {
+      return [`${this.description}:  not in a Multi Text.  Left alone.`];
+    }
+    const context = document.createElement("canvas").getContext("2d")!;
+    const layout = (timeInMs: number) =>
+      parent.layoutAt({
+        timeInMs,
+        globalTime: timeInMs,
+        context,
+        playSpeed: 0,
+        quality: "High Quality",
+      });
+    const placementAt = (timeInMs: number) => makePlacement(layout(timeInMs));
+    const units = this.fieldUnits();
+    const lines: string[] = [];
+    const tidy = (n: number) => Math.round(n * 1e9) / 1e9;
+    function convert<T>(
+      schedule: { readonly description: string; schedule: Keyframe<T>[] },
+      change: (value: T, time: number) => T,
+    ) {
+      const before = schedule.schedule.map(({ time, value }) => ({
+        time,
+        value,
+      }));
+      const after = before.map(({ time, value }) => ({
+        time,
+        value: change(value, time),
+      }));
+      lines.push(
+        `  ${schedule.description}:  ${JSON.stringify(before.map(({ value }) => value))} → ${JSON.stringify(after.map(({ value }) => value))}`,
+      );
+      if (apply) {
+        schedule.schedule.splice(0, Infinity, ...after);
+      }
+    }
+    for (const schedule of units.points ?? []) {
+      convert(schedule, (value, time) => {
+        const { x, y } = placementAt(time).toLocal(value);
+        return { x: tidy(x), y: tidy(y) };
+      });
+    }
+    for (const schedule of units.ys ?? []) {
+      if (schedule.schedule.some(({ time }) => layout(time).quarterTurns % 2)) {
+        lines.push(
+          `  ${schedule.description}:  the text is turned a quarter, so a y becomes an x.  Left alone.  Fix it by hand.`,
+        );
+        continue;
+      }
+      convert(schedule, (value, time) =>
+        tidy(placementAt(time).toLocal({ x: 0, y: value }).y),
+      );
+    }
+    for (const schedule of [
+      ...(units.lengths ?? []),
+      this.maxSegmentSchedule,
+    ]) {
+      convert(schedule, (value, time) => tidy(value * placementAt(time).scale));
+    }
+    for (const schedule of units.perLength ?? []) {
+      convert(schedule, (value, time) => tidy(value / placementAt(time).scale));
+    }
+    return [`${this.description}:`, ...lines];
+  }
 
   /** What the Visual Editor's Checks box shows. */
   editorMessages(): EditorMessage[] {
@@ -247,7 +357,7 @@ export abstract class PathWarpEffect implements TextEffect, HasEditorMessages {
     placed?: PlacedText,
   ): Map<unknown, PathShape> {
     const { timeInMs } = options;
-    const placement = makePlacement(placed);
+    const placement = makePlacement(placed ?? this.#placedByParent(options));
     const warp = this.makeWarp(timeInMs);
     // Segments are cut in paragraph units, but Max Segment is in the Multi Text's.
     const maxSegment =
@@ -317,3 +427,43 @@ export function registerPathWarp(
     howToGenerate: { type: "class", class: effectClass },
   });
 }
+
+// MARK: Console
+
+/**
+ * `philDebug.textWarpsToSlideUnits()`:  convert every text effect in the chapter chosen in the Edit list from the paragraph's units to the slide's.
+ * See `PathWarpEffect.convertFromParagraphUnits()`.  Only for effects saved before 2026-11-25.  Run it once.
+ * With no argument it only prints what it would change.  Pass `true` to change them, and save.  The Visual Editor's Undo puts them back.
+ */
+philDebug.textWarpsToSlideUnits = (apply = false) => {
+  const effects: PathWarpEffect[] = [];
+  const visit = (node: {
+    readonly children?: readonly { child: unknown }[];
+  }) => {
+    node.children?.forEach(({ child }) => {
+      if (child instanceof PathWarpEffect) {
+        effects.push(child);
+      } else {
+        visit(child as typeof node);
+      }
+    });
+  };
+  visit(root());
+  const lines = effects.flatMap((effect) =>
+    effect.convertFromParagraphUnits(apply),
+  );
+  if (effects.length == 0) {
+    lines.push("No text effects in the chapter chosen in the Edit list.");
+  } else if (apply) {
+    lines.push(
+      saveOutsideChanges()
+        ? "Changed and saved."
+        : "Changed.  Not saved yet:  the next edit in the Visual Editor saves it.",
+    );
+  } else {
+    lines.push(
+      "Nothing changed.  Run philDebug.textWarpsToSlideUnits(true) to change these.",
+    );
+  }
+  console.log(lines.join("\n"));
+};

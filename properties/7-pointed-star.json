@@ -104,6 +104,328 @@
         ]
       },
       {
+        "description": "Text Warps",
+        "components": [
+          {
+            "registryKey": "Rectangle",
+            "schedules": [
+              {
+                "description": "Color",
+                "type": "color",
+                "value": "black"
+              },
+              {
+                "description": "Rect",
+                "type": "rectangle",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 16,
+                  "height": 9
+                }
+              }
+            ],
+            "userEditableDescription": "Background"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 2.7,
+                  "y": 0.6
+                }
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 4.8
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 7.8
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "white"
+                  },
+                  {
+                    "description": "Font Size",
+                    "type": "number",
+                    "value": 0.45
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "rgb(255, 0, 0)"
+                  },
+                  {
+                    "description": "Font Size",
+                    "type": "number",
+                    "value": 0.45
+                  },
+                  {
+                    "description": "Boldness",
+                    "type": "number",
+                    "value": 1.5
+                  },
+                  {
+                    "description": "Obliqueness",
+                    "type": "number",
+                    "value": 21.8
+                  }
+                ],
+                "scalars": [
+                  {
+                    "description": "Name",
+                    "type": "string",
+                    "value": "red"
+                  }
+                ],
+                "userEditableDescription": "red"
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "Hi Rachel "
+                  },
+                  {
+                    "description": "Style",
+                    "type": "string",
+                    "value": "red"
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "Every circuit is a sum of circles. Each circle spins at its own steady speed. Add them up, biggest first, and a picture appears."
+                  }
+                ]
+              },
+              {
+                "registryKey": "Zoom Into Circle",
+                "schedules": [
+                  {
+                    "description": "Center",
+                    "type": "point",
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": {
+                          "x": 2.7,
+                          "y": 1.5
+                        }
+                      },
+                      {
+                        "time": 8000,
+                        "value": {
+                          "x": 2.7,
+                          "y": 7.5
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Zoom Output Radius",
+                    "type": "number",
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0.6
+                      },
+                      {
+                        "time": 1500,
+                        "value": 1.6
+                      },
+                      {
+                        "time": 6500,
+                        "value": 1.6
+                      },
+                      {
+                        "time": 8000,
+                        "value": 0.6
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Copy Verbatim Radius",
+                    "type": "number",
+                    "value": 2.4
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Zoom Into Circle"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 8,
+                  "y": 0.6
+                }
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 4.8
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 7.8
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "rgb(0, 128, 255)"
+                  },
+                  {
+                    "description": "Font Size",
+                    "type": "number",
+                    "value": 0.45
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "Every circuit is a sum of circles. Each circle spins at its own steady speed. Add them up, biggest first, and a picture appears."
+                  }
+                ]
+              },
+              {
+                "registryKey": "Waves: Fixed Amplitude",
+                "schedules": [
+                  {
+                    "description": "Phase (degrees)",
+                    "type": "number",
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0
+                      },
+                      {
+                        "time": 8000,
+                        "value": 720
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Waves: Fixed Amplitude"
+          },
+          {
+            "registryKey": "Multi Text",
+            "schedules": [
+              {
+                "description": "Position",
+                "type": "point",
+                "value": {
+                  "x": 13.3,
+                  "y": 0.6
+                }
+              },
+              {
+                "description": "Width",
+                "type": "number",
+                "value": 4.8
+              },
+              {
+                "description": "Height",
+                "type": "number",
+                "value": 7.8
+              }
+            ],
+            "components": [
+              {
+                "registryKey": "Text Format",
+                "schedules": [
+                  {
+                    "description": "Color",
+                    "type": "color",
+                    "value": "rgb(255, 0, 0)"
+                  },
+                  {
+                    "description": "Font Size",
+                    "type": "number",
+                    "value": 0.45
+                  }
+                ]
+              },
+              {
+                "registryKey": "Text Span",
+                "schedules": [
+                  {
+                    "description": "Content",
+                    "type": "string",
+                    "value": "Every circuit is a sum of circles. Each circle spins at its own steady speed. Add them up, biggest first, and a picture appears."
+                  }
+                ]
+              },
+              {
+                "registryKey": "Waves: Fixed Frequency",
+                "schedules": [
+                  {
+                    "description": "Amplitude",
+                    "type": "number",
+                    "value": 0.35
+                  },
+                  {
+                    "description": "Phase (degrees)",
+                    "type": "number",
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0
+                      },
+                      {
+                        "time": 8000,
+                        "value": -720
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "userEditableDescription": "Waves: Fixed Frequency"
+          }
+        ]
+      },
+      {
         "description": "Scratch 1",
         "components": [
           {

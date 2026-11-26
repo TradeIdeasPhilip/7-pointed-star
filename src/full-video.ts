@@ -17,7 +17,9 @@
  * 9. Warped Paths:  a prototype.  Three Warped Path components, a circle and two stars, each growing from the center, one after another.
  * 10. Twisted Paths:  a prototype.  The same three, but Twisted Path components:  the turn depends on the distance from the center, so the stars curl.
  * 11. Text Warps:  a prototype.  Three columns of text, each a Multi Text with its own text effect:  Zoom Into Circle, Waves: Fixed Amplitude, Waves: Fixed Frequency.
- * 12. Scratch 1 to 13:  just a background, to add anything to.
+ * 12. Eased Circle:  a prototype.  Zoom Into Circle beside Eased Circle, the same lens on the same text, one round for each of Eased Circle's curves.
+ * 13. Ripples:  a prototype.  A page of text, and ripples spreading out from the middle, like a pebble dropped in a pond.
+ * 14. Scratch 1 to 13:  just a background, to add anything to.
  *
  * Everything is editable in the Visual Editor.  These are just the starting values.
  * @module
@@ -28,6 +30,7 @@ import {
   ease,
   FourierComponent,
   InSeriesComponent,
+  type Keyframe,
   MultiTextComponent,
   type Showable,
   TextFormatComponent,
@@ -47,6 +50,7 @@ import { GROUPED_SOURCE } from "./star-sources.ts";
 import { TessellatingTriangles } from "./tessellating-triangles.ts";
 import { VertexPairings } from "./vertex-pairings.ts";
 import { TwistedPath } from "./twisted-path.ts";
+import { EasedCircle, Ripples } from "./radial-warps.ts";
 import {
   WavesFixedAmplitude,
   WavesFixedFrequency,
@@ -529,6 +533,186 @@ addScene(root, "Twisted Paths", 14_000).replaceableComponents!.push(
         ],
       }),
     ),
+  );
+}
+
+// MARK: Effect Text
+
+/**
+ * A Multi Text with one text effect inside it, for the scenes below.
+ * Position is the middle of the top edge.  One format and one span, so the text is easy to replace in the Visual Editor.
+ */
+function effectText(options: {
+  name: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  color: string;
+  size: number;
+  content: string | readonly Keyframe<string>[];
+  alignment?: "left" | "center" | "right" | "justify";
+  /** "shrink font" makes the text smaller to fit Height, if it's too long, and wraps it again.  The default, "unbounded", lets it run off the bottom. */
+  heightMode?: "unbounded" | "shrink font";
+  effect?: Showable;
+}) {
+  const text = new MultiTextComponent({
+    position: { x: options.x, y: options.y },
+    width: options.width,
+    height: options.height,
+    anchorX: "center",
+    textBaseline: "top",
+    alignment: options.alignment ?? "center",
+    heightMode: options.heightMode ?? "unbounded",
+  });
+  text.replaceableComponents!.push(
+    new TextFormatComponent({ color: options.color, size: options.size }),
+    new TextSpanComponent({ content: options.content }),
+  );
+  if (options.effect) {
+    text.replaceableComponents!.push(options.effect);
+  }
+  return named(options.name, text);
+}
+
+// MARK: Eased Circle
+
+// Prototype:  Zoom Into Circle beside Eased Circle, the same text and the same lens, so the two can be compared.
+// Three rounds of 4 s, one for each of Eased Circle's curves:  the lens grows for 1.5 s, holds for 1 s, and shrinks for 1.5 s.
+// Strength is 0 at each change of curve, so the change doesn't show.  The label under each column says what's happening.
+{
+  const paragraph =
+    "Every circuit is a sum of circles. Each circle spins at its own steady speed. " +
+    "Add them up, biggest first, and a picture appears. " +
+    "The first few circles give a rough sketch.";
+  /** The same timing each round:  `from`, then `to` 1.5 s later, held 1 s, then `from` again 1.5 s later. */
+  const rounds = (from: number, to: number) =>
+    [0, 4_000, 8_000].flatMap((start) => [
+      ...(start == 0 ? [{ time: 0, value: from }] : []),
+      { time: start + 1_500, value: to },
+      { time: start + 2_500, value: to },
+      { time: start + 4_000, value: from },
+    ]);
+  const lensY = 3.7;
+  const effectRadius = 2.2;
+  const curves = ["smooth", "ease out", "ease in out"] as const;
+  addScene(root, "Eased Circle", 12_000).replaceableComponents!.push(
+    effectText({
+      name: "Zoom Into Circle",
+      x: 4,
+      y: 0.8,
+      width: 7,
+      height: 6,
+      color: "white",
+      size: 0.45,
+      content: paragraph,
+      // 2× in the middle, like "smooth" at Strength 1.
+      effect: new ZoomIntoCircle({
+        center: { x: 4, y: lensY },
+        zoomInputRadius: 0.6,
+        zoomOutputRadius: rounds(0.6, 1.2),
+        copyVerbatimRadius: effectRadius,
+      }),
+    }),
+    effectText({
+      name: "Eased Circle",
+      x: 12,
+      y: 0.8,
+      width: 7,
+      height: 6,
+      color: myRainbow.myBlue,
+      size: 0.45,
+      content: paragraph,
+      effect: new EasedCircle({
+        center: { x: 12, y: lensY },
+        effectRadius,
+        curve: curves.map((curve, index) => ({
+          time: index * 4_000,
+          value: curve,
+        })),
+        strength: rounds(0, 1),
+      }),
+    }),
+    effectText({
+      name: "Zoom Into Circle Label",
+      x: 4,
+      y: 7.7,
+      width: 7,
+      height: 1,
+      color: "#999",
+      size: 0.35,
+      content: "Zoom Into Circle:  straight lines",
+    }),
+    effectText({
+      name: "Eased Circle Label",
+      x: 12,
+      y: 7.7,
+      width: 7,
+      height: 1,
+      color: "#999",
+      size: 0.35,
+      // Changes with the curve.
+      content: curves.map((curve, index) => ({
+        time: index * 4_000,
+        value: `Eased Circle:  ${curve}`,
+      })),
+    }),
+  );
+}
+
+// MARK: Ripples
+
+// Prototype:  a page of text, and a pebble dropped in the middle.
+// Reach, the leading edge, grows from nothing to past the corners in 9 s.  The crests move out 1 Wavelength a second (360° of Phase).
+// Then the ripples die down over the last 3 s, so the scene ends with still text, as it began.
+// Wavelength 0.9 puts 5 ripples between the center and the top and bottom edges.
+// The text is the start of Emerson's essay "Circles" (1841), a stand-in.  Replace the Text Span with anything.
+// At Font Size 0.45 the page holds about 11 lines of 55 characters.  Height Mode is "shrink font", so longer text gets a smaller font to fit.
+{
+  const emerson =
+    "The eye is the first circle; the horizon which it forms is the second; and throughout nature this primary figure is repeated without end. " +
+    "It is the highest emblem in the cipher of the world. " +
+    "St. Augustine described the nature of God as a circle whose centre was everywhere, and its circumference nowhere. " +
+    "We are all our lifetime reading the copious sense of this first of forms. " +
+    "One moral we have already deduced, in considering the circular or compensatory character of every human action. " +
+    "Another analogy we shall now trace; that every action admits of being outdone. " +
+    "Our life is an apprenticeship to the truth, that around every circle another can be drawn; " +
+    "that there is no end in nature, but every end is a beginning; " +
+    "that there is always another dawn risen on mid-noon, and under every deep a lower deep opens.";
+  addScene(root, "Ripples", 12_000).replaceableComponents!.push(
+    effectText({
+      name: "Pond",
+      x: 8,
+      y: 0.35,
+      width: 15.2,
+      height: 8.3,
+      color: "white",
+      size: 0.45,
+      content: emerson,
+      alignment: "left",
+      // Text that fits stays at Font Size 0.45.  Longer text, like a whole song, gets a smaller font and still fills the page.
+      // The ripples stay the same size, since they're in the slide's units.
+      heightMode: "shrink font",
+      effect: new Ripples({
+        center: { x: 8, y: 4.5 },
+        wavelength: 0.9,
+        amplitude: [
+          { time: 0, value: 0.1 },
+          { time: 9_000, value: 0.1 },
+          { time: 12_000, value: 0 },
+        ],
+        phase: [
+          { time: 0, value: 0 },
+          { time: 12_000, value: 12 * 360 },
+        ],
+        peakRadius: 1,
+        falloffPower: 0.5,
+        reach: [
+          { time: 0, value: 0 },
+          { time: 9_000, value: 10 },
+        ],
+      }),
+    }),
   );
 }
 

@@ -24,7 +24,11 @@ import {
 } from "canvas-recorder-lib";
 import type { Point } from "canvas-recorder-lib/src/glib/path-shape";
 import { EditorMessage } from "./editor-messages.ts";
-import { PathWarpEffect, registerPathWarp } from "./path-warp-effect.ts";
+import {
+  type FieldUnits,
+  PathWarpEffect,
+  registerPathWarp,
+} from "./path-warp-effect.ts";
 import type { PointFunction } from "./warped-path.ts";
 
 // MARK: Options
@@ -195,6 +199,17 @@ export class ZoomIntoCircle extends PathWarpEffect {
     );
   }
 
+  protected override fieldUnits(): FieldUnits {
+    return {
+      points: [this.centerSchedule],
+      lengths: [
+        this.zoomInputRadiusSchedule,
+        this.zoomOutputRadiusSchedule,
+        this.copyVerbatimRadiusSchedule,
+      ],
+    };
+  }
+
   protected override parameterMessages(): EditorMessage[] {
     const messages: EditorMessage[] = [];
     // Each radius is linear between its keyframes, so if the order holds at every keyframe of any of them, it holds all the way.
@@ -294,6 +309,14 @@ abstract class Waves extends PathWarpEffect {
     );
   }
 
+  /** Center Y, Standard Deviation and Amplitude.  The subclass adds its own. */
+  protected commonUnits() {
+    return {
+      ys: [this.centerYSchedule],
+      lengths: [this.standardDeviationSchedule, this.amplitudeSchedule],
+    };
+  }
+
   protected commonMessages(): EditorMessage[] {
     const messages: EditorMessage[] = [];
     for (const { time, value } of this.standardDeviationSchedule.schedule) {
@@ -343,6 +366,11 @@ export class WavesFixedAmplitude extends Waves {
     });
   }
 
+  protected override fieldUnits(): FieldUnits {
+    // Cycles counts waves over the whole bell, so it has no units.
+    return this.commonUnits();
+  }
+
   protected override parameterMessages(): EditorMessage[] {
     const messages = this.commonMessages();
     messages.push({
@@ -389,6 +417,10 @@ export class WavesFixedFrequency extends Waves {
           Math.sin(phase + radiansPerUnit * (y - centerY)),
       y,
     });
+  }
+
+  protected override fieldUnits(): FieldUnits {
+    return { ...this.commonUnits(), perLength: [this.frequencySchedule] };
   }
 
   protected override parameterMessages(): EditorMessage[] {
