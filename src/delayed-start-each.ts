@@ -370,6 +370,23 @@ function bounceTimes() {
 
 philDebug.bounceTimes = bounceTimes;
 
+/*
+"3-way rotational symmetry"
+for "7 pointed stars №20"
+const c = philDebug.ve_dump({className: "SlideComponent", assertMin: 1, assertMax: 1})[0];
+const schedule = c.placeA.schedule;
+const working = [{time:4000, value:0}, {time:8000, value:120}, {time:8000, value:0}, ];
+schedule.length = 0;schedule.push(...working);philDebug.ve_saveOutsideChanges();
+let toAdd = 0;
+toAdd+= 8000;working.forEach(keyframe => schedule.push({...keyframe, time:keyframe.time+toAdd}));philDebug.ve_saveOutsideChanges();
+toAdd+= 8000;working.forEach(keyframe => schedule.push({...keyframe, time:keyframe.time+toAdd}));philDebug.ve_saveOutsideChanges();
+toAdd+= 8000;working.forEach(keyframe => schedule.push({...keyframe, time:keyframe.time+toAdd}));philDebug.ve_saveOutsideChanges();
+toAdd+= 8000;working.forEach(keyframe => schedule.push({...keyframe, time:keyframe.time+toAdd}));philDebug.ve_saveOutsideChanges();
+toAdd+= 8000;working.forEach(keyframe => schedule.push({...keyframe, time:keyframe.time+toAdd}));philDebug.ve_saveOutsideChanges();
+toAdd+= 8000;working.forEach(keyframe => schedule.push({...keyframe, time:keyframe.time+toAdd}));philDebug.ve_saveOutsideChanges();
+toAdd+= 8000;working.forEach(keyframe => schedule.push({...keyframe, time:keyframe.time+toAdd}));philDebug.ve_saveOutsideChanges();
+*/
+
 // MARK: Console
 
 function save() {
@@ -377,6 +394,9 @@ function save() {
     console.warn("Not saved yet.  Any edit in the Visual Editor will save it.");
   }
 }
+
+// TODO Move this into the library as philDebug.VisualEditor.saveOutsideChanges.
+philDebug.ve_saveOutsideChanges = saveOutsideChanges;
 
 philDebug.staggeredWithin = (numberOfSteps: number, staggerInSteps = 0.1) => {
   const result = staggeredWithin(numberOfSteps, staggerInSteps);
